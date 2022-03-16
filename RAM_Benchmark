@@ -1,0 +1,49 @@
+package bench;
+
+import java.util.Random;
+
+public class RAM_Benchmark implements IBenchmark{
+    private int[] arr;
+    private int size;
+    private boolean running = true;
+    
+    public void run()
+    {
+        // ** ADD ALGORITHM HERE **
+        running = true;
+    }
+
+    public void run(Object ... params)
+	{
+        // ** ADD ALGORITHM HERE **
+    }
+    public void initialize(Object ... params)
+	{
+        this.size = (Integer)params[0];
+
+        arr = new int[size];
+        Random random = new Random();
+        
+        for(int i = 0; i < size; i++)
+        {
+            this.arr[i] = random.nextInt();
+        }
+    }
+
+    public void display()
+    {
+        for(Integer item: arr)
+        {
+            System.out.println(item + " ");
+        }
+    }
+    public void clean()
+	{
+
+    }
+    public void cancel()
+    {
+        running = false;
+    }
+} 
+
