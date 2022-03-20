@@ -1,3 +1,5 @@
+package timing;
+
 public interface ITimer {
     public void start();
     public long stop();
