@@ -1,5 +1,6 @@
 package upt.coproject;
 
+import Log.StreamLog;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,6 +22,10 @@ public class HelloApplication extends Application
 
     public static void main(String[] args)
     {
-        launch();
+        StreamLog streamLog = new StreamLog(System.out);
+        streamLog.write("aaa");
+        streamLog.close();
+        streamLog.write("aaa");
+        //launch();
     }
 }
