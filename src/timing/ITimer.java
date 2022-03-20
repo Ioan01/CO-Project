@@ -2,8 +2,14 @@ package timing;
 
 public interface ITimer {
     void start();
+    /**
+     * @return total running time in nanoseconds
+     */
     long stop();
     void resume();
+    /**
+     * @return run time since last call of start() or resume() in nanoseconds
+     */
     long pause();
     /**
      * @param unit time unit used for measurement
