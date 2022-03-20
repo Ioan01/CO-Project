@@ -3,6 +3,11 @@ package Log;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ Generic stream logger class used for writing to any type of output stream,
+ such as files, standard console output, error output etc.
+ */
+
 public class StreamLog implements ILog{
 
     private final OutputStream stream;
@@ -12,6 +17,10 @@ public class StreamLog implements ILog{
         this.stream = stream;
     }
 
+
+    /**
+     * @param objects Writes objects to the output stream
+     */
     @Override
     public void write(Object... objects)
     {
@@ -28,6 +37,10 @@ public class StreamLog implements ILog{
 
     }
 
+    /**
+     * @param format Specifies the format in which the objects will be printed
+     * @param objects Specifies the objects printed in the format specified
+     */
     @Override
     public void writeFormatted(String format, Object... objects)
     {
@@ -40,8 +53,19 @@ public class StreamLog implements ILog{
         }
     }
 
+    /**
+     * Flushes the output stream, before closing it
+     */
     public void close()
     {
+        try
+        {
+            stream.flush();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
         try
         {
             stream.close();

@@ -1,5 +1,6 @@
 package upt.coproject;
 
+import Log.StreamLog;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
