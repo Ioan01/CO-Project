@@ -6,7 +6,9 @@ public class Timer implements ITimer{
     private long elapsed_t;
 
     public Timer(){
-
+        this.total_t = -1;
+        this.start_t = -1;
+        this.elapsed_t = -1;
     }
 
     public void start(){
