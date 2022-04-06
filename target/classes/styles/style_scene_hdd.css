@@ -1,0 +1,6 @@
+.root{
+    /* daca vreti sa schimbati imaginea unei scene, schimbati doar url */
+
+    -fx-background-image: url("hdd_background.jpg");
+    -fx-background-size: cover;
+}

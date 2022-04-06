@@ -1,13 +1,9 @@
 package upt.coproject;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-public class TestDev extends Application
+public class App extends Application
 {
     @Override
     public void start(Stage primaryStage)
@@ -16,7 +12,7 @@ public class TestDev extends Application
         primaryStage.setTitle("Amazing benchmarking program");
         //primaryStage.setResizable(false);
 
-        Controller.changePage("testDev.fxml");
+        Controller.changePage("mainScene.fxml");
     }
 
     public static void main(String[] args) {
