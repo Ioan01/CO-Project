@@ -12,7 +12,7 @@ public class TestDev extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        Controller.initialize(primaryStage);
+        Controller.setWindow(primaryStage);
         primaryStage.setTitle("Amazing benchmarking program");
         //primaryStage.setResizable(false);
 

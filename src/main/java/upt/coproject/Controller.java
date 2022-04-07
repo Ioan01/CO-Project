@@ -6,15 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
 public abstract class Controller {
+    @Getter @Setter
     private static Stage window;
-
-    public static void initialize(Stage primaryStage){
-        window = primaryStage;
-    }
 
     public static void changePage(String fxml){
         try {

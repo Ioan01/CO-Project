@@ -5,6 +5,7 @@ module upt.coproject {
 
     requires com.dlsc.formsfx;
     requires eu.hansolo.tilesfx;
+    requires lombok;
 
     opens upt.coproject to javafx.fxml;
     exports upt.coproject;
