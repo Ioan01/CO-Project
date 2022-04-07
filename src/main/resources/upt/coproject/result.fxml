@@ -14,9 +14,9 @@
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="mainPageButton" mnemonicParsing="false" onAction="#goToMainPage" text="Run another benchmark" />
-            <Button fx:id="saveToDatabaseButton" mnemonicParsing="false" onAction="#saveToDatabase" text="Save result to database" />
-            <Button fx:id="detailedResultButton" mnemonicParsing="false" onAction="#goToDetailedResultPage" text="See result details" />
+            <Button mnemonicParsing="false" onAction="#goToMainPage" text="Run another benchmark" />
+            <Button mnemonicParsing="false" onAction="#saveToDatabase" text="Save result to database" />
+            <Button mnemonicParsing="false" onAction="#goToDetailedResultPage" text="See result details" />
          </children>
       </HBox>
    </bottom>

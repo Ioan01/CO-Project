@@ -16,13 +16,7 @@ public class ResultController extends Controller{
     @FXML
     private Label gandacelLabel;
     @FXML
-    private Button mainPageButton;
-    @FXML
     private Label scoreLabel;
-    @FXML
-    private Button saveToDatabaseButton;
-    @FXML
-    private Button detailedResultButton;
 
 
     StringProperty score;
@@ -31,11 +25,6 @@ public class ResultController extends Controller{
     public void initialize() {
         this.score = new SimpleStringProperty((String)getWindow().getUserData());
         scoreLabel.textProperty().bind(this.score);
-    }
-
-    @FXML
-    void goToMainPage(ActionEvent event) {
-        changePage("testDev.fxml");
     }
 
     @FXML

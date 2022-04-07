@@ -27,10 +27,15 @@ public abstract class Controller {
     }
 
     @FXML
-    public static void prevPage(){
+    public void goToPrevPage(ActionEvent event){
         Scene crt = window.getScene();
         window.setScene(prev);
         prev = crt;
         window.show();
+    }
+
+    @FXML
+    public void goToMainPage(ActionEvent event){
+        changePage("mainScene.fxml");
     }
 }

@@ -9,11 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1207.0" styleClass="root" stylesheets="@..\..\styles\style_scene_main.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="upt.coproject.MainPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1207.0" styleClass="root" stylesheets="@..\..\styles\style_scene_main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.MainPageController">
    <children>
-      <Button defaultButton="true" layoutX="188.0" layoutY="200.0" mnemonicParsing="false"
-              onAction="#switchScene" userData="hdd.fxml"
-              prefHeight="69.0" prefWidth="130.0" text="HDD">
+      <Button defaultButton="true" layoutX="188.0" layoutY="200.0" mnemonicParsing="false" onAction="#goToHDDPage" prefHeight="69.0" prefWidth="130.0" text="HDD" userData="hdd.fxml">
          <effect>
             <DropShadow />
          </effect>
@@ -21,9 +19,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button defaultButton="true" layoutX="503.0" layoutY="234.0" mnemonicParsing="false"
-              onAction="#switchScene" userData="ssd.fxml"
-              text="SSD">
+      <Button defaultButton="true" layoutX="503.0" layoutY="234.0" mnemonicParsing="false" onAction="#goToSSDPage" text="SSD" userData="ssd.fxml">
          <effect>
             <DropShadow />
          </effect>
@@ -31,9 +27,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button defaultButton="true" layoutX="799.0" layoutY="172.0" mnemonicParsing="false"
-              onAction="#switchScene" userData="ram.fxml"
-              prefHeight="103.0" prefWidth="146.0" text="RAM">
+      <Button defaultButton="true" layoutX="799.0" layoutY="172.0" mnemonicParsing="false" onAction="#goToRAMPage" prefHeight="103.0" prefWidth="146.0" text="RAM" userData="ram.fxml">
          <effect>
             <DropShadow />
          </effect>
