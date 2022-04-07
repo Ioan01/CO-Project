@@ -2,6 +2,7 @@ package upt.coproject;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 
 public class TestDevController extends Controller{
@@ -10,6 +11,7 @@ public class TestDevController extends Controller{
 
     @FXML
     public void goToResultPage(ActionEvent event){
+        getWindow().setUserData("1024");
         changePage("result.fxml");
     }
 
