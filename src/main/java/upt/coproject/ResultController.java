@@ -21,6 +21,9 @@ public class ResultController extends Controller{
     private Label scoreLabel;
     @FXML
     private Button saveToDatabaseButton;
+    @FXML
+    private Button detailedResultButton;
+
 
     StringProperty score;
 
@@ -39,5 +42,9 @@ public class ResultController extends Controller{
     void saveToDatabase(ActionEvent event) {
     }
 
+    @FXML
+    void goToDetailedResultPage(ActionEvent event){
+        changePage("detailedResult.fxml");
+    }
 }
 
