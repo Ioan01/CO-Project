@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1207.0" styleClass="root" stylesheets="@..\..\styles\style_scene_main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.MainPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1207.0" styleClass="root" stylesheets="@..\..\styles\style_scene_main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.MainPageController">
    <children>
-      <Button defaultButton="true" layoutX="188.0" layoutY="200.0" mnemonicParsing="false" onAction="#goToHDDPage" prefHeight="69.0" prefWidth="130.0" text="HDD" userData="hdd.fxml">
+      <Button defaultButton="true" layoutX="223.0" layoutY="217.0" mnemonicParsing="false" onAction="#goToHDDPage" prefHeight="42.0" prefWidth="69.0" text="HDD" userData="hdd.fxml">
          <effect>
             <DropShadow />
          </effect>
@@ -19,7 +19,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button defaultButton="true" layoutX="503.0" layoutY="234.0" mnemonicParsing="false" onAction="#goToSSDPage" text="SSD" userData="ssd.fxml">
+      <Button defaultButton="true" layoutX="448.0" layoutY="217.0" mnemonicParsing="false" onAction="#goToSSDPage" prefHeight="42.0" prefWidth="69.0" text="SSD" userData="ssd.fxml">
          <effect>
             <DropShadow />
          </effect>
@@ -27,7 +27,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button defaultButton="true" layoutX="799.0" layoutY="172.0" mnemonicParsing="false" onAction="#goToRAMPage" prefHeight="103.0" prefWidth="146.0" text="RAM" userData="ram.fxml">
+      <Button defaultButton="true" layoutX="786.0" layoutY="217.0" mnemonicParsing="false" onAction="#goToRAMPage" prefHeight="42.0" prefWidth="69.0" text="RAM" userData="ram.fxml">
          <effect>
             <DropShadow />
          </effect>
@@ -35,9 +35,9 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="281.0" layoutY="25.0" prefHeight="62.0" prefWidth="540.0" style="-fx-background-color: #fff0;" text="Gândăceii Pofticioși Benchmark" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" underline="true">
+      <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="25.0" prefHeight="62.0" prefWidth="687.0" style="-fx-background-color: #fff0;" text="Gândăceii Pofticioși Benchmark" textAlignment="CENTER" textFill="RED" textOverrun="WORD_ELLIPSIS" underline="true">
          <font>
-            <Font name="Webdings" size="45.0" />
+            <Font name="System Bold Italic" size="38.0" />
          </font>
          <effect>
             <Lighting>

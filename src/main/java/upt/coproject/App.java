@@ -12,6 +12,7 @@ public class App extends Application
         primaryStage.setTitle("Amazing benchmarking program");
         //primaryStage.setResizable(false);
 
+
         Controller.changePage("mainScene.fxml");
     }
 
