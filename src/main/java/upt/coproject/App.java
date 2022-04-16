@@ -1,6 +1,7 @@
 package upt.coproject;
 
 import javafx.application.Application;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 
 public class App extends Application
@@ -12,8 +13,8 @@ public class App extends Application
         primaryStage.setTitle("Amazing benchmarking program");
         //primaryStage.setResizable(false);
 
-
         Controller.changePage("mainScene.fxml");
+
     }
 
     public static void main(String[] args) {

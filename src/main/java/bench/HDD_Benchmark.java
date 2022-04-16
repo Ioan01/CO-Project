@@ -10,13 +10,14 @@ public class HDD_Benchmark extends Benchmark {
 
     public void run()
     {
-        System.out.println("Starting HDD Benchmark...");
-        long end = System.currentTimeMillis() +  10000;
-        System.out.println("Testing HDD . . .");
-        while(System.currentTimeMillis() < end) {
-            // do something
-            // pause to avoid churning
-            System.out.println(". . .");
+        for (int i = 1; i <= 100; i++){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(i);
+
         }
         System.out.println("Done!");
     }
