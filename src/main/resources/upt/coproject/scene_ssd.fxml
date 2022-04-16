@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.SepiaTone?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="root" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.SSD_Controller">
+   <children>
+      <Label layoutX="237.0" layoutY="14.0" text="SSD Benchmark" textFill="#00ffe3">
+         <font>
+            <Font name="Bodoni MT Condensed Bold" size="28.0" />
+         </font>
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+      </Label>
+      <Button layoutX="14.0" layoutY="349.0" mnemonicParsing="false" onAction="#goToMainPage" text="Back">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
+      <Button layoutX="286.0" layoutY="337.0" mnemonicParsing="false" onAction="#start_SSD" text="START">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+         <effect>
+            <SepiaTone />
+         </effect>
+      </Button>
+   </children>
+   <stylesheets>
+      <URL value="@../../styles/style_scene_hdd.css" />
+      <URL value="@../../styles/style_scene_ssd.css" />
+   </stylesheets>
+</AnchorPane>
