@@ -1,7 +1,7 @@
 package bench;
 
 public abstract class Benchmark {
-    double progress = 0;
+    public double progress = 0.0;
     /**
      * Runs the benchmark algorithm
      */
@@ -30,4 +30,8 @@ public abstract class Benchmark {
     public void display(){}
     public void cancel(){}
     public void warmup(){}
+
+    public double getProgress() {
+        return progress;
+    }
 }

@@ -1,7 +1,10 @@
 package bench;
 
 public class HDD_Benchmark extends Benchmark {
+
     String fixed_size;
+    public double progress = 0.0;
+
 
     public void streamWriteFixedSize()
     {
@@ -12,14 +15,18 @@ public class HDD_Benchmark extends Benchmark {
     {
         for (int i = 1; i <= 100; i++){
             try {
+                this.progress += i;
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             System.out.println(i);
+            }
+    }
 
-        }
-        System.out.println("Done!");
+    public double getProgress()
+    {
+        return this.progress;
     }
     /**
      * First parameter should specify the size of the files to be written
