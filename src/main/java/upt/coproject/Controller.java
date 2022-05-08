@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ public abstract class Controller {
     @Getter @Setter
     private static Stage window;
     private static Scene prev;
+    //ProgressBar pb = new ProgressBar();
 
     public static void changePage(String fxml){
         try {
@@ -38,4 +40,7 @@ public abstract class Controller {
     public void goToMainPage(ActionEvent event){
         changePage("mainScene.fxml");
     }
+
+    @FXML
+    public void goToResults(ActionEvent event){ changePage("results.fxml"); }
 }

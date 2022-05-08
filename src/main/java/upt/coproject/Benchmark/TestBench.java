@@ -68,12 +68,17 @@ public abstract class TestBench
 
         initialBenchmarkCount = benchmarks.size();
 
+        for (Benchmark benchmark1: benchmarks)
+        {
+            benchmark1.warmup();
+        }
+
+
         try
         {
             while (running && !benchmarks.isEmpty())
             {
                 benchmark = benchmarks.poll();
-                benchmark.warmup();
 
                 benchmark.start();
 

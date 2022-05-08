@@ -14,25 +14,35 @@ public class MockBench extends Benchmark{
     public void run() {
         runningProgress.setValue(0);
 
-        for (int i =0;i<100;i++)
+
+        int progressIncrements = 100;
+
+        for (int j=0;j<benchmarkRepeats;j++)
         {
-            try {
-                Thread.sleep((long) (secondsToSleep* 1000L));
-                runningProgress.setValue(runningProgress.getValue()+0.01);
-                System.out.println(runningProgress.getValue());
+            for (int i =0;i<progressIncrements;i++)
+            {
+                try {
+                    Thread.sleep((long) (secondsToSleep/progressIncrements * 1000L));
+                    runningProgress.setValue(runningProgress.getValue()+1.0/progressIncrements/benchmarkRepeats);
+                    //System.out.println(runningProgress.getValue());
 
 
 
-            } catch (InterruptedException e) {
-                break;
+                } catch (InterruptedException e) {
+                    break;
+                }
             }
+
+
+            // save results each time
         }
+
     }
 
 
 
     public void initialize(double secondsToSleep) {
-        this.secondsToSleep = secondsToSleep/100;
+        this.secondsToSleep = secondsToSleep;
     }
 
     @Override

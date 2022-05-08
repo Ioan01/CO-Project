@@ -9,6 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Benchmark {
+    /**
+     * How many times each individual benchmark will run and add
+     * results to be used in scoring
+     */
+    protected static int benchmarkRepeats = 10;
+
 
     @Getter
     @Setter
