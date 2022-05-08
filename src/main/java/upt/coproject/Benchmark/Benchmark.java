@@ -1,14 +1,26 @@
-package Benchmark;
+package upt.coproject.Benchmark;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Benchmark {
 
+    @Getter
+    @Setter
+    private String name;
 
-    public Benchmark() {
+    @Getter
+    /**
+     * This is where the individual benchmark will store the results gotten from running it
+     */
+    protected Map<String,Object> results = new HashMap<>();
+
+    public Benchmark(String name) {
         runningThread = new Thread(this::run);
     }
 
@@ -17,18 +29,12 @@ public abstract class Benchmark {
     @Getter @Setter
     protected DoubleProperty runningProgress = new SimpleDoubleProperty(0);
 
-    @Getter
-    protected DoubleProperty initializingProgress = new SimpleDoubleProperty(0);
     /**
      * Runs the benchmark algorithm
      */
     public abstract void run();
 
-    /**
-     * Initialize the benchmark
-     * @param params any type or number of arguments
-     */
-    public abstract void initialize(Object ... params);
+
     public abstract void clean();
 
 
@@ -42,5 +48,10 @@ public abstract class Benchmark {
     public void cancel()
     {
         runningThread.interrupt();
+    }
+
+    public void join() throws InterruptedException
+    {
+        runningThread.join();
     }
 }

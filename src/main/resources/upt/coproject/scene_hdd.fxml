@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ProgressBar?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@../../styles/style_scene_hdd.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.HDD_Controller">
    <children>
       <Label layoutX="237.0" layoutY="14.0" text="HDD Benchmark" textFill="#3700ff">
@@ -43,5 +44,6 @@
             <SepiaTone />
          </effect>
       </Button>
+      <ProgressBar progress="0" fx:id="progressBar"/>
    </children>
 </AnchorPane>
