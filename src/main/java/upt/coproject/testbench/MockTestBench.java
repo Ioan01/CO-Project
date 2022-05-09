@@ -1,6 +1,6 @@
-package upt.coproject.Benchmark;
+package upt.coproject.testbench;
 
-import javafx.beans.value.ObservableValue;
+import upt.coproject.benchmark.MockBench;
 
 public class MockTestBench extends TestBench
 {

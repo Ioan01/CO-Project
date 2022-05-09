@@ -1,4 +1,4 @@
-package upt.coproject.Benchmark;
+package upt.coproject.testbench;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import lombok.Getter;
 import lombok.Setter;
+import upt.coproject.benchmark.Benchmark;
 
 import java.util.*;
 
@@ -68,12 +69,17 @@ public abstract class TestBench
 
         initialBenchmarkCount = benchmarks.size();
 
+        for (Benchmark benchmark1: benchmarks)
+        {
+            benchmark1.warmup();
+        }
+
+
         try
         {
             while (running && !benchmarks.isEmpty())
             {
                 benchmark = benchmarks.poll();
-                benchmark.warmup();
 
                 benchmark.start();
 

@@ -1,4 +1,4 @@
-package upt.coproject.Benchmark;
+package upt.coproject.benchmark;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -9,6 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Benchmark {
+    /**
+     * How many times each individual benchmark will run and add
+     * results to be used in scoring
+     */
+    protected static int benchmarkRepeats = 10;
+
 
     @Getter
     @Setter
@@ -27,7 +33,7 @@ public abstract class Benchmark {
     private final Thread runningThread;
 
     @Getter @Setter
-    protected DoubleProperty runningProgress = new SimpleDoubleProperty(0);
+    public DoubleProperty runningProgress = new SimpleDoubleProperty(0);
 
     /**
      * Runs the benchmark algorithm

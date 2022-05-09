@@ -12,6 +12,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD
+=======
+<?import javafx.scene.control.TextArea?>
+>>>>>>> main
 <AnchorPane prefHeight="850.0" prefWidth="1332.0" styleClass="root" stylesheets="@../../styles/style_scene_hdd.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.HDD_Controller">
    <children>
       <Label layoutX="237.0" layoutY="14.0" text="HDD Benchmark" textFill="#3700ff">
@@ -51,7 +55,7 @@
          </font>
       </Button>
       <ProgressBar fx:id="progress_hdd" layoutX="199.0" layoutY="425.0" prefHeight="22.0" prefWidth="200.0" progress="0.0" />
-      <TextField fx:id="progress_hdd_done" alignment="CENTER" layoutX="264.0" layoutY="456.0" prefHeight="12.0" prefWidth="70.0">
+      <TextField  fx:id="progress_hdd_done" alignment="CENTER" layoutX="264.0" layoutY="456.0" prefHeight="12.0" prefWidth="70.0" text="aa">
          <font>
             <Font name="Berlin Sans FB Bold" size="12.0" />
          </font></TextField>
