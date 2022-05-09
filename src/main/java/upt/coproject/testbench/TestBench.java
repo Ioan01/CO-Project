@@ -56,12 +56,21 @@ public abstract class TestBench
         }
     }
 
-    public abstract void clean();
+    public  void clean(List<Benchmark>benchmarks)
+    {
+        for (Benchmark benchmark:benchmarks)
+        {
+            benchmark.clean();
+        }
+    }
 
 
 
     public void run(Object ... params)
     {
+        // temporary list
+        List<Benchmark>benchmarks1 = new ArrayList<>();
+
         Benchmark benchmark = null;
 
         results.clear();
@@ -80,14 +89,14 @@ public abstract class TestBench
             while (running && !benchmarks.isEmpty())
             {
                 benchmark = benchmarks.poll();
-
+                benchmarks.add(benchmark);
                 benchmark.start();
 
                 benchmark.join();
 
                 results.put(benchmark.getName(),benchmark.getResults());
             }
-            clean();
+            clean(benchmarks1);
         }
         catch (InterruptedException e)
         {
@@ -120,6 +129,8 @@ public abstract class TestBench
         running = false;
         runningThread.interrupt();
     }
+
+
 
 
 
