@@ -1,4 +1,4 @@
-package upt.coproject.Benchmark;
+package upt.coproject.benchmark;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -33,7 +33,7 @@ public abstract class Benchmark {
     private final Thread runningThread;
 
     @Getter @Setter
-    protected DoubleProperty runningProgress = new SimpleDoubleProperty(0);
+    public DoubleProperty runningProgress = new SimpleDoubleProperty(0);
 
     /**
      * Runs the benchmark algorithm

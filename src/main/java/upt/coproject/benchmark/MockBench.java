@@ -1,4 +1,4 @@
-package upt.coproject.Benchmark;
+package upt.coproject.benchmark;
 
 public class MockBench extends Benchmark{
     private double secondsToSleep;

@@ -1,13 +1,10 @@
 package upt.coproject;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
-import upt.coproject.Benchmark.MockTestBench;
+import upt.coproject.testbench.MockTestBench;
 
 
 public class HDD_Controller extends Controller{
@@ -31,7 +28,7 @@ public class HDD_Controller extends Controller{
     {
         progress_hdd.progressProperty().bind(testBench.getRunningProgress());
 
-        
+
 
         testBench.initialize(0.1);
         testBench.start();
