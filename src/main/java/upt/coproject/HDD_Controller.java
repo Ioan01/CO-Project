@@ -1,38 +1,138 @@
 package upt.coproject;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
-import upt.coproject.testbench.MockTestBench;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+import upt.coproject.benchmark.MockBench;
+import upt.coproject.testbench.DriveTestBench;
+
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-public class HDD_Controller extends Controller{
+public class HDD_Controller extends Controller implements Initializable {
 
-
-    public TextField progress_hdd_done;
     @FXML
-    private ProgressBar progress_hdd;
-    private final MockTestBench testBench;
+    private AnchorPane anchorID;
+    @FXML
+    private ProgressBar progressBarProgressHDD;
+    @FXML
+    private Button buttonCheckResults;
+    @FXML
+    private final DriveTestBench testBench;
+    @FXML
+    private TextField textFieldPath;
+    @FXML
+    private Button button_browse, buttonStart, buttonCancel;
+    @FXML
+    private ComboBox<String> comboBoxIOSizeStart, comboBoxIOSizeEnd, comboBoxFileSize;
 
+    private ObservableList<String> ioList = FXCollections.observableArrayList("512 B", "1 KB", "2 KB", "4 KB", "8 KB",
+            "16 KB", "32 KB", "64 KB", "128 KB", "256 KB", "512 KB", "1 MB", "2 MB", "4 MB", "8 MB", "16 MB", "32 MB", "64 MB");
+    private  ObservableList<String> fsList = FXCollections.observableArrayList("64 KB", "128 KB", "256 KB", "512 KB",
+            "1 MB", "2 MB","4 MB", "8 MB", "16 MB", "32 MB", "64 MB", "128 MB", "256 MB", "512 MB", "1 GB", "2 GB", "4 GB",
+            "8 GB", "16 GB", "32 GB");
+    @FXML
+    private Text textHDDProgressTracker;
+
+    private String drivePath;
+    private long fileSize, ioStart, ioEnd; // bytes
 
     public HDD_Controller()
     {
-        testBench = new MockTestBench();
 
+        testBench = new DriveTestBench();
+    }
 
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        comboBoxIOSizeStart.setItems(ioList);
+        comboBoxIOSizeEnd.setItems(ioList);
+        comboBoxFileSize.setItems(fsList);
+        buttonCheckResults.setVisible(false);
+        buttonCancel.setVisible(false);
 
     }
-    public void start_HDD(ActionEvent event)
+
+    public void chooseDirectory(ActionEvent event)
     {
-        progress_hdd.progressProperty().bind(testBench.getRunningProgress());
 
+        final DirectoryChooser directoryChooser = new DirectoryChooser();
+        Stage stage = (Stage) anchorID.getScene().getWindow();
+        File file = directoryChooser.showDialog(stage);
 
-
-        testBench.initialize(0.1);
-        testBench.start();
+        if(file != null)
+        {
+            textFieldPath.setText(file.getAbsolutePath());
+            drivePath = file.getAbsolutePath();
+            System.out.println("Chosen path: "+drivePath);
+        }
     }
 
+    public void startHDD(ActionEvent event)
+    {
 
+        progressBarProgressHDD.progressProperty().bind(testBench.getRunningProgress());
+
+        testBench.initialize(drivePath,ioStart,ioEnd, (int) fileSize);
+
+        testBench.start();
+
+    }
+    public void stopHDD(ActionEvent event)
+    {
+        testBench.cancel();
+        //text_progress_hdd_tracker.textProperty().setValue("");
+        //pb_progress_hdd.progressProperty().set(0);
+    }
+    public void ioStartSizeSelected(ActionEvent event)
+    {
+        String size = comboBoxIOSizeStart.getValue();
+        ioStart = convertToBytes(size);
+        System.out.println("IO start size selected: "+ioStart+" bytes");
+        //if(sizeString.equals())
+    }
+    public void ioEndSizeSelected(ActionEvent event)
+    {
+        String size = comboBoxIOSizeEnd.getValue();
+        ioEnd = convertToBytes(size);
+        System.out.println("IO end size selected: "+ioEnd+" bytes");
+    }
+
+    public void fileSizeSelected(ActionEvent event)
+    {
+        String size = comboBoxFileSize.getValue();
+        fileSize = convertToBytes(size);
+        System.out.println("File size selected: "+fileSize+" bytes");
+    }
+
+    public long convertToBytes(String size)
+    {
+        long result = 1;
+        if(size != null) {
+            String[] arr = size.split(" ");
+            long value = Long.valueOf(arr[0]);
+            String unit = arr[1];
+            if (unit.equals("B"))
+                result = value;
+            else if (unit.equals("KB"))
+                result = value * 1024;
+            else if (unit.equals("MB"))
+                result = value * 1024*1024;
+            else if (unit.equals("GB"))
+                result = value * 1024*1024*1024;
+        }
+
+        return result;
+    }
 }

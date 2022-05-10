@@ -69,7 +69,6 @@ public abstract class TestBench
     public void run(Object ... params)
     {
         // temporary list
-        List<Benchmark>benchmarks1 = new ArrayList<>();
 
         Benchmark benchmark = null;
 
@@ -89,14 +88,12 @@ public abstract class TestBench
             while (running && !benchmarks.isEmpty())
             {
                 benchmark = benchmarks.poll();
-                benchmarks.add(benchmark);
                 benchmark.start();
 
                 benchmark.join();
 
                 results.put(benchmark.getName(),benchmark.getResults());
             }
-            clean(benchmarks1);
         }
         catch (InterruptedException e)
         {
@@ -107,10 +104,12 @@ public abstract class TestBench
 
     public void start(Object... params)
     {
+        if (runningThread.isAlive())
+            return;
+
         runningProgress.setValue(0);
 
-
-
+        boolean flag = false;
 
         try
         {
@@ -119,8 +118,11 @@ public abstract class TestBench
         catch (IllegalThreadStateException e)
         {
             runningThread = new Thread(()->run(params));
-            runningThread.start();
+            flag = true;
         }
+
+        if (flag)
+            runningThread.start();
 
     }
 
