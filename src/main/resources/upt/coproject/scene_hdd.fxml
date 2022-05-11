@@ -39,7 +39,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button fx:id="buttonStart" layoutX="264.0" layoutY="330.0" mnemonicParsing="false" onAction="#start_HDD" text="START">
+      <Button fx:id="buttonStart" layoutX="264.0" layoutY="330.0" mnemonicParsing="false" onAction="#startHDD" text="START">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -81,7 +81,7 @@
          </font>
       </Label>
       <ComboBox fx:id="comboBoxFileSize" layoutX="299.0" layoutY="195.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="89.0" visibleRowCount="21" />
-      <Button fx:id="buttonCancel" layoutX="199.0" layoutY="456.0" mnemonicParsing="false" onAction="#stop_HDD" text="Cancel">
+      <Button fx:id="buttonCancel" layoutX="199.0" layoutY="456.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
          <font>
             <Font name="Arial Rounded MT Bold" size="13.0" />
          </font>
