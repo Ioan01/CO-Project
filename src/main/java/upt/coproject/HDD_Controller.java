@@ -90,9 +90,23 @@ public class HDD_Controller extends Controller implements Initializable {
 
         progressBarProgressHDD.progressProperty().bind(testBench.getRunningProgress());
 
+        testBench.getRunningProgress().addListener((observableValue, number, t1) -> {
+            if (t1.doubleValue() > 0.9)
+            {
+                buttonCancel.setVisible(false);
+                buttonStart.setVisible(true);
+            }
+
+
+        });
+
         testBench.initialize(drivePath,ioStart,ioEnd, (int) fileSize);
 
         testBench.start();
+
+
+        buttonCancel.setVisible(true);
+        buttonStart.setVisible(false);
 
     }
     public void stopHDD(ActionEvent event)
@@ -100,6 +114,8 @@ public class HDD_Controller extends Controller implements Initializable {
         testBench.cancel();
         //text_progress_hdd_tracker.textProperty().setValue("");
         //pb_progress_hdd.progressProperty().set(0);
+        buttonCancel.setVisible(false);
+        buttonStart.setVisible(true);
     }
     public void ioStartSizeSelected(ActionEvent event)
     {
