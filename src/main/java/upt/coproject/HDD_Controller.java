@@ -43,7 +43,9 @@ public class HDD_Controller extends Controller implements Initializable {
             "1 MB", "2 MB","4 MB", "8 MB", "16 MB", "32 MB", "64 MB", "128 MB", "256 MB", "512 MB", "1 GB", "2 GB", "4 GB",
             "8 GB", "16 GB", "32 GB");
     @FXML
-    private Text textHDDProgressTracker;
+    private Text textHDDProgressTracker, textRandomWriteSpeed, textRandomReadSpeed, textSeqWriteSpeed, textSeqReadSpeed;
+    @FXML
+    private Label labelSeqReadSpeed, labelSeqWriteSpeed, labelRandomReadSpeed, labelRandomWriteSpeed;
 
     private String drivePath;
     private long fileSize, ioStart, ioEnd; // bytes
@@ -61,6 +63,10 @@ public class HDD_Controller extends Controller implements Initializable {
         comboBoxFileSize.setItems(fsList);
         buttonCheckResults.setVisible(false);
         buttonCancel.setVisible(false);
+        labelRandomReadSpeed.setVisible(false);
+        labelRandomWriteSpeed.setVisible(false);
+        textRandomReadSpeed.setVisible(false);
+        textRandomWriteSpeed.setVisible(false);
 
     }
 
@@ -133,6 +139,30 @@ public class HDD_Controller extends Controller implements Initializable {
                 result = value * 1024*1024*1024;
         }
 
+        return result;
+    }
+
+    public double setSeqReadSpeed(double speed) // MB/s
+    {
+        double result = 1;
+        return result;
+    }
+
+    public double setSeqWriteSpeed(double speed) // MB/s
+    {
+        double result = 1;
+        return result;
+    }
+
+    public double setRandomReadSpeed(double speed) // MB/s
+    {
+        double result = 1;
+        return result;
+    }
+
+    public double setRandomWriteSpeed(double speed) // MB/s
+    {
+        double result = 1;
         return result;
     }
 }

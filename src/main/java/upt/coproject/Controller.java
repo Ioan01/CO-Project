@@ -42,5 +42,5 @@ public abstract class Controller {
     }
 
     @FXML
-    public void goToResults(ActionEvent event){ changePage("results.fxml"); }
+    public void goToResults(ActionEvent event){ changePage("result.fxml"); }
 }
