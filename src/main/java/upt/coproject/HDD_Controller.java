@@ -103,6 +103,17 @@ public class HDD_Controller extends Controller implements Initializable {
                 {
                     buttonCancel.setVisible(false);
                     buttonStart.setVisible(true);
+                    buttonCancel.setVisible(false);
+                    buttonStart.setVisible(true);
+                    buttonCheckResults.setVisible(true);
+                    labelRandomWriteSpeed.setVisible(true);
+                    labelRandomReadSpeed.setVisible(true);
+                    labelSeqReadSpeed.setVisible(true);
+                    labelSeqWriteSpeed.setVisible(true);
+                    textRandomWriteSpeed.setVisible(true);
+                    textRandomReadSpeed.setVisible(true);
+                    textSeqReadSpeed.setVisible(true);
+                    textSeqWriteSpeed.setVisible(true);
                     setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
                 }
             }
@@ -172,10 +183,10 @@ public class HDD_Controller extends Controller implements Initializable {
         return result;
     }
 
-    public double setSeqWriteSpeed(double speed) // MB/s
+    public void setSeqWriteSpeed(double speed) // MB/s
     {
-        double result = 1;
-        return result;
+        speed = Math.round(speed);
+        textSeqWriteSpeed.textProperty().setValue((String.valueOf(speed)) + " MB/s");
     }
 
     public double setRandomReadSpeed(double speed) // MB/s
