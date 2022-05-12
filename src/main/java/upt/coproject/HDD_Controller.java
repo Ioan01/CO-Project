@@ -65,8 +65,12 @@ public class HDD_Controller extends Controller implements Initializable {
         buttonCancel.setVisible(false);
         labelRandomReadSpeed.setVisible(false);
         labelRandomWriteSpeed.setVisible(false);
+        labelSeqWriteSpeed.setVisible(false);
+        labelSeqReadSpeed.setVisible(false);
         textRandomReadSpeed.setVisible(false);
         textRandomWriteSpeed.setVisible(false);
+        textSeqWriteSpeed.setVisible(false);
+        textSeqReadSpeed.setVisible(false);
 
     }
 
@@ -95,6 +99,14 @@ public class HDD_Controller extends Controller implements Initializable {
             {
                 buttonCancel.setVisible(false);
                 buttonStart.setVisible(true);
+                labelRandomWriteSpeed.setVisible(true);
+                labelRandomReadSpeed.setVisible(true);
+                labelSeqReadSpeed.setVisible(true);
+                labelSeqWriteSpeed.setVisible(true);
+                textRandomWriteSpeed.setVisible(true);
+                textRandomReadSpeed.setVisible(true);
+                textSeqReadSpeed.setVisible(true);
+                textSeqWriteSpeed.setVisible(true);
             }
 
 
