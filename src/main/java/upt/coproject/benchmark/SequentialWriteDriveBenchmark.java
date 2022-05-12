@@ -3,6 +3,8 @@ package upt.coproject.benchmark;
 import upt.coproject.timing.Timer;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SequentialWriteDriveBenchmark extends Benchmark
@@ -13,6 +15,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 
     private static String tempFileLocation = "benchmark/temp";
     private long fileSize;
+
 
 
     public SequentialWriteDriveBenchmark()
@@ -29,7 +32,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
         this.fileSize = fileSize;
     }
 
-    private void write(String file) throws IOException {
+    private double write(String file) throws IOException {
         File outputFolder = new File(drive + tempFileLocation);
         if (!outputFolder.isDirectory())
         {
@@ -41,8 +44,6 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 
         Timer timer = new Timer();
 
-
-
         double totalWritten = 0;
 
         int ratio = (int) (bufferSizeEnd/ bufferSizeStart);
@@ -53,41 +54,37 @@ public class SequentialWriteDriveBenchmark extends Benchmark
             iterations++;
         }
 
-
-
-
-
+        byte[] bytes = new byte[(int) bufferSizeEnd];
+        rng.nextBytes(bytes);
         timer.start();
-        char[] bytes = new char[(int) bufferSizeEnd];
         for (int bufferSize = (int) bufferSizeStart; bufferSize <= bufferSizeEnd; bufferSize = bufferSize*4) {
-            File file1 = new File(drive + tempFileLocation+'/' + file );
+            File file1 = new File(drive + tempFileLocation+'/' + file);
 
             if (file1.exists())
                 file1.createNewFile();
 
-            FileWriter fileWriter = new FileWriter(file1);
+            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file1.getAbsolutePath()),bufferSize);
 
 
             //rng.nextBytes(bytes);
             long writtenBytes = 0;
             while (writtenBytes < fileSize)
             {
-                fileWriter.write(bytes,0,bufferSize);
+                outputStream.write(bytes,0,bufferSize);
                 writtenBytes+=bytes.length;
             }
 
 
 
-            fileWriter.close();
+            outputStream.close();
             totalWritten+=file1.length();
-            file1.delete();
-            runningProgress.setValue(runningProgress.get() + 0.5/iterations);
+            file1.deleteOnExit();
         }
 
 
         long elapsed = timer.stop();
 
-        System.out.println("Speed : " + (totalWritten / 1024 / 1024) / (elapsed / Math.pow(10,9)) + " MB/s");
+        return (totalWritten / 1024 / 1024) / (elapsed / Math.pow(10,9));
 
 
 
@@ -96,9 +93,24 @@ public class SequentialWriteDriveBenchmark extends Benchmark
     @Override
     public void run()
     {
+        int iterations = 5;
+
+        ArrayList<Double> writeSpeeds  = new ArrayList<Double>();
+
         try
         {
-            write("output.txt");
+            for (int i=0;i<iterations;i++)
+            {
+                writeSpeeds.add(write("output"+i+".txt"));
+
+                runningProgress.setValue(runningProgress.get() + 0.5/iterations);
+            }
+
+            double avg = writeSpeeds.stream().reduce(0.0, Double::sum) / writeSpeeds.size();
+
+            System.out.println("AVG : " + avg);
+
+
         }
         catch (Exception e)
         {
@@ -115,11 +127,18 @@ public class SequentialWriteDriveBenchmark extends Benchmark
     @Override
     public void warmup()
     {
+        int iterations = 10;
         try
         {
-            fileSize = fileSize/4;
-            write("warmup.txt");
-            fileSize = fileSize*4;
+            runningProgress.setValue(0);
+            fileSize = fileSize/8;
+            for (int i=0;i<iterations;i++)
+            {
+                write("warmup"+i+".txt");
+                runningProgress.setValue(runningProgress.get() + 0.5/iterations);
+            }
+
+            fileSize = fileSize*8;
         }
         catch (Exception e)
         {
