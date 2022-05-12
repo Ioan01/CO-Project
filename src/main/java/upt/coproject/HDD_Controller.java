@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -90,14 +91,17 @@ public class HDD_Controller extends Controller implements Initializable {
 
         progressBarProgressHDD.progressProperty().bind(testBench.getRunningProgress());
 
-        testBench.getRunningProgress().addListener((observableValue, number, t1) -> {
-            if (t1.doubleValue() > 0.9)
-            {
-                buttonCancel.setVisible(false);
-                buttonStart.setVisible(true);
+
+        testBench.getFinished().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (t1)
+                {
+                    buttonCancel.setVisible(false);
+                    buttonStart.setVisible(true);
+                    setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
+                }
             }
-
-
         });
 
         testBench.initialize(drivePath,ioStart,ioEnd, (int) fileSize);

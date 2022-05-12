@@ -1,9 +1,10 @@
 package upt.coproject.testbench;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableMapValue;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableMap;
 import lombok.Getter;
 import lombok.Setter;
 import upt.coproject.benchmark.Benchmark;
@@ -25,9 +26,12 @@ public abstract class TestBench
     @Getter
     protected Map<String, Object> results = new HashMap<>();
 
+
+
     private boolean running = true;
 
-
+    @Getter
+    protected BooleanProperty finished = new SimpleBooleanProperty(false);
 
     @Getter
     @Setter
@@ -35,6 +39,7 @@ public abstract class TestBench
 
     @Getter @Setter
     protected DoubleProperty initializingProgress = new SimpleDoubleProperty(0);
+
 
     protected TestBench(Object... params)
     {
@@ -90,13 +95,12 @@ public abstract class TestBench
                 benchmark = benchmarks.poll();
                 benchmark.start();
 
-
                 results.putAll(benchmark.getResults());
                 System.out.println(results.get("SEQ_WRITE"));
                 Thread.sleep(100);
             }
 
-
+            finished.setValue(true);
         }
         catch (InterruptedException e)
         {
@@ -108,7 +112,7 @@ public abstract class TestBench
 
     public void start(Object... params)
     {
-
+        finished.setValue(false);
         if (runningThread.isAlive())
             return;
 
