@@ -107,8 +107,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
             }
 
             double avg = writeSpeeds.stream().reduce(0.0, Double::sum) / writeSpeeds.size();
-
-            System.out.println("AVG : " + avg);
+            results.put("SEQ_WRITE",avg);
 
 
         }

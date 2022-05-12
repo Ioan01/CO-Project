@@ -23,7 +23,7 @@ public abstract class TestBench
      * To access the results from one benchmark, use the name key
      */
     @Getter
-    protected Map<String, Map<String,Object>> results = new HashMap<>();
+    protected Map<String, Object> results = new HashMap<>();
 
     private boolean running = true;
 
@@ -90,20 +90,25 @@ public abstract class TestBench
                 benchmark = benchmarks.poll();
                 benchmark.start();
 
-                benchmark.join();
 
-                results.put(benchmark.getName(),benchmark.getResults());
+                results.putAll(benchmark.getResults());
+                System.out.println(results.get("SEQ_WRITE"));
+                Thread.sleep(100);
             }
+
+
         }
         catch (InterruptedException e)
         {
             benchmark.cancel();
+            runningProgress.setValue(0);
         }
 
     }
 
     public void start(Object... params)
     {
+
         if (runningThread.isAlive())
             return;
 
@@ -129,7 +134,13 @@ public abstract class TestBench
     public void cancel()
     {
         running = false;
+
+
+
         runningThread.interrupt();
+        runningProgress.setValue(0);
+
+
     }
 
 

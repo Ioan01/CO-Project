@@ -53,6 +53,7 @@ public abstract class Benchmark {
     public void cancel()
     {
         cancelled = true;
+
     }
 
     public void join() throws InterruptedException
