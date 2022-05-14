@@ -48,7 +48,7 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private Label labelSeqReadSpeed, labelSeqWriteSpeed, labelRandomReadSpeed, labelRandomWriteSpeed;
 
-    private String drivePath;
+    private File drivePath;
     private long fileSize, ioStart, ioEnd; // bytes
 
     public HDD_Controller()
@@ -80,52 +80,67 @@ public class HDD_Controller extends Controller implements Initializable {
 
         final DirectoryChooser directoryChooser = new DirectoryChooser();
         Stage stage = (Stage) anchorID.getScene().getWindow();
-        File file = directoryChooser.showDialog(stage);
+        drivePath = directoryChooser.showDialog(stage);
 
-        if(file != null)
+        if(drivePath != null)
         {
-            textFieldPath.setText(file.getAbsolutePath());
-            drivePath = file.getAbsolutePath();
-            System.out.println("Chosen path: "+drivePath);
+            textFieldPath.setText(drivePath.getAbsolutePath());
+            System.out.println("Chosen path: "+drivePath.getAbsolutePath());
         }
     }
 
     public void startHDD(ActionEvent event)
     {
+        if(drivePath == null || !drivePath.exists())
+        {
+            displayError("Invalid path!");
+        }
+        else if(ioStart == 0 || ioEnd == 0)
+        {
+            displayError("Select start and end size!");
+        }
+        else if(ioStart > ioEnd)
+        {
+            displayError("Starting size must be smaller!");
+        }
+        else if(fileSize == 0)
+        {
+            displayError("Select file size!");
+        }
+        else {
+            progressBarProgressHDD.progressProperty().bind(testBench.getRunningProgress());
 
-        progressBarProgressHDD.progressProperty().bind(testBench.getRunningProgress());
 
-
-        testBench.getFinished().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                if (t1)
-                {
-                    buttonCancel.setVisible(false);
-                    buttonStart.setVisible(true);
-                    buttonCancel.setVisible(false);
-                    buttonStart.setVisible(true);
-                    buttonCheckResults.setVisible(true);
-                    labelRandomWriteSpeed.setVisible(true);
-                    labelRandomReadSpeed.setVisible(true);
-                    labelSeqReadSpeed.setVisible(true);
-                    labelSeqWriteSpeed.setVisible(true);
-                    textRandomWriteSpeed.setVisible(true);
-                    textRandomReadSpeed.setVisible(true);
-                    textSeqReadSpeed.setVisible(true);
-                    textSeqWriteSpeed.setVisible(true);
-                    setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
+            testBench.getFinished().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                    if (t1) {
+                        buttonCancel.setVisible(false);
+                        buttonStart.setVisible(true);
+                        buttonCancel.setVisible(false);
+                        buttonStart.setVisible(true);
+                        buttonCheckResults.setVisible(true);
+                        labelRandomWriteSpeed.setVisible(true);
+                        labelRandomReadSpeed.setVisible(true);
+                        labelSeqReadSpeed.setVisible(true);
+                        labelSeqWriteSpeed.setVisible(true);
+                        textRandomWriteSpeed.setVisible(true);
+                        textRandomReadSpeed.setVisible(true);
+                        textSeqReadSpeed.setVisible(true);
+                        textSeqWriteSpeed.setVisible(true);
+                        setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
+                    }
                 }
-            }
-        });
+            });
 
-        testBench.initialize(drivePath,ioStart,ioEnd, (int) fileSize);
+            testBench.initialize(drivePath.getAbsolutePath(), ioStart, ioEnd, (int) fileSize);
 
-        testBench.start();
+            testBench.start();
 
 
-        buttonCancel.setVisible(true);
-        buttonStart.setVisible(false);
+            buttonCancel.setVisible(true);
+            buttonStart.setVisible(false);
+        }
 
     }
     public void stopHDD(ActionEvent event)
