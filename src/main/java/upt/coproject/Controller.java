@@ -19,7 +19,7 @@ public abstract class Controller {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource(fxml));
             prev = window.getScene();
-            Scene scene = new Scene(fxmlLoader.load(), 1024, 576);
+            Scene scene = new Scene(fxmlLoader.load(), 1300, 800);
             window.setScene(scene);
             window.show();
         }
@@ -42,5 +42,5 @@ public abstract class Controller {
     }
 
     @FXML
-    public void goToResults(ActionEvent event){ changePage("results.fxml"); }
+    public void goToResults(ActionEvent event){ changePage("result.fxml"); }
 }

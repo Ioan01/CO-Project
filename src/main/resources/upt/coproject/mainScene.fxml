@@ -35,7 +35,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="25.0" prefHeight="62.0" prefWidth="687.0" style="-fx-background-color: #fff0;" text="Gândăceii Pofticioși Benchmark" textAlignment="CENTER" textFill="RED" textOverrun="WORD_ELLIPSIS" underline="true">
+      <Label fx:id="labelTitle" alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="25.0" prefHeight="62.0" prefWidth="687.0" style="-fx-background-color: #fff0;" text="Gândăceii Pofticioși Benchmark" textAlignment="CENTER" textFill="RED" textOverrun="WORD_ELLIPSIS" underline="true">
          <font>
             <Font name="System Bold Italic" size="38.0" />
          </font>

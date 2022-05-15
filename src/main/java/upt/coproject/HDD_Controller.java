@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import upt.coproject.benchmark.MockBench;
+import upt.coproject.testbench.DriveTestBench;
 
 import java.io.File;
 import java.net.URL;
@@ -28,7 +29,7 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private Button buttonCheckResults;
     @FXML
-    private final MockBench testBench;
+    private final DriveTestBench testBench;
     @FXML
     private TextField textFieldPath;
     @FXML
@@ -42,7 +43,10 @@ public class HDD_Controller extends Controller implements Initializable {
             "1 MB", "2 MB","4 MB", "8 MB", "16 MB", "32 MB", "64 MB", "128 MB", "256 MB", "512 MB", "1 GB", "2 GB", "4 GB",
             "8 GB", "16 GB", "32 GB");
     @FXML
-    private Text textHDDProgressTracker;
+    private Text textHDDProgressTracker, textRandomWriteSpeed, textRandomReadSpeed, textSeqWriteSpeed, textSeqReadSpeed;
+    @FXML
+    private Label labelSeqReadSpeed, labelSeqWriteSpeed, labelRandomReadSpeed, labelRandomWriteSpeed;
+
 
     private String drivePath;
     private long fileSize, ioStart, ioEnd; // bytes
@@ -50,7 +54,8 @@ public class HDD_Controller extends Controller implements Initializable {
     public HDD_Controller()
     {
 
-        testBench = new MockBench("");
+        testBench = new DriveTestBench();
+
     }
 
     @Override
@@ -60,6 +65,14 @@ public class HDD_Controller extends Controller implements Initializable {
         comboBoxFileSize.setItems(fsList);
         buttonCheckResults.setVisible(false);
         buttonCancel.setVisible(false);
+        labelRandomReadSpeed.setVisible(false);
+        labelRandomWriteSpeed.setVisible(false);
+        labelSeqWriteSpeed.setVisible(false);
+        labelSeqReadSpeed.setVisible(false);
+        textRandomReadSpeed.setVisible(false);
+        textRandomWriteSpeed.setVisible(false);
+        textSeqWriteSpeed.setVisible(false);
+        textSeqReadSpeed.setVisible(false);
 
     }
 
@@ -69,6 +82,52 @@ public class HDD_Controller extends Controller implements Initializable {
         final DirectoryChooser directoryChooser = new DirectoryChooser();
         Stage stage = (Stage) anchorID.getScene().getWindow();
         File file = directoryChooser.showDialog(stage);
+
+
+        if(file != null)
+        {
+            textFieldPath.setText(file.getAbsolutePath());
+            drivePath = file.getAbsolutePath();
+            System.out.println("Chosen path: "+drivePath);
+        }
+    }
+
+    public void startHDD(ActionEvent event)
+    {
+
+        progressBarProgressHDD.progressProperty().bind(testBench.getRunningProgress());
+
+
+        testBench.getFinished().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (t1)
+                {
+                    buttonCancel.setVisible(false);
+                    buttonStart.setVisible(true);
+                    buttonCancel.setVisible(false);
+                    buttonStart.setVisible(true);
+                    buttonCheckResults.setVisible(true);
+                    labelRandomWriteSpeed.setVisible(true);
+                    labelRandomReadSpeed.setVisible(true);
+                    labelSeqReadSpeed.setVisible(true);
+                    labelSeqWriteSpeed.setVisible(true);
+                    textRandomWriteSpeed.setVisible(true);
+                    textRandomReadSpeed.setVisible(true);
+                    textSeqReadSpeed.setVisible(true);
+                    textSeqWriteSpeed.setVisible(true);
+                    setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
+                }
+            }
+        });
+
+        testBench.initialize(drivePath,ioStart,ioEnd, (int) fileSize);
+
+        testBench.start();
+
+
+        buttonCancel.setVisible(true);
+        buttonStart.setVisible(false);
 
         if(file != null)
         {
@@ -98,11 +157,16 @@ public class HDD_Controller extends Controller implements Initializable {
         buttonStart.setVisible(false);
         buttonCancel.setVisible(true);
     }
+  
+  
     public void stopHDD(ActionEvent event)
     {
         testBench.cancel();
         //text_progress_hdd_tracker.textProperty().setValue("");
         //pb_progress_hdd.progressProperty().set(0);
+        buttonCancel.setVisible(false);
+        buttonStart.setVisible(true);
+
     }
     public void ioStartSizeSelected(ActionEvent event)
     {
@@ -137,11 +201,60 @@ public class HDD_Controller extends Controller implements Initializable {
             else if (unit.equals("KB"))
                 result = value * 1024;
             else if (unit.equals("MB"))
+                result = value * 1024*1024;
+            else if (unit.equals("GB"))
+                result = value * 1024*1024*1024;
+        }
+
+        return result;
+    }
+
+    public double setSeqReadSpeed(double speed) // MB/s
+    {
+        double result = 1;
+        return result;
+    }
+
+    public void setSeqWriteSpeed(double speed) // MB/s
+    {
+        speed = Math.round(speed);
+        textSeqWriteSpeed.textProperty().setValue((String.valueOf(speed)) + " MB/s");
+    }
+
+    public double setRandomReadSpeed(double speed) // MB/s
+    {
+        double result = 1;
+        return result;
+    }
+
+    public double setRandomWriteSpeed(double speed) // MB/s
+    {
+        double result = 1;
+    }
+
+    public void fileSizeSelected(ActionEvent event)
+    {
+        String size = comboBoxFileSize.getValue();
+        fileSize = convertToBytes(size);
+        System.out.println("File size selected: "+fileSize+" bytes");
+    }
+
+    public long convertToBytes(String size)
+    {
+        long result = 1;
+        if(size != null) {
+            String[] arr = size.split(" ");
+            long value = Long.valueOf(arr[0]);
+            String unit = arr[1];
+            if (unit.equals("B"))
+                result = value;
+            else if (unit.equals("KB"))
+                result = value * 1024;
+            else if (unit.equals("MB"))
                 result = value * 1048576;
             else if (unit.equals("GB"))
                 result = value * 1073741824;
         }
-
         return result;
     }
 }

@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
@@ -91,5 +92,57 @@
             <Font name="Arial Rounded MT Bold" size="15.0" />
          </font>
       </Text>
+      <Text fx:id="textSeqReadSpeed" fill="WHITE" layoutX="39.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font></Text>
+      <Text fx:id="textSeqWriteSpeed" fill="WHITE" layoutX="246.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="textRandomReadSpeed" fill="WHITE" layoutX="444.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="textRandomWriteSpeed" fill="WHITE" layoutX="652.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font>
+      </Text>
+      <Label fx:id="labelSeqReadSpeed" layoutX="39.0" layoutY="540.0" style="-fx-background-color: #000000;" text="Sequential Read Speed" textFill="WHITE">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="15.0" />
+         </font>
+         <effect>
+            <Blend />
+         </effect>
+      </Label>
+      <Label fx:id="labelSeqWriteSpeed" layoutX="248.0" layoutY="540.0" style="-fx-background-color: #000000;" text="Sequential Write Speed" textFill="WHITE">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="15.0" />
+         </font>
+         <effect>
+            <Blend />
+         </effect>
+      </Label>
+      <Label fx:id="labelRandomReadSpeed" layoutX="459.0" layoutY="540.0" style="-fx-background-color: #000000;" text="Random Read Speed" textFill="WHITE">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="15.0" />
+         </font>
+         <effect>
+            <Blend />
+         </effect>
+      </Label>
+      <Label fx:id="labelRandomWriteSpeed" layoutX="652.0" layoutY="540.0" style="-fx-background-color: #000000;" text="Random Write Speed" textFill="WHITE">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="15.0" />
+         </font>
+         <effect>
+            <Blend />
+         </effect>
+      </Label>
+
    </children>
 </AnchorPane>

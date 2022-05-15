@@ -25,12 +25,11 @@ public abstract class Benchmark {
      * This is where the individual benchmark will store the results gotten from running it
      */
     protected Map<String,Object> results = new HashMap<>();
+    private boolean cancelled;
 
     public Benchmark(String name) {
-        runningThread = new Thread(this::run);
     }
 
-    private final Thread runningThread;
 
     @Getter @Setter
     public DoubleProperty runningProgress = new SimpleDoubleProperty(0);
@@ -48,16 +47,16 @@ public abstract class Benchmark {
 
     public void start()
     {
-        runningThread.start();
+        run();
     }
 
     public void cancel()
     {
-        runningThread.interrupt();
+        cancelled = true;
+
     }
 
     public void join() throws InterruptedException
     {
-        runningThread.join();
     }
 }

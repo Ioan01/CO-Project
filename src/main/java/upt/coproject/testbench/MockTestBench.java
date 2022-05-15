@@ -24,9 +24,4 @@ public class MockTestBench extends TestBench
         trackRunningProgress();
     }
 
-    @Override
-    public void clean()
-    {
-
-    }
 }
