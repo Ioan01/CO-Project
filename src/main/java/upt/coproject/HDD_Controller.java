@@ -20,6 +20,10 @@ import upt.coproject.testbench.DriveTestBench;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -35,8 +39,6 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private final DriveTestBench testBench;
     @FXML
-    private TextField textFieldPath;
-    @FXML
     private Button button_browse, buttonStart, buttonCancel;
     @FXML
     private ComboBox<String> comboBoxIOSizeStart, comboBoxIOSizeEnd, comboBoxFileSize;
@@ -51,7 +53,9 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private Label labelSeqReadSpeed, labelSeqWriteSpeed, labelRandomReadSpeed, labelRandomWriteSpeed;
     @FXML
-    private  Text textHDDModel;
+    private Text textHDDModel;
+    @FXML
+    private ComboBox comboBoxPath;
 
     private File drivePath;
     private long fileSize, ioStart, ioEnd; // bytes
@@ -67,6 +71,7 @@ public class HDD_Controller extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getHDDModel();
+        comboBoxPath.setItems(getAvailableDisks());
         textHDDModel.setText("");
         comboBoxIOSizeStart.setItems(ioList);
         comboBoxIOSizeEnd.setItems(ioList);
@@ -82,6 +87,16 @@ public class HDD_Controller extends Controller implements Initializable {
         textSeqWriteSpeed.setVisible(false);
         textSeqReadSpeed.setVisible(false);
 
+        comboBoxPath.getEditor().textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                File file = new File(newValue);
+                drivePath = file;
+                System.out.println("Chosen path: "+ drivePath.getAbsolutePath());
+                textHDDModel.setText(hddModel);
+            }
+        });
+
     }
 
     public void chooseDirectory(ActionEvent event){
@@ -91,7 +106,7 @@ public class HDD_Controller extends Controller implements Initializable {
 
         if(drivePath != null)
         {
-            textFieldPath.setText(drivePath.getAbsolutePath());
+            comboBoxPath.setValue(drivePath.getAbsolutePath());
             System.out.println("Chosen path: "+drivePath.getAbsolutePath());
             textHDDModel.setText(hddModel);
         }
@@ -154,8 +169,6 @@ public class HDD_Controller extends Controller implements Initializable {
     public void stopHDD(ActionEvent event)
     {
         testBench.cancel();
-        //text_progress_hdd_tracker.textProperty().setValue("");
-        //pb_progress_hdd.progressProperty().set(0);
         buttonCancel.setVisible(false);
         buttonStart.setVisible(true);
     }
@@ -164,7 +177,6 @@ public class HDD_Controller extends Controller implements Initializable {
         String size = comboBoxIOSizeStart.getValue();
         ioStart = convertToBytes(size);
         System.out.println("IO start size selected: "+ioStart+" bytes");
-        //if(sizeString.equals())
     }
     public void ioEndSizeSelected(ActionEvent event)
     {
@@ -230,8 +242,6 @@ public class HDD_Controller extends Controller implements Initializable {
         Process proc = rt.exec(cmd);
 
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-        BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
         String res;
         while((res = stdInput.readLine()) != null)
         {
@@ -239,5 +249,29 @@ public class HDD_Controller extends Controller implements Initializable {
         }
         hddModel = hddModel.trim().replaceAll(" +", " ");
         hddModel = hddModel.split(" ")[1];
+    }
+
+    public ObservableList<String> getAvailableDisks() throws IOException {
+        Runtime rt = Runtime.getRuntime();
+        String[] cmd = {"cmd", "/c", "fsutil fsinfo drives"};
+        Process proc = rt.exec(cmd);
+
+        ObservableList<String> disks = FXCollections.observableArrayList();
+
+        BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        String res;
+        String[] arr = null;
+        Path[] paths = null;
+        while((res = stdInput.readLine()) != null)
+        {
+            arr = res.split(" ");
+        }
+        arr = Arrays.copyOfRange(arr, 1, arr.length);
+        for(String item: arr)
+        {
+            disks.add(item);
+        }
+
+        return disks;
     }
 }

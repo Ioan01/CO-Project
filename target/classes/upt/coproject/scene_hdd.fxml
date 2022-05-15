@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Light.Distant?>
@@ -59,7 +58,6 @@
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
-      <TextField fx:id="textFieldPath" layoutX="299.0" layoutY="110.0" prefHeight="3.0" prefWidth="226.0" />
       <Button fx:id="button_browse" layoutX="536.0" layoutY="112.0" mnemonicParsing="false" onAction="#chooseDirectory" prefHeight="23.0" prefWidth="70.0" text="Browse">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
@@ -153,6 +151,7 @@
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
+      <ComboBox fx:id="comboBoxPath" editable="true" layoutX="299.0" layoutY="110.0" prefHeight="26.0" prefWidth="226.0" visibleRowCount="21" />
 
    </children>
 </AnchorPane>
