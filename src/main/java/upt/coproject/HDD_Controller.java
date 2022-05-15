@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,6 +47,7 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private Label labelSeqReadSpeed, labelSeqWriteSpeed, labelRandomReadSpeed, labelRandomWriteSpeed;
 
+
     private String drivePath;
     private long fileSize, ioStart, ioEnd; // bytes
 
@@ -55,6 +55,7 @@ public class HDD_Controller extends Controller implements Initializable {
     {
 
         testBench = new DriveTestBench();
+
     }
 
     @Override
@@ -81,6 +82,7 @@ public class HDD_Controller extends Controller implements Initializable {
         final DirectoryChooser directoryChooser = new DirectoryChooser();
         Stage stage = (Stage) anchorID.getScene().getWindow();
         File file = directoryChooser.showDialog(stage);
+
 
         if(file != null)
         {
@@ -127,7 +129,36 @@ public class HDD_Controller extends Controller implements Initializable {
         buttonCancel.setVisible(true);
         buttonStart.setVisible(false);
 
+        if(file != null)
+        {
+            textFieldPath.setText(file.getAbsolutePath());
+            drivePath = file.getAbsolutePath();
+            System.out.println("Chosen path: "+drivePath);
+        }
     }
+
+    public void startHDD(ActionEvent event)
+    {
+        progressBarProgressHDD.progressProperty().bind(testBench.getRunningProgress());
+
+
+        progressBarProgressHDD.progressProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                textHDDProgressTracker.textProperty().setValue(Integer.toString((int)(number.doubleValue()*100) )+ '%');
+                if(textHDDProgressTracker.getText().equals("99%"))
+                {
+                    buttonCheckResults.setVisible(true);
+                }
+            }
+        });
+        testBench.initialize(10);
+        testBench.start();
+        buttonStart.setVisible(false);
+        buttonCancel.setVisible(true);
+    }
+  
+  
     public void stopHDD(ActionEvent event)
     {
         testBench.cancel();
@@ -135,6 +166,7 @@ public class HDD_Controller extends Controller implements Initializable {
         //pb_progress_hdd.progressProperty().set(0);
         buttonCancel.setVisible(false);
         buttonStart.setVisible(true);
+
     }
     public void ioStartSizeSelected(ActionEvent event)
     {
@@ -198,6 +230,31 @@ public class HDD_Controller extends Controller implements Initializable {
     public double setRandomWriteSpeed(double speed) // MB/s
     {
         double result = 1;
+    }
+
+    public void fileSizeSelected(ActionEvent event)
+    {
+        String size = comboBoxFileSize.getValue();
+        fileSize = convertToBytes(size);
+        System.out.println("File size selected: "+fileSize+" bytes");
+    }
+
+    public long convertToBytes(String size)
+    {
+        long result = 1;
+        if(size != null) {
+            String[] arr = size.split(" ");
+            long value = Long.valueOf(arr[0]);
+            String unit = arr[1];
+            if (unit.equals("B"))
+                result = value;
+            else if (unit.equals("KB"))
+                result = value * 1024;
+            else if (unit.equals("MB"))
+                result = value * 1048576;
+            else if (unit.equals("GB"))
+                result = value * 1073741824;
+        }
         return result;
     }
 }

@@ -143,5 +143,6 @@
             <Blend />
          </effect>
       </Label>
+
    </children>
 </AnchorPane>
