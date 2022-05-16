@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public abstract class Controller {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource(fxml));
             prev = window.getScene();
-            Scene scene = new Scene(fxmlLoader.load(), 1024, 576);
+            Scene scene = new Scene(fxmlLoader.load(), 1300, 800);
             window.setScene(scene);
             window.show();
         }
@@ -42,5 +43,13 @@ public abstract class Controller {
     }
 
     @FXML
-    public void goToResults(ActionEvent event){ changePage("results.fxml"); }
+    public void goToResults(ActionEvent event){ changePage("result.fxml"); }
+
+    public void displayError(String errorMessage)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(errorMessage);
+        alert.showAndWait();
+    }
 }

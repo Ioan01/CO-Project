@@ -17,7 +17,6 @@ public class DriveTestBench extends TestBench
         driveReadBenchmark.initialize(drive, bufferSizeStart, fileSize);
         benchmarks.add(driveReadBenchmark);
 
-
         trackRunningProgress();
 
     }
