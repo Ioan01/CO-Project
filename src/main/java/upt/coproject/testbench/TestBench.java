@@ -14,25 +14,18 @@ import java.util.*;
 public abstract class TestBench
 {
     private Thread runningThread;
-
     protected Queue<Benchmark> benchmarks = new LinkedList<>();
-
     protected int initialBenchmarkCount;
-
     /**
      * This dictionary contains the result dictionary for all benchmarks in the test bench
      * To access the results from one benchmark, use the name key
      */
     @Getter
     protected Map<String, Object> results = new HashMap<>();
-
-
-
     private boolean running = true;
-
     @Getter
     protected BooleanProperty finished = new SimpleBooleanProperty(false);
-
+  
     @Getter
     @Setter
     protected DoubleProperty runningProgress = new SimpleDoubleProperty(0);
@@ -48,10 +41,13 @@ public abstract class TestBench
 
     protected void trackRunningProgress()
     {
-        for (Benchmark benchmark:benchmarks) {
-            benchmark.runningProgress.addListener(new ChangeListener<Number>() {
+        for (Benchmark benchmark:benchmarks)
+        {
+            benchmark.runningProgress.addListener(new ChangeListener<Number>()
+            {
                 @Override
-                public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1)
+                {
                     double delta = t1.doubleValue() - number.doubleValue();
 
                     runningProgress.setValue(runningProgress.get() + delta / initialBenchmarkCount);
@@ -61,32 +57,18 @@ public abstract class TestBench
         }
     }
 
-    public  void clean(List<Benchmark>benchmarks)
-    {
-        for (Benchmark benchmark:benchmarks)
-        {
-            benchmark.clean();
-        }
-    }
-
-
-
     public void run(Object ... params)
     {
         // temporary list
 
         Benchmark benchmark = null;
-
         results.clear();
-
-
         initialBenchmarkCount = benchmarks.size();
 
         for (Benchmark benchmark1: benchmarks)
         {
             benchmark1.warmup();
         }
-
 
         try
         {
@@ -119,7 +101,6 @@ public abstract class TestBench
         runningProgress.setValue(0);
 
         boolean flag = false;
-
         try
         {
             runningThread.start();
@@ -132,7 +113,6 @@ public abstract class TestBench
 
         if (flag)
             runningThread.start();
-
     }
 
     public void cancel()
@@ -146,9 +126,4 @@ public abstract class TestBench
 
 
     }
-
-
-
-
-
 }
