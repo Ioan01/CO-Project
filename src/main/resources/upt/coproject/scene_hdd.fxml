@@ -151,7 +151,7 @@
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboBoxPath" editable="true" layoutX="299.0" layoutY="110.0" onAction="#checkPathUpdate" prefHeight="26.0" prefWidth="226.0" visibleRowCount="21" />
+      <ComboBox fx:id="comboBoxPath" editable="true" layoutX="299.0" layoutY="110.0" prefHeight="26.0" prefWidth="226.0" visibleRowCount="21" />
 
    </children>
 </AnchorPane>
