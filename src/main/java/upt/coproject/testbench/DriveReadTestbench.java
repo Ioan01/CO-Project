@@ -11,53 +11,20 @@ public class DriveReadTestbench extends TestBench{
     private static final int GB = 1024 * 1024 * 1024;
 
     public static void main(String[] args) {
-        DriveReadBenchmark bench = new DriveReadBenchmark("readbench.temp");
-        bench.initialize("C://", 1024 * KB, 64 * MB);
+        System.out.println("Free RAM intial: " + Runtime.getRuntime().freeMemory() / MB);
+        System.out.println("Free HEAP intial: " + Runtime.getRuntime().totalMemory() / MB);
 
-        Timer timer = new Timer();
+        DriveReadBenchmark bench = new DriveReadBenchmark();
+        int bufferSizeMaxCnt = 16;
+        int bufferUnit = KB;
+        int fileSizeCnt = 8;
+        int fileUnit = MB;
+        int N = 5;
+        int bufferSizeMax = bufferSizeMaxCnt * bufferUnit;
+        int fileSize = fileSizeCnt * fileUnit;
 
-        bench.setBufferSize(1024 * KB);
+        bench.initialize("C://", bufferSizeMax, fileSize);
 
-        timer.start();
         bench.run();
-        timer.stop();
-        System.out.println(timer.getTime(TimeUnit.MILLI));
-        timer.start();
-        bench.run();
-        timer.stop();
-        System.out.println(timer.getTime(TimeUnit.MILLI));
-        timer.start();
-        bench.run();
-        timer.stop();
-        System.out.println(timer.getTime(TimeUnit.MILLI));
-        timer.start();
-        bench.run();
-        timer.stop();
-        System.out.println(timer.getTime(TimeUnit.MILLI));
-        timer.start();
-        bench.run();
-        timer.stop();
-        System.out.println(timer.getTime(TimeUnit.MILLI));
-        timer.start();
-        bench.run();
-        timer.stop();
-        System.out.println(timer.getTime(TimeUnit.MILLI));
-        timer.start();
-        bench.run();
-        timer.stop();
-        System.out.println(timer.getTime(TimeUnit.MILLI));
-        timer.start();
-        bench.run();
-        timer.stop();
-        System.out.println(timer.getTime(TimeUnit.MILLI));
-        timer.start();
-        bench.run();
-        timer.stop();
-        System.out.println(timer.getTime(TimeUnit.MILLI));
-    }
-
-    @Override
-    public void clean() {
-
     }
 }
