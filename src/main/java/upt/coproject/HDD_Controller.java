@@ -8,6 +8,8 @@ import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -55,6 +57,10 @@ public class HDD_Controller extends Controller implements Initializable {
     private Text textHDDModel;
     @FXML
     private ComboBox comboBoxPath;
+    @FXML
+    private BarChart barChart;
+    @FXML
+    private TitledPane titledPane;
 
     private File drivePath;
     private long fileSize, ioStart, ioEnd; // bytes
@@ -69,14 +75,35 @@ public class HDD_Controller extends Controller implements Initializable {
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setItemsVisibility(false);
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Write");
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("Read");
+        /*series1.getData().add(new XYChart.Data(65.6, "4 KB"));
+        series1.getData().add(new XYChart.Data(123.2, "16 KB"));
+        series1.getData().add(new XYChart.Data(199.12, "1 MB"));
+        series1.getData().add(new XYChart.Data(250.93, "4 MB"));
+        series1.getData().add(new XYChart.Data(369.5, "1 GB"));
+
+
+
+        series2.getData().add(new XYChart.Data(75.1, "4 KB"));
+        series2.getData().add(new XYChart.Data(143.9, "16 KB"));
+        series2.getData().add(new XYChart.Data(210.1, "1 MB"));
+        series2.getData().add(new XYChart.Data(289.77, "4 MB"));
+        series2.getData().add(new XYChart.Data(402.5, "1 GB"));*/
+
+
+        barChart.getData().addAll(series1, series2);
+
         getHDDModel();
         comboBoxPath.setItems(getAvailableDisks());
         textHDDModel.setText("");
         comboBoxIOSizeStart.setItems(ioList);
         comboBoxIOSizeEnd.setItems(ioList);
         comboBoxFileSize.setItems(fsList);
-
-        setItemsVisibility(false);
 
         comboBoxPath.getEditor().textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -262,6 +289,7 @@ public class HDD_Controller extends Controller implements Initializable {
 
     public void setItemsVisibility(boolean visibility)
     {
+        titledPane.setExpanded(false);
         buttonCheckResults.setVisible(visibility);
         buttonCancel.setVisible(visibility);
         labelRandomReadSpeed.setVisible(visibility);

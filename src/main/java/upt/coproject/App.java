@@ -13,7 +13,7 @@ public class App extends Application
     {
         Controller.setWindow(primaryStage);
         primaryStage.setTitle("Amazing benchmarking program");
-        //primaryStage.setResizable(false);
+        primaryStage.setMaximized(true);
 
         Controller.changePage("mainScene.fxml");
 

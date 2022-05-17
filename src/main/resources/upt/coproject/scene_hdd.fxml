@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -32,7 +35,7 @@
             </Lighting>
          </effect>
       </Label>
-      <Button layoutX="14.0" layoutY="349.0" mnemonicParsing="false" onAction="#goToMainPage" text="Back">
+      <Button layoutX="14.0" layoutY="799.0" mnemonicParsing="false" onAction="#goToMainPage" text="Back">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -40,7 +43,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button fx:id="buttonStart" layoutX="264.0" layoutY="330.0" mnemonicParsing="false" onAction="#startHDD" text="START">
+      <Button fx:id="buttonStart" layoutX="88.0" layoutY="330.0" mnemonicParsing="false" onAction="#startHDD" text="START">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -48,40 +51,40 @@
             <SepiaTone />
          </effect>
       </Button>
-      <Button fx:id="buttonCheckResults" layoutX="389.0" layoutY="371.0" mnemonicParsing="false" onAction="#goToResults" text="Check Results">
+      <Button fx:id="buttonCheckResults" layoutX="278.0" layoutY="370.0" mnemonicParsing="false" onAction="#goToResults" text="Check Results">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <ProgressBar fx:id="progressBarProgressHDD" layoutX="207.0" layoutY="374.0" prefHeight="22.0" prefWidth="179.0" progress="0.0" />
-      <Label fx:id="label_drive" layoutX="167.0" layoutY="110.0" prefHeight="26.0" prefWidth="57.0" text="Drive:" textFill="WHITE">
+      <ProgressBar fx:id="progressBarProgressHDD" layoutX="88.0" layoutY="374.0" prefHeight="22.0" prefWidth="179.0" progress="0.0" />
+      <Label fx:id="label_drive" layoutX="88.0" layoutY="90.0" prefHeight="26.0" prefWidth="57.0" text="Drive:" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
-      <Button fx:id="button_browse" layoutX="536.0" layoutY="112.0" mnemonicParsing="false" onAction="#chooseDirectory" prefHeight="23.0" prefWidth="70.0" text="Browse">
+      <Button fx:id="button_browse" layoutX="428.0" layoutY="88.0" mnemonicParsing="false" onAction="#chooseDirectory" prefHeight="23.0" prefWidth="70.0" text="Browse">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font></Button>
-      <Label layoutX="167.0" layoutY="210.0" text="I/O Size:" textFill="WHITE">
+      <Label layoutX="88.0" layoutY="180.0" text="I/O Size:" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboBoxIOSizeStart" layoutX="299.0" layoutY="210.0" onAction="#ioStartSizeSelected" prefHeight="26.0" prefWidth="81.0" visibleRowCount="21" />
-      <ComboBox fx:id="comboBoxIOSizeEnd" layoutX="440.0" layoutY="210.0" onAction="#ioEndSizeSelected" prefHeight="26.0" prefWidth="81.0" />
-      <Label layoutX="404.0" layoutY="210.0" text="to" textFill="WHITE">
+      <ComboBox fx:id="comboBoxIOSizeStart" layoutX="200.0" layoutY="180.0" onAction="#ioStartSizeSelected" prefHeight="26.0" prefWidth="81.0" visibleRowCount="21" />
+      <ComboBox fx:id="comboBoxIOSizeEnd" layoutX="313.0" layoutY="180.0" onAction="#ioEndSizeSelected" prefHeight="26.0" prefWidth="81.0" />
+      <Label layoutX="289.0" layoutY="180.0" text="to" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="167.0" layoutY="250.0" text="File size:" textFill="WHITE">
+      <Label layoutX="88.0" layoutY="215.0" text="File size:" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboBoxFileSize" layoutX="299.0" layoutY="250.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="89.0" visibleRowCount="21" />
-      <Button fx:id="buttonCancel" layoutX="196.0" layoutY="413.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
+      <ComboBox fx:id="comboBoxFileSize" layoutX="200.0" layoutY="215.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="89.0" visibleRowCount="21" />
+      <Button fx:id="buttonCancel" layoutX="88.0" layoutY="405.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
          <font>
             <Font name="Arial Rounded MT Bold" size="13.0" />
          </font>
@@ -91,22 +94,22 @@
             <Font name="Arial Rounded MT Bold" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="textHDDModel" fill="WHITE" layoutX="297.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0">
+      <Text fx:id="textHDDModel" fill="WHITE" layoutX="200.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="text">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Text>
-      <Label fx:id="label_drive1" layoutX="170.0" layoutY="159.0" prefHeight="26.0" prefWidth="57.0" text="Model:" textFill="WHITE">
+      <Label fx:id="label_drive1" layoutX="88.0" layoutY="135.0" prefHeight="26.0" prefWidth="57.0" text="Model:" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboBoxPath" editable="true" layoutX="299.0" layoutY="110.0" prefHeight="26.0" prefWidth="226.0" visibleRowCount="21" />
-      <TitledPane animated="false" layoutX="41.0" layoutY="480.0" prefHeight="207.0" prefWidth="903.0" text="Speed comparison">
+      <ComboBox fx:id="comboBoxPath" editable="true" layoutX="200.0" layoutY="88.0" prefHeight="26.0" prefWidth="226.0" visibleRowCount="21" />
+      <TitledPane fx:id="titledPane" animated="false" layoutX="528.0" layoutY="83.0" prefHeight="668.0" prefWidth="887.0" text="Speed comparison">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="674.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="630.0" prefWidth="886.0">
                <children>
-                  <Label fx:id="labelSeqReadSpeed" layoutX="27.0" layoutY="14.0" style="-fx-background-color: #000000;" text="Sequential Read Speed" textFill="WHITE">
+                  <Label fx:id="labelSeqReadSpeed" layoutX="370.0" layoutY="466.0" prefHeight="18.0" prefWidth="179.0" style="-fx-background-color: #000000;" text="Sequential Read Speed" textFill="WHITE">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="15.0" />
                      </font>
@@ -114,7 +117,7 @@
                         <Blend />
                      </effect>
                   </Label>
-                  <Label fx:id="labelSeqWriteSpeed" layoutX="259.0" layoutY="15.0" style="-fx-background-color: #000000;" text="Sequential Write Speed" textFill="WHITE">
+                  <Label fx:id="labelSeqWriteSpeed" layoutX="573.0" layoutY="467.0" style="-fx-background-color: #000000;" text="Sequential Write Speed" textFill="WHITE">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="15.0" />
                      </font>
@@ -122,17 +125,17 @@
                         <Blend />
                      </effect>
                   </Label>
-                  <Text fx:id="textSeqWriteSpeed" layoutX="260.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                  <Text fx:id="textSeqWriteSpeed" layoutX="573.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="textSeqReadSpeed" layoutX="30.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                  <Text fx:id="textSeqReadSpeed" layoutX="370.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                      </font>
                   </Text>
-                  <Label fx:id="labelRandomReadSpeed" layoutX="503.0" layoutY="15.0" style="-fx-background-color: #000000;" text="Random Read Speed" textFill="WHITE">
+                  <Label fx:id="labelRandomReadSpeed" layoutX="192.0" layoutY="467.0" prefWidth="153.6" style="-fx-background-color: #000000;" text="Random Read Speed" textFill="WHITE">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="15.0" />
                      </font>
@@ -140,7 +143,7 @@
                         <Blend />
                      </effect>
                   </Label>
-                  <Label fx:id="labelRandomWriteSpeed" layoutX="713.0" layoutY="12.0" style="-fx-background-color: #000000;" text="Random Write Speed" textFill="WHITE">
+                  <Label fx:id="labelRandomWriteSpeed" layoutX="14.0" layoutY="467.0" style="-fx-background-color: #000000;" text="Random Write Speed" textFill="WHITE">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="15.0" />
                      </font>
@@ -148,16 +151,24 @@
                         <Blend />
                      </effect>
                   </Label>
-                  <Text fx:id="textRandomReadSpeed" layoutX="505.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                  <Text fx:id="textRandomReadSpeed" layoutX="192.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="textRandomWriteSpeed" layoutX="713.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                  <Text fx:id="textRandomWriteSpeed" layoutX="14.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                      </font>
                   </Text>
+                  <BarChart fx:id="barChart" layoutX="-12.0" prefHeight="458.0" prefWidth="897.0" style="-fx-background-color: White;" title="Benchmark Results" AnchorPane.rightAnchor="0.0">
+                     <xAxis>
+                        <NumberAxis label="Transfer Rate - MB/s" prefWidth="553.0" side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <CategoryAxis label="Units" side="LEFT" />
+                     </yAxis>
+                  </BarChart>
                </children>
             </AnchorPane>
         </content>
