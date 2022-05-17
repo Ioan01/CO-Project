@@ -1,6 +1,6 @@
 .root{
     /* daca vreti sa schimbati imaginea unei scene, schimbati doar url */
 
-    -fx-background-image: url("ssd_background.png");
+    -fx-background-image: url("ssd_background.jpg");
     -fx-background-size: cover;
 }

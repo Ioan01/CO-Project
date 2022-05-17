@@ -35,7 +35,7 @@
             </Lighting>
          </effect>
       </Label>
-      <Button layoutX="14.0" layoutY="799.0" mnemonicParsing="false" onAction="#goToMainPage" text="Back">
+      <Button layoutX="31.0" layoutY="521.0" mnemonicParsing="false" onAction="#goToMainPage" text="Back">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -105,9 +105,9 @@
          </font>
       </Label>
       <ComboBox fx:id="comboBoxPath" editable="true" layoutX="200.0" layoutY="88.0" prefHeight="26.0" prefWidth="226.0" visibleRowCount="21" />
-      <TitledPane fx:id="titledPane" animated="false" layoutX="528.0" layoutY="83.0" prefHeight="668.0" prefWidth="887.0" text="Speed comparison">
+      <TitledPane fx:id="titledPane" animated="false" layoutX="528.0" layoutY="83.0" prefHeight="668.0" prefWidth="750.0" text="Speed comparison">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="630.0" prefWidth="886.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="630.0" prefWidth="770.0">
                <children>
                   <Label fx:id="labelSeqReadSpeed" layoutX="370.0" layoutY="466.0" prefHeight="18.0" prefWidth="179.0" style="-fx-background-color: #000000;" text="Sequential Read Speed" textFill="WHITE">
                      <font>
@@ -161,7 +161,7 @@
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                      </font>
                   </Text>
-                  <BarChart fx:id="barChart" layoutX="-12.0" prefHeight="458.0" prefWidth="897.0" style="-fx-background-color: White;" title="Benchmark Results" AnchorPane.rightAnchor="0.0">
+                  <BarChart fx:id="barChart" layoutX="-12.0" layoutY="4.0" prefHeight="454.0" prefWidth="750.0" style="-fx-background-color: White;" title="Benchmark Results" AnchorPane.rightAnchor="1.0">
                      <xAxis>
                         <NumberAxis label="Transfer Rate - MB/s" prefWidth="553.0" side="BOTTOM" />
                      </xAxis>
