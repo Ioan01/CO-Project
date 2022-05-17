@@ -14,13 +14,12 @@ public abstract class Controller {
     @Getter @Setter
     private static Stage window;
     private static Scene prev;
-    //ProgressBar pb = new ProgressBar();
 
     public static void changePage(String fxml){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource(fxml));
             prev = window.getScene();
-            Scene scene = new Scene(fxmlLoader.load(), 1300, 800);
+            Scene scene = new Scene(fxmlLoader.load(), 1200, 750);
             window.setScene(scene);
             window.show();
         }

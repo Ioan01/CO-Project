@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
-import org.w3c.dom.ls.LSOutput;
 import upt.coproject.benchmark.MockBench;
 import upt.coproject.testbench.DriveTestBench;
 
@@ -39,7 +38,7 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private final DriveTestBench testBench;
     @FXML
-    private Button button_browse, buttonStart, buttonCancel;
+    private Button buttonStart, buttonCancel;
     @FXML
     private ComboBox<String> comboBoxIOSizeStart, comboBoxIOSizeEnd, comboBoxFileSize;
 
@@ -76,16 +75,8 @@ public class HDD_Controller extends Controller implements Initializable {
         comboBoxIOSizeStart.setItems(ioList);
         comboBoxIOSizeEnd.setItems(ioList);
         comboBoxFileSize.setItems(fsList);
-        buttonCheckResults.setVisible(false);
-        buttonCancel.setVisible(false);
-        labelRandomReadSpeed.setVisible(false);
-        labelRandomWriteSpeed.setVisible(false);
-        labelSeqWriteSpeed.setVisible(false);
-        labelSeqReadSpeed.setVisible(false);
-        textRandomReadSpeed.setVisible(false);
-        textRandomWriteSpeed.setVisible(false);
-        textSeqWriteSpeed.setVisible(false);
-        textSeqReadSpeed.setVisible(false);
+
+        setItemsVisibility(false);
 
         comboBoxPath.getEditor().textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -138,20 +129,14 @@ public class HDD_Controller extends Controller implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                     if (t1) {
+
+                        setItemsVisibility(true);
                         buttonCancel.setVisible(false);
-                        buttonStart.setVisible(true);
-                        buttonCancel.setVisible(false);
-                        buttonStart.setVisible(true);
-                        buttonCheckResults.setVisible(true);
-                        labelRandomWriteSpeed.setVisible(true);
-                        labelRandomReadSpeed.setVisible(true);
-                        labelSeqReadSpeed.setVisible(true);
-                        labelSeqWriteSpeed.setVisible(true);
-                        textRandomWriteSpeed.setVisible(true);
-                        textRandomReadSpeed.setVisible(true);
-                        textSeqReadSpeed.setVisible(true);
-                        textSeqWriteSpeed.setVisible(true);
+
                         setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
+                        setSeqReadSpeed(560.33);
+                        setRandomWriteSpeed(123.456);
+                        setRandomReadSpeed(654.321);
                     }
                 }
             });
@@ -212,10 +197,10 @@ public class HDD_Controller extends Controller implements Initializable {
         return result;
     }
 
-    public double setSeqReadSpeed(double speed) // MB/s
+    public void setSeqReadSpeed(double speed) // MB/s
     {
-        double result = 1;
-        return result;
+        speed = Math.round(speed);
+        textSeqReadSpeed.textProperty().setValue((String.valueOf(speed)) + " MB/s");
     }
 
     public void setSeqWriteSpeed(double speed) // MB/s
@@ -273,5 +258,19 @@ public class HDD_Controller extends Controller implements Initializable {
         }
 
         return disks;
+    }
+
+    public void setItemsVisibility(boolean visibility)
+    {
+        buttonCheckResults.setVisible(visibility);
+        buttonCancel.setVisible(visibility);
+        labelRandomReadSpeed.setVisible(visibility);
+        labelRandomWriteSpeed.setVisible(visibility);
+        labelSeqWriteSpeed.setVisible(visibility);
+        labelSeqReadSpeed.setVisible(visibility);
+        textRandomReadSpeed.setVisible(visibility);
+        textRandomWriteSpeed.setVisible(visibility);
+        textSeqWriteSpeed.setVisible(visibility);
+        textSeqReadSpeed.setVisible(visibility);
     }
 }

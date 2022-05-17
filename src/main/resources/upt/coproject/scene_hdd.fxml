@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Light.Distant?>
@@ -47,12 +48,12 @@
             <SepiaTone />
          </effect>
       </Button>
-      <Button fx:id="buttonCheckResults" layoutX="426.0" layoutY="421.0" mnemonicParsing="false" onAction="#goToResults" text="Check Results">
+      <Button fx:id="buttonCheckResults" layoutX="389.0" layoutY="371.0" mnemonicParsing="false" onAction="#goToResults" text="Check Results">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <ProgressBar fx:id="progressBarProgressHDD" layoutX="199.0" layoutY="425.0" prefHeight="22.0" prefWidth="179.0" progress="0.0" />
+      <ProgressBar fx:id="progressBarProgressHDD" layoutX="207.0" layoutY="374.0" prefHeight="22.0" prefWidth="179.0" progress="0.0" />
       <Label fx:id="label_drive" layoutX="167.0" layoutY="110.0" prefHeight="26.0" prefWidth="57.0" text="Drive:" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
@@ -80,7 +81,7 @@
          </font>
       </Label>
       <ComboBox fx:id="comboBoxFileSize" layoutX="299.0" layoutY="250.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="89.0" visibleRowCount="21" />
-      <Button fx:id="buttonCancel" layoutX="199.0" layoutY="456.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
+      <Button fx:id="buttonCancel" layoutX="196.0" layoutY="413.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
          <font>
             <Font name="Arial Rounded MT Bold" size="13.0" />
          </font>
@@ -90,57 +91,6 @@
             <Font name="Arial Rounded MT Bold" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="textSeqReadSpeed" fill="WHITE" layoutX="39.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="14.0" />
-         </font></Text>
-      <Text fx:id="textSeqWriteSpeed" fill="WHITE" layoutX="246.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="textRandomReadSpeed" fill="WHITE" layoutX="444.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="textRandomWriteSpeed" fill="WHITE" layoutX="652.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="14.0" />
-         </font>
-      </Text>
-      <Label fx:id="labelSeqReadSpeed" layoutX="39.0" layoutY="540.0" style="-fx-background-color: #000000;" text="Sequential Read Speed" textFill="WHITE">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="15.0" />
-         </font>
-         <effect>
-            <Blend />
-         </effect>
-      </Label>
-      <Label fx:id="labelSeqWriteSpeed" layoutX="248.0" layoutY="540.0" style="-fx-background-color: #000000;" text="Sequential Write Speed" textFill="WHITE">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="15.0" />
-         </font>
-         <effect>
-            <Blend />
-         </effect>
-      </Label>
-      <Label fx:id="labelRandomReadSpeed" layoutX="459.0" layoutY="540.0" style="-fx-background-color: #000000;" text="Random Read Speed" textFill="WHITE">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="15.0" />
-         </font>
-         <effect>
-            <Blend />
-         </effect>
-      </Label>
-      <Label fx:id="labelRandomWriteSpeed" layoutX="652.0" layoutY="540.0" style="-fx-background-color: #000000;" text="Random Write Speed" textFill="WHITE">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="15.0" />
-         </font>
-         <effect>
-            <Blend />
-         </effect>
-      </Label>
       <Text fx:id="textHDDModel" fill="WHITE" layoutX="297.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
@@ -152,6 +102,66 @@
          </font>
       </Label>
       <ComboBox fx:id="comboBoxPath" editable="true" layoutX="299.0" layoutY="110.0" prefHeight="26.0" prefWidth="226.0" visibleRowCount="21" />
+      <TitledPane animated="false" layoutX="41.0" layoutY="480.0" prefHeight="207.0" prefWidth="903.0" text="Speed comparison">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="674.0">
+               <children>
+                  <Label fx:id="labelSeqReadSpeed" layoutX="27.0" layoutY="14.0" style="-fx-background-color: #000000;" text="Sequential Read Speed" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </Label>
+                  <Label fx:id="labelSeqWriteSpeed" layoutX="259.0" layoutY="15.0" style="-fx-background-color: #000000;" text="Sequential Write Speed" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </Label>
+                  <Text fx:id="textSeqWriteSpeed" layoutX="260.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="textSeqReadSpeed" layoutX="30.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Label fx:id="labelRandomReadSpeed" layoutX="503.0" layoutY="15.0" style="-fx-background-color: #000000;" text="Random Read Speed" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </Label>
+                  <Label fx:id="labelRandomWriteSpeed" layoutX="713.0" layoutY="12.0" style="-fx-background-color: #000000;" text="Random Write Speed" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </Label>
+                  <Text fx:id="textRandomReadSpeed" layoutX="505.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="textRandomWriteSpeed" layoutX="713.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
 
    </children>
 </AnchorPane>
