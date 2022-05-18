@@ -12,15 +12,29 @@ import lombok.Setter;
 
 public abstract class Controller {
     @Getter @Setter
-    private static Stage window;
+    private static Stage  window = new Stage();
     private static Scene prev;
 
     public static void changePage(String fxml){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource(fxml));
             prev = window.getScene();
-            Scene scene = new Scene(fxmlLoader.load(), 1200, 750);
+            Scene scene = new Scene(fxmlLoader.load(), 800, 500);
             window.setScene(scene);
+            window.show();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void changePage(String fxml, int length, int width){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource(fxml));
+            prev = window.getScene();
+            Scene scene = new Scene(fxmlLoader.load(), length, width);
+            window.setScene(scene);
+            window.setResizable(true);
             window.show();
         }
         catch (Exception e){
@@ -38,7 +52,7 @@ public abstract class Controller {
 
     @FXML
     public void goToMainPage(ActionEvent event){
-        changePage("mainScene.fxml");
+        changePage("Dashboard.fxml");
     }
 
     @FXML
