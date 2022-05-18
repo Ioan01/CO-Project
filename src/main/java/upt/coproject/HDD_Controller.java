@@ -168,7 +168,7 @@ public class HDD_Controller extends Controller implements Initializable {
                 }
             });
 
-            testBench.initialize(drivePath.getAbsolutePath(), ioStart, ioEnd, (int) fileSize);
+            testBench.initialize(drivePath.getAbsolutePath(), fileSize);
 
             testBench.start();
 
