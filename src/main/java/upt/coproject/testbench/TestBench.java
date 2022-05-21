@@ -20,6 +20,8 @@ public abstract class TestBench
      */
     @Getter
     protected Map<String, Object> results = new HashMap<>();
+    @Getter
+    protected Map<String, List<PartialResult>> partialResults = new HashMap<>();
     private BooleanProperty cancelled = new SimpleBooleanProperty(false);
     @Getter
     protected BooleanProperty finished = new SimpleBooleanProperty(false);

@@ -8,8 +8,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import lombok.Getter;
 import lombok.Setter;
+import upt.coproject.testbench.PartialResult;
+
+import java.util.List;
+import java.util.Map;
 
 public class ResultController extends Controller{
 
@@ -17,14 +22,28 @@ public class ResultController extends Controller{
     private Label gandacelLabel;
     @FXML
     private Label scoreLabel;
+    @FXML
+    private TableView<PartialResult> partialResultsTable;
+
+    private Map<String, Object> results;
+    private Map<String, List<PartialResult>> partialResults;
 
 
     StringProperty score;
 
     @FXML
     public void initialize() {
-        this.score = new SimpleStringProperty((String)getWindow().getUserData());
-        scoreLabel.textProperty().bind(this.score);
+        Map<String, Object> getFromBenchmarkPage = ( Map<String, Object>) getWindow().getUserData();
+        results = (Map<String, Object>) getFromBenchmarkPage.get("results");
+        partialResults = (Map<String, List<PartialResult>>) getFromBenchmarkPage.get("partialResults");
+        /*
+        List<PartialResult> res = partialResults.get("SEQ_READ");
+        for(PartialResult part: res){
+            System.out.println(part.bufferSize + " " + part.memorySize + " " + part.time + " " + part.speed);
+        }//*/
+
+
+        //scoreLabel.textProperty().bind(this.score);
     }
 
     @FXML
@@ -32,8 +51,12 @@ public class ResultController extends Controller{
     }
 
     @FXML
-    void goToDetailedResultPage(ActionEvent event){
-        changePage("detailedResult.fxml");
+    void goToLeaderboardPage(ActionEvent event){
+        changePage("leaderboard.fxml");
+    }
+
+    double calculateScore(){
+        return 0;
     }
 }
 

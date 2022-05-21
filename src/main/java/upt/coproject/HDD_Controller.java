@@ -18,15 +18,14 @@ import javafx.stage.Stage;
 import lombok.SneakyThrows;
 import upt.coproject.benchmark.MockBench;
 import upt.coproject.testbench.DriveTestBench;
+import upt.coproject.testbench.PartialResult;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class HDD_Controller extends Controller implements Initializable {
@@ -161,7 +160,7 @@ public class HDD_Controller extends Controller implements Initializable {
                         buttonCancel.setVisible(false);
 
                         setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
-                        setSeqReadSpeed(560.33);
+                        setSeqReadSpeed((Double) testBench.getResults().get("SEQ_READ"));
                         setRandomWriteSpeed(123.456);
                         setRandomReadSpeed(654.321);
                     }
@@ -300,5 +299,14 @@ public class HDD_Controller extends Controller implements Initializable {
         textRandomWriteSpeed.setVisible(visibility);
         textSeqWriteSpeed.setVisible(visibility);
         textSeqReadSpeed.setVisible(visibility);
+    }
+
+    @FXML
+    public void goToResults(ActionEvent event){
+        Map<String, Object> sendToResultPage = new HashMap<>();
+        sendToResultPage.put("results", testBench.getResults());
+        sendToResultPage.put("partialResults", testBench.getPartialResults());
+        getWindow().setUserData(sendToResultPage);
+        changePage("result.fxml");
     }
 }

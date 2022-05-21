@@ -55,8 +55,6 @@ public abstract class Controller {
         changePage("Dashboard.fxml");
     }
 
-    @FXML
-    public void goToResults(ActionEvent event){ changePage("result.fxml"); }
 
     public void displayError(String errorMessage)
     {

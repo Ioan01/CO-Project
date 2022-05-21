@@ -1,5 +1,7 @@
 package upt.coproject.benchmark;
 
+import lombok.Getter;
+import upt.coproject.testbench.PartialResult;
 import upt.coproject.timing.TimeUnit;
 import upt.coproject.timing.Timer;
 
@@ -18,10 +20,12 @@ public class SequentialReadDriveBenchmark extends Benchmark{
     String folderName = "temp";
     String miniFolderNameTemplate = "temp_file_no_";
     String fileNameTemplate = "temp_file_no_";
-    long totalFilesSize = 1024 * MB;
+    long totalFilesSize = 256 * MB;
     List<String> filenames;
     long[] bufferSizes = {16 * KB, 64 * KB, 256 * KB, MB};
     long writeBufferSize = MB;
+    @Getter
+    private List<PartialResult> partialResults = new ArrayList<>();
 
     public SequentialReadDriveBenchmark() {
         super("Sequential drive read benchmark");
@@ -87,18 +91,10 @@ public class SequentialReadDriveBenchmark extends Benchmark{
     }
 
     public double write(String filename){
-        Random random = new Random(System.nanoTime());
-/*
-        int randomInt = random.nextInt();
-        File folder = new File(drive + );
-        if(!folder.isDirectory()){
-            folder.delete();
-        }
-        folder.mkdir();*/
-
         File file = new File(drive + filename);
         file.deleteOnExit();
 
+        Random random = new Random(System.nanoTime());
         Timer timer = new Timer();
 
         try {
@@ -195,6 +191,7 @@ public class SequentialReadDriveBenchmark extends Benchmark{
                     // keep going
                 }
                 timer.pause();
+                partialResults.add(new PartialResult(bufferSize, fileSize, timer.getElapsedTime(TimeUnit.MILLI)));
 
                 bufferedInputStream.close();
             }
