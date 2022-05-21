@@ -1,6 +1,8 @@
 package upt.coproject.benchmark;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +27,9 @@ public abstract class Benchmark {
      * This is where the individual benchmark will store the results gotten from running it
      */
     protected Map<String,Object> results = new HashMap<>();
-    private boolean cancelled;
+
+    @Getter
+    private BooleanProperty cancelled = new SimpleBooleanProperty();
 
     public Benchmark(String name) {
     }
@@ -52,7 +56,7 @@ public abstract class Benchmark {
 
     public void cancel()
     {
-        cancelled = true;
+
 
     }
 

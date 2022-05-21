@@ -2,9 +2,7 @@ package upt.coproject.testbench;
 
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableMapValue;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableMap;
 import lombok.Getter;
 import lombok.Setter;
 import upt.coproject.benchmark.Benchmark;
@@ -22,10 +20,10 @@ public abstract class TestBench
      */
     @Getter
     protected Map<String, Object> results = new HashMap<>();
-    private boolean running = true;
+    private BooleanProperty cancelled = new SimpleBooleanProperty(false);
     @Getter
     protected BooleanProperty finished = new SimpleBooleanProperty(false);
-  
+
     @Getter
     @Setter
     protected DoubleProperty runningProgress = new SimpleDoubleProperty(0);
@@ -54,6 +52,8 @@ public abstract class TestBench
 
                 }
             });
+
+            benchmark.getCancelled().bind(cancelled);
         }
     }
 
@@ -70,30 +70,21 @@ public abstract class TestBench
             benchmark1.warmup();
         }
 
-        try
+        while (!cancelled.get() && !benchmarks.isEmpty() && !Thread.interrupted())
         {
-            while (running && !benchmarks.isEmpty())
-            {
-                benchmark = benchmarks.poll();
-                benchmark.start();
+            benchmark = benchmarks.poll();
+            benchmark.start();
 
-                results.putAll(benchmark.getResults());
-                System.out.println(results.get("SEQ_WRITE"));
-                Thread.sleep(100);
-            }
+            results.putAll(benchmark.getResults());
 
-            finished.setValue(true);
+            System.out.println(results.get("SEQ_WRITE"));
         }
-        catch (InterruptedException e)
-        {
-            benchmark.cancel();
-            runningProgress.setValue(0);
-        }
-
+        finished.setValue(true);
     }
 
     public void start(Object... params)
     {
+        cancelled.setValue(false);
         finished.setValue(false);
         if (runningThread.isAlive())
             return;
@@ -117,11 +108,7 @@ public abstract class TestBench
 
     public void cancel()
     {
-        running = false;
-
-
-
-        runningThread.interrupt();
+        cancelled.setValue(true);
         runningProgress.setValue(0);
 
 
