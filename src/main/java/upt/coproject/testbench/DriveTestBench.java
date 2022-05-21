@@ -11,16 +11,15 @@ public class DriveTestBench extends TestBench
     {
         benchmarks.clear();
 
-        SequentialWriteDriveBenchmark writeDriveBenchmark = new SequentialWriteDriveBenchmark();
-        writeDriveBenchmark.initialize(drive,fileSize);
-        benchmarks.add(writeDriveBenchmark);
+        //SequentialWriteDriveBenchmark writeDriveBenchmark = new SequentialWriteDriveBenchmark();
+        //writeDriveBenchmark.initialize(drive,fileSize);
+        //benchmarks.add(writeDriveBenchmark);
 
         SequentialReadDriveBenchmark sequentialReadDriveBenchmark = new SequentialReadDriveBenchmark();
         sequentialReadDriveBenchmark.initialize(drive, fileSize);
         benchmarks.add(sequentialReadDriveBenchmark);
 
         partialResults.put("SEQ_READ", sequentialReadDriveBenchmark.getPartialResults());
-
         trackRunningProgress();
     }
 }

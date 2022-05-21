@@ -11,7 +11,6 @@ public class TestDevController extends Controller{
 
     @FXML
     public void goToResultPage(ActionEvent event){
-        getWindow().setUserData("1024");
         changePage("result.fxml");
     }
 

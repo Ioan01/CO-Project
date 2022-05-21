@@ -5,6 +5,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import lombok.Getter;
 import lombok.Setter;
+import upt.coproject.PartialResult;
 import upt.coproject.benchmark.Benchmark;
 
 import java.util.*;

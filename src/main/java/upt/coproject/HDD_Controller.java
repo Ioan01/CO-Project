@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,15 +15,11 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
-import upt.coproject.benchmark.MockBench;
 import upt.coproject.testbench.DriveTestBench;
-import upt.coproject.testbench.PartialResult;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -159,7 +154,7 @@ public class HDD_Controller extends Controller implements Initializable {
                         setItemsVisibility(true);
                         buttonCancel.setVisible(false);
 
-                        setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
+                        //setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
                         setSeqReadSpeed((Double) testBench.getResults().get("SEQ_READ"));
                         setRandomWriteSpeed(123.456);
                         setRandomReadSpeed(654.321);

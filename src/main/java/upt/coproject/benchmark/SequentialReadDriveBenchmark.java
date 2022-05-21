@@ -1,7 +1,7 @@
 package upt.coproject.benchmark;
 
 import lombok.Getter;
-import upt.coproject.testbench.PartialResult;
+import upt.coproject.PartialResult;
 import upt.coproject.timing.TimeUnit;
 import upt.coproject.timing.Timer;
 
