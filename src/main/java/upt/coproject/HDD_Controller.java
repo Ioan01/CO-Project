@@ -1,5 +1,6 @@
 package upt.coproject;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -65,6 +66,8 @@ public class HDD_Controller extends Controller implements Initializable {
     private File drivePath;
     private long fileSize, ioStart, ioEnd; // bytes
     private String hddModel = "";
+    private XYChart.Series seriesSeqWrite = new XYChart.Series(), seriesSeqRead = new XYChart.Series(), seriesRandomWrite = new XYChart.Series(), seriesRandomRead = new XYChart.Series();
+    private boolean finished = false;
 
     public HDD_Controller()
     {
@@ -77,26 +80,28 @@ public class HDD_Controller extends Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setItemsVisibility(false);
 
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Write");
-        XYChart.Series series2 = new XYChart.Series();
-        series2.setName("Read");
-        /*series1.getData().add(new XYChart.Data(65.6, "4 KB"));
-        series1.getData().add(new XYChart.Data(123.2, "16 KB"));
+        seriesSeqWrite = new XYChart.Series();
+        seriesSeqWrite.setName("Sequential write");
+        seriesSeqRead = new XYChart.Series();
+        seriesSeqRead.setName("Sequential Read");
+        seriesRandomWrite = new XYChart.Series();
+        seriesRandomWrite.setName("Random write");
+        seriesRandomRead = new XYChart.Series();
+        seriesRandomRead.setName("Random read");
+        //(123, 456, 678, 891, "4 KB");
+
+        /*series1.getData().add(new XYChart.Data(123.2, "16 KB"));
         series1.getData().add(new XYChart.Data(199.12, "1 MB"));
         series1.getData().add(new XYChart.Data(250.93, "4 MB"));
-        series1.getData().add(new XYChart.Data(369.5, "1 GB"));
+        series1.getData().add(new XYChart.Data(369.5, "1 GB"));*/
 
 
 
-        series2.getData().add(new XYChart.Data(75.1, "4 KB"));
-        series2.getData().add(new XYChart.Data(143.9, "16 KB"));
+
+        /*series2.getData().add(new XYChart.Data(143.9, "16 KB"));
         series2.getData().add(new XYChart.Data(210.1, "1 MB"));
         series2.getData().add(new XYChart.Data(289.77, "4 MB"));
         series2.getData().add(new XYChart.Data(402.5, "1 GB"));*/
-
-
-        barChart.getData().addAll(series1, series2);
 
         getHDDModel();
         comboBoxPath.setItems(getAvailableDisks());
@@ -160,10 +165,14 @@ public class HDD_Controller extends Controller implements Initializable {
                         setItemsVisibility(true);
                         buttonCancel.setVisible(false);
 
-                        setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
-                        setSeqReadSpeed(560.33);
-                        setRandomWriteSpeed(123.456);
-                        setRandomReadSpeed(654.321);
+                        setSpeed((Double) testBench.getResults().get("SEQ_WRITE"), textSeqWriteSpeed);
+                        setSpeed(69420, textSeqReadSpeed);
+                        setSpeed(123.456, textRandomWriteSpeed);
+                        setSpeed(654.321, textRandomReadSpeed);
+
+                        Platform.runLater(() -> {
+                            updateBarChart((Double.valueOf(textSeqWriteSpeed.textProperty().getValue())), (Double.valueOf(textSeqReadSpeed.textProperty().getValue())), (Double.valueOf(textRandomWriteSpeed.textProperty().getValue())), (Double.valueOf(textRandomReadSpeed.textProperty().getValue())), "4 KB");
+                        });
                     }
                 }
             });
@@ -171,7 +180,6 @@ public class HDD_Controller extends Controller implements Initializable {
             testBench.initialize(drivePath.getAbsolutePath(), fileSize);
 
             testBench.start();
-
 
             buttonCancel.setVisible(true);
             buttonStart.setVisible(false);
@@ -204,6 +212,17 @@ public class HDD_Controller extends Controller implements Initializable {
         System.out.println("File size selected: "+fileSize+" bytes");
     }
 
+    public void updateBarChart(double seqWriteSpeed, double seqReadSpeed, double randomWriteSpeed, double randomReadSpeed, String filesize)
+    {
+        seriesSeqWrite.getData().add(new XYChart.Data(seqWriteSpeed, filesize));
+        seriesSeqRead.getData().add(new XYChart.Data(seqReadSpeed, filesize));
+        seriesRandomWrite.getData().add(new XYChart.Data(randomWriteSpeed, filesize));
+        seriesRandomRead.getData().add(new XYChart.Data(randomReadSpeed, filesize));
+
+        barChart.getData().addAll(seriesSeqWrite, seriesSeqRead, seriesRandomWrite, seriesRandomRead);
+
+    }
+
     public long convertToBytes(String size)
     {
         long result = 1;
@@ -224,28 +243,12 @@ public class HDD_Controller extends Controller implements Initializable {
         return result;
     }
 
-    public void setSeqReadSpeed(double speed) // MB/s
+    public void setSpeed(double speed, Text textSpeed)
     {
         speed = Math.round(speed);
-        textSeqReadSpeed.textProperty().setValue((String.valueOf(speed)) + " MB/s");
-    }
-
-    public void setSeqWriteSpeed(double speed) // MB/s
-    {
-        speed = Math.round(speed);
-        textSeqWriteSpeed.textProperty().setValue((String.valueOf(speed)) + " MB/s");
-    }
-
-    public double setRandomReadSpeed(double speed) // MB/s
-    {
-        double result = 1;
-        return result;
-    }
-
-    public double setRandomWriteSpeed(double speed) // MB/s
-    {
-        double result = 1;
-        return result;
+        textSpeed.textProperty().setValue((String.valueOf(speed)));
+        //series.getData().add(new XYChart.Data(speed, "filesize"));
+        //barChart.getData().addAll(series);
     }
 
     public void getHDDModel() throws IOException {

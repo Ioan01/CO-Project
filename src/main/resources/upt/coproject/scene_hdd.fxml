@@ -22,7 +22,7 @@
    <children>
       <Label layoutX="237.0" layoutY="14.0" text="HDD Benchmark" textFill="#3700ff">
          <font>
-            <Font name="Bodoni MT Condensed Bold" size="28.0" />
+            <Font name="Century Schoolbook Bold" size="28.0" />
          </font>
          <effect>
             <Lighting>
@@ -166,7 +166,7 @@
                         <NumberAxis label="Transfer Rate - MB/s" prefWidth="553.0" side="BOTTOM" />
                      </xAxis>
                      <yAxis>
-                        <CategoryAxis label="Units" side="LEFT" />
+                        <CategoryAxis label="File size" side="LEFT" />
                      </yAxis>
                   </BarChart>
                </children>
