@@ -14,10 +14,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 {
     private String drive;
     private final int[] bufferSizes = {4*1024,64*1024,256*1024};
-
     private long fileSize;
-
-
 
     public SequentialWriteDriveBenchmark()
     {
@@ -27,8 +24,6 @@ public class SequentialWriteDriveBenchmark extends Benchmark
     public void initialize(String drive,long fileSize)
     {
         this.drive = drive;
-
-
         this.fileSize = fileSize;
     }
 
@@ -41,29 +36,16 @@ public class SequentialWriteDriveBenchmark extends Benchmark
             outputFolder.mkdirs();
         }
 
-
-
-
         Timer timer = new Timer();
-
         double totalWritten = 0;
-
-
-
         byte[] bytes = new byte[(int) bufferSizes[bufferSizes.length-1]];
         rng.nextBytes(bytes);
         timer.start();
         for (int bufferSize:bufferSizes) {
-
-
-
             File file1 = new File(drive + tempFileLocation +'/' + file);
-
             if (file1.exists())
                 file1.createNewFile();
-
             BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file1.getAbsolutePath()),bufferSize);
-
 
             //rng.nextBytes(bytes);
             long writtenBytes = 0;
@@ -73,8 +55,6 @@ public class SequentialWriteDriveBenchmark extends Benchmark
                 writtenBytes+=bytes.length;
             }
 
-
-
             outputStream.close();
             totalWritten+=file1.length();
             file1.deleteOnExit();
@@ -82,8 +62,6 @@ public class SequentialWriteDriveBenchmark extends Benchmark
             if (getCancelled().get())
                 return 0;
         }
-
-
         long elapsed = timer.stop();
 
         return (totalWritten / 1024 / 1024) / (elapsed / Math.pow(10,9));
@@ -92,10 +70,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
     @Override
     public void run()
     {
-
-
         int iterations = (int) (((512.0*1024*1024)/fileSize))*5;
-
         ArrayList<Double> writeSpeeds  = new ArrayList<>();
 
         try
@@ -103,7 +78,6 @@ public class SequentialWriteDriveBenchmark extends Benchmark
             for (int i=0;i<iterations&&!getCancelled().get();i++)
             {
                 writeSpeeds.add(write("output"+i+".txt"));
-
                 runningProgress.setValue(runningProgress.get() + 0.5/iterations);
             }
 
@@ -113,8 +87,6 @@ public class SequentialWriteDriveBenchmark extends Benchmark
                             .sorted(Comparator.reverseOrder())
                             .map(Path::toFile)
                             .forEach(File::delete);
-
-
         }
         catch (Exception e)
         {
@@ -148,6 +120,5 @@ public class SequentialWriteDriveBenchmark extends Benchmark
         {
             System.out.println(e);
         }
-
     }
 }

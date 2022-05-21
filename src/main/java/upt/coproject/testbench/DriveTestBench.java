@@ -1,6 +1,6 @@
 package upt.coproject.testbench;
 
-import upt.coproject.benchmark.DriveReadBenchmark;
+import upt.coproject.benchmark.SequentialReadDriveBenchmark;
 import upt.coproject.benchmark.SequentialWriteDriveBenchmark;
 
 public class DriveTestBench extends TestBench
@@ -13,11 +13,10 @@ public class DriveTestBench extends TestBench
         writeDriveBenchmark.initialize(drive,fileSize);
         benchmarks.add(writeDriveBenchmark);
 
-        //DriveReadBenchmark driveReadBenchmark = new DriveReadBenchmark();
-       // driveReadBenchmark.initialize(drive, bufferSizeStart, fileSize);
-        //benchmarks.add(driveReadBenchmark);
+        SequentialReadDriveBenchmark sequentialReadDriveBenchmark = new SequentialReadDriveBenchmark();
+        sequentialReadDriveBenchmark.initialize(drive, fileSize);
+        benchmarks.add(sequentialReadDriveBenchmark);
 
         trackRunningProgress();
-
     }
 }
