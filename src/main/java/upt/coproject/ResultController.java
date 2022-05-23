@@ -12,12 +12,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.ImageInput;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Pair;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ResultController extends Controller{
-
     @FXML
     private Label gandacelLabel;
     @FXML
@@ -32,6 +38,8 @@ public class ResultController extends Controller{
     private TableView<PartialResult> partialResultsTableRandomWrite;
     @FXML
     private ChoiceBox choiceBox;
+    @FXML
+    private ImageView gandacelImage;
 
     private Map<String, Object> results;
     private Map<String, List<PartialResult>> partialResults;
@@ -100,8 +108,10 @@ public class ResultController extends Controller{
 
         //choiceBox.setValue(choiceBox.getItems().get(0));
 
-        this.score = new SimpleStringProperty("1234");
+        int score = calculateScore();
+        this.score = new SimpleStringProperty("" + score);
         scoreLabel.textProperty().bind(this.score);
+        setGandacel(score);
     }
 
     @FXML
@@ -113,8 +123,48 @@ public class ResultController extends Controller{
         changePage("leaderboard.fxml");
     }
 
-    double calculateScore(){
-        return 0;
+    private double logarithm(int base, double number){
+        return Math.log(number) / Math.log(base);
+    }
+
+    private void setGandacel(int score){
+        Map<Pair<Integer, Integer>, Pair<String, String>> tierList = new HashMap<>();
+        tierList.put(new Pair<>(0, 80), new Pair<>("D_tier.jpg", "Cărăbuș"));
+        tierList.put(new Pair<>(80, 90), new Pair<>("C_tier.jpg", "Furnicuță"));
+        tierList.put(new Pair<>(90, 100), new Pair<>("B_tier.jpg", "Buburuză"));
+        tierList.put(new Pair<>(100, 10000), new Pair<>("A_tier.jpg", "Albinuță"));
+
+        for(Pair<Integer, Integer> key : tierList.keySet()){
+            if(score > key.getKey() && score < key.getValue()){
+                System.out.println(tierList.get(key));
+                Image image = new Image("/" + tierList.get(key).getKey());
+                gandacelImage.setImage(image);
+
+                gandacelLabel.setText(tierList.get(key).getValue());
+                return;
+            }
+        }
+    }
+
+    private int calculateScore(){
+        final double optimalSpeed = 1500;
+        double sumSpeed = 0;
+        int numberOfResults = 0;
+        String[] keys = {"SEQ_READ", "RND_READ", "SEQ_WRITE", "RND_WRITE"};
+
+        for(String key: keys){
+            if (results.get(key) != null){
+                sumSpeed += (Double) results.get(key);
+                numberOfResults++;
+            }
+        }
+        double avgSpeed = sumSpeed / numberOfResults;
+
+        double score = 0;
+
+        score = logarithm(100, (avgSpeed / optimalSpeed) * 100) * 100;
+
+        return (int) score;
     }
 }
 

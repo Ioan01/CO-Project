@@ -48,7 +48,7 @@
                   </Label>
                </children>
             </VBox>
-            <ImageView fitHeight="100.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="gandacelImage" fitHeight="100.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
    </top>
