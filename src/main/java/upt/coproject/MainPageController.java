@@ -90,7 +90,7 @@ public class MainPageController extends Controller implements Initializable {
     @FXML
     public void goToRAMPage(ActionEvent event){
         //getWindow().setUserData("3000");
-        changePage("scene_ram.fxml");
+        changePage("scene_ram.fxml", (int) getWindow().getWidth() - 16, (int) getWindow().getHeight() - 39);
     }
     @FXML
     public void goToResultsPage(ActionEvent event)
