@@ -1,6 +1,6 @@
 .root{
     /* daca vreti sa schimbati imaginea unei scene, schimbati doar url */
 
-    -fx-background-image: url("pofticios.jpg");
+    -fx-background-image: url("ramBackground.png");
     -fx-background-size: cover;
 }

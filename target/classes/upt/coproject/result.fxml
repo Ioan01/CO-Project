@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="576.0" prefWidth="1024.0" stylesheets="style_result.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.ResultController">
+<BorderPane prefHeight="576.0" prefWidth="1024.0" stylesheets="@../../styles/style_result.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.ResultController">
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
