@@ -183,28 +183,35 @@ public class RandomReadDriveBenchmark extends Benchmark{
             timer.start();
             timer.pause();
 
+            long totalReadSize = 0;
+
             for(long bufferSize: bufferSizes) {
                 RandomAccessFile randomAccessFile = new RandomAccessFile(drive + filename, "r");
                 byte[] buffer = new byte[(int) bufferSize];
                 long iterations = Math.max(this.fileSize / bufferSize, 1);
 
+                long readSize = 0;
+
+                timer.resume();
                 for(int i = 0; i < iterations; i++){
                     int position = random.nextInt((int) this.fileSize - 1);
                     randomAccessFile.seek(position);
-                    timer.resume();
-                    randomAccessFile.read(buffer, 0, (int) bufferSize);
-                    timer.pause();
+                    readSize += randomAccessFile.read(buffer, 0, (int) bufferSize);
 
-                    partialResults.add(new PartialResult(bufferSize, fileSize, timer.getElapsedTime(TimeUnit.MILLI)));
                 }
-                timer.resume();
+                timer.pause();
+
+                totalReadSize += readSize;
+
+                partialResults.add(new PartialResult(bufferSize, readSize, timer.getElapsedTime(TimeUnit.MILLI)));
             }
             timer.stop();
+
 
             File file = new File(drive + filename);
             file.delete();
 
-            return (double) (fileSize * bufferSizes.length) / MB / timer.getTime(TimeUnit.SEC);
+            return totalReadSize / MB / timer.getTime(TimeUnit.SEC);
         } catch (IOException e) {
             e.printStackTrace();
         }

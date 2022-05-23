@@ -25,7 +25,7 @@ public class DriveTestBench extends TestBench
         benchmarks.add(randomReadDriveBenchmark);
 
         partialResults.put("SEQ_READ", sequentialReadDriveBenchmark.getPartialResults());
-        partialResults.put("RND_READ", sequentialReadDriveBenchmark.getPartialResults());
+        partialResults.put("RND_READ", randomReadDriveBenchmark.getPartialResults());
         trackRunningProgress();
     }
 }
