@@ -51,10 +51,10 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 
 
         byte[] bytes = new byte[(int) bufferSizes[bufferSizes.length-1]];
-        rng.nextBytes(bytes);
+
         timer.start();
         for (int bufferSize:bufferSizes) {
-
+            rng.nextBytes(bytes);
 
 
             File file1 = new File(drive + tempFileLocation +'/' + file);
@@ -102,7 +102,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
         {
             for (int i=0;i<iterations&&!getCancelled().get();i++)
             {
-                writeSpeeds.add(write("output"+i+".txt"));
+                writeSpeeds.add(write("output"+i+".dat"));
 
                 runningProgress.setValue(runningProgress.get() + 0.5/iterations);
             }
@@ -138,7 +138,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
             fileSize = fileSize/8;
             for (int i=0;i<iterations&&!getCancelled().get();i++)
             {
-                write("warmup"+i+".txt");
+                write("warmup"+i+".dat");
                 runningProgress.setValue(runningProgress.get() + 0.5/iterations);
             }
 
