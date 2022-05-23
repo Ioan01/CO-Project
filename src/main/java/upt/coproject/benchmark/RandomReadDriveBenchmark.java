@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SequentialReadDriveBenchmark extends Benchmark{
+public class RandomReadDriveBenchmark extends Benchmark{
     private static final int KB = 1024;
     private static final int MB = 1024 * 1024;
     private static final int GB = 1024 * 1024 * 1024;
     String drive;
     long fileSize;
     long fileCount;
-    String folderName = "temp";
+    String folderName = "temp_rnd_read";
     String miniFolderNameTemplate = "temp_file_no_";
     String fileNameTemplate = "temp_file_no_";
     long totalFilesSize = 256 * MB;
@@ -27,9 +27,9 @@ public class SequentialReadDriveBenchmark extends Benchmark{
     @Getter
     private List<PartialResult> partialResults = new ArrayList<>();
 
-    public SequentialReadDriveBenchmark() {
-        super("Sequential drive read benchmark");
-        this.setName("Sequential drive read benchmark");
+    public RandomReadDriveBenchmark() {
+        super("Random drive read benchmark");
+        this.setName("Random drive read benchmark");
         this.filenames = new ArrayList<>();
     }
 
@@ -72,7 +72,7 @@ public class SequentialReadDriveBenchmark extends Benchmark{
 
             runningProgress.setValue(runningProgress.get() + 0.5 / fileCount);
         }
-        System.out.println("    AVG WRITE SPEED: |" + speedTotalWrite / fileCount + "|");
+        System.out.println("    AVG WRITE SPEED RND: |" + speedTotalWrite / fileCount + "|");
 
         //flush_cache();
 
@@ -86,8 +86,8 @@ public class SequentialReadDriveBenchmark extends Benchmark{
 
             runningProgress.setValue(runningProgress.get() + 0.5 / fileCount);
         }
-        System.out.println("    AVG READ SPEED: |" + speedTotalRead / fileCount + "|");
-        results.put("SEQ_READ", speedTotalRead / fileCount);
+        System.out.println("    AVG READ SPEED RND: |" + speedTotalRead / fileCount + "|");
+        results.put("RND_READ", speedTotalRead / fileCount);
     }
 
     public double write(String filename){
@@ -104,7 +104,7 @@ public class SequentialReadDriveBenchmark extends Benchmark{
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(drive + filename), (int)writeBufferSize);
 
             timer.start();
-            long iterations = fileSize / writeBufferSize;
+            long iterations = Math.max(fileSize / writeBufferSize, 1);
             for (int i = 0; i < iterations; i++) {
                 timer.pause();
                 byte[] buffer = new byte[(int)writeBufferSize];
@@ -177,23 +177,27 @@ public class SequentialReadDriveBenchmark extends Benchmark{
 
     public double read(String filename) {
         Timer timer = new Timer();
+        Random random = new Random(System.nanoTime());
 
         try {
             timer.start();
             timer.pause();
 
             for(long bufferSize: bufferSizes) {
-                BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(drive + filename), (int) bufferSize);
+                RandomAccessFile randomAccessFile = new RandomAccessFile(drive + filename, "r");
                 byte[] buffer = new byte[(int) bufferSize];
+                long iterations = Math.max(this.fileSize / bufferSize, 1);
 
-                timer.resume();
-                while (bufferedInputStream.read(buffer) != -1) {
-                    // keep going
+                for(int i = 0; i < iterations; i++){
+                    int position = random.nextInt((int) this.fileSize - 1);
+                    randomAccessFile.seek(position);
+                    timer.resume();
+                    randomAccessFile.read(buffer, 0, (int) bufferSize);
+                    timer.pause();
+
+                    partialResults.add(new PartialResult(bufferSize, fileSize, timer.getElapsedTime(TimeUnit.MILLI)));
                 }
-                timer.pause();
-                partialResults.add(new PartialResult(bufferSize, fileSize, timer.getElapsedTime(TimeUnit.MILLI)));
-
-                bufferedInputStream.close();
+                timer.resume();
             }
             timer.stop();
 

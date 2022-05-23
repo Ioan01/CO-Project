@@ -55,8 +55,8 @@ public class ResultController extends Controller{
 
         //partialResultsTable = new TableView<>();
         partialResultsTable.setEditable(true);
-        partialResultsTable.setItems(FXCollections.observableList(partialResults.get("SEQ_READ")));
-        System.out.println(FXCollections.observableList(partialResults.get("SEQ_READ")));
+        partialResultsTable.setItems(FXCollections.observableList(partialResults.get("RND_READ")));
+        System.out.println(FXCollections.observableList(partialResults.get("RND_READ")));
         partialResultsTable.getColumns().addAll(speedCol, bufferCol, sizeCol, timeCol);
 
         this.score = new SimpleStringProperty("1234");
