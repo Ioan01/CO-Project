@@ -1,6 +1,7 @@
 package upt.coproject.testbench;
 
 import upt.coproject.benchmark.RandomReadDriveBenchmark;
+import upt.coproject.benchmark.RandomWriteDriveBenchmark;
 import upt.coproject.benchmark.SequentialReadDriveBenchmark;
 import upt.coproject.benchmark.SequentialWriteDriveBenchmark;
 
@@ -12,9 +13,9 @@ public class DriveTestBench extends TestBench
     {
         benchmarks.clear();
 
-        //SequentialWriteDriveBenchmark writeDriveBenchmark = new SequentialWriteDriveBenchmark();
-        //writeDriveBenchmark.initialize(drive,fileSize);
-        //benchmarks.add(writeDriveBenchmark);
+        SequentialWriteDriveBenchmark writeDriveBenchmark = new SequentialWriteDriveBenchmark();
+        writeDriveBenchmark.initialize(drive,fileSize);
+        benchmarks.add(writeDriveBenchmark);
 
         SequentialReadDriveBenchmark sequentialReadDriveBenchmark = new SequentialReadDriveBenchmark();
         sequentialReadDriveBenchmark.initialize(drive, fileSize);
@@ -23,6 +24,10 @@ public class DriveTestBench extends TestBench
         RandomReadDriveBenchmark randomReadDriveBenchmark = new RandomReadDriveBenchmark();
         randomReadDriveBenchmark.initialize(drive, fileSize);
         benchmarks.add(randomReadDriveBenchmark);
+
+        RandomWriteDriveBenchmark randomWriteDriveBenchmark = new RandomWriteDriveBenchmark();
+        randomWriteDriveBenchmark.initialize(drive, (int) fileSize);
+        benchmarks.add(randomWriteDriveBenchmark);
 
         partialResults.put("SEQ_READ", sequentialReadDriveBenchmark.getPartialResults());
         partialResults.put("RND_READ", randomReadDriveBenchmark.getPartialResults());
