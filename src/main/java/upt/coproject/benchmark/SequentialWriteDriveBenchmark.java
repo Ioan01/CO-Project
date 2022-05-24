@@ -115,6 +115,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
         {
             for (int i=0;i<iterations&&!getCancelled().get();i++)
             {
+                getProgressStatus().setValue("Running " + i + "/" + iterations);
                 writeSpeeds.add(write("output"+i+".dat"));
 
                 runningProgress.setValue(runningProgress.get() + 0.5/iterations);
@@ -161,6 +162,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
             fileSize = fileSize/reductionFactor;
             for (int i=0;i<iterations&&!getCancelled().get();i++)
             {
+                getProgressStatus().setValue("Warming up " + i + "/" + iterations);
                 write("warmup"+i+".dat");
                 runningProgress.setValue(runningProgress.get() + 0.5/iterations);
             }

@@ -31,6 +31,9 @@ public abstract class TestBench
     @Getter @Setter
     protected DoubleProperty initializingProgress = new SimpleDoubleProperty(0);
 
+    @Getter @Setter
+    protected StringProperty progressStatus = new SimpleStringProperty();
+
 
     protected TestBench(Object... params)
     {
@@ -54,6 +57,15 @@ public abstract class TestBench
             });
 
             benchmark.getCancelled().bind(cancelled);
+
+            benchmark.getProgressStatus().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    getProgressStatus().setValue(benchmark.getName() +" : "+ newValue);
+
+                    System.out.println(getProgressStatus());
+                }
+            });
         }
     }
 

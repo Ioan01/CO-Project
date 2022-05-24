@@ -108,6 +108,7 @@ public class RandomWriteDriveBenchmark extends Benchmark {
         {
             for (int i=0;i<iterations&&!getCancelled().get();i++)
             {
+                getProgressStatus().setValue("Running " + i + "/" + iterations);
                 writeSpeeds.add(write("random-output"+i+".dat"));
 
                 runningProgress.setValue(runningProgress.get() + 0.5/iterations);
@@ -151,6 +152,7 @@ public class RandomWriteDriveBenchmark extends Benchmark {
             fileSize = fileSize/reducingFactor;
             for (int i=0;i<iterations&&!getCancelled().get();i++)
             {
+                getProgressStatus().setValue("Warming up " + i + "/" + iterations);
                 write("rnd-warmup"+i+".dat");
                 runningProgress.setValue(runningProgress.get() + 0.5/iterations);
             }
