@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import lombok.SneakyThrows;
 import upt.coproject.testbench.DriveTestBench;
 
@@ -59,6 +60,7 @@ public class HDD_Controller extends Controller implements Initializable {
     private File drivePath;
     private long fileSize, ioStart, ioEnd; // bytes
     private String hddModel = "";
+    List<Pair<String, List<Character>>> disks = new ArrayList<>(); // model and partitions
 
     public HDD_Controller()
     {
@@ -92,12 +94,13 @@ public class HDD_Controller extends Controller implements Initializable {
 
         barChart.getData().addAll(series1, series2);
 
-        getHDDModel();
         comboBoxPath.setItems(getAvailableDisks());
         textHDDModel.setText("");
         comboBoxIOSizeStart.setItems(ioList);
         comboBoxIOSizeEnd.setItems(ioList);
         comboBoxFileSize.setItems(fsList);
+
+        buildDiskList();
 
         comboBoxPath.getEditor().textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -105,6 +108,8 @@ public class HDD_Controller extends Controller implements Initializable {
                 File file = new File(newValue);
                 drivePath = file;
                 System.out.println("Chosen path: "+ drivePath.getAbsolutePath());
+                getHDDModel();
+                System.out.println(hddModel);
                 textHDDModel.setText(hddModel);
             }
         });
@@ -242,19 +247,78 @@ public class HDD_Controller extends Controller implements Initializable {
         return result;
     }
 
-    public void getHDDModel() throws IOException {
+    @SneakyThrows
+    public void buildDiskList(){
         Runtime rt = Runtime.getRuntime();
-        String[] cmd = {"cmd","/c", "wmic diskdrive get model"};
+        String[] cmd = {"Powershell", "Get-Disk | ft -AutoSize"};
         Process proc = rt.exec(cmd);
 
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        String res;
-        while((res = stdInput.readLine()) != null)
+        List<String> output = new ArrayList<>();
+        String line;
+        while((line = stdInput.readLine()) != null)
         {
-            hddModel += res;
+            output.add(line);
         }
-        hddModel = hddModel.trim().replaceAll(" +", " ");
-        hddModel = hddModel.split(" ")[1];
+        int nameStart = 0;
+        int nameEnd = 0;
+        nameStart = output.get(1).indexOf("Friendly Name");
+        nameEnd = output.get(1).indexOf("Serial Number");
+
+        for (int i = 3; i <output.size(); i++){
+            //System.out.println("XXXX" + output.get(i));
+            if(nameEnd > output.get(i).length())
+                continue;
+            disks.add(new Pair<>(output.get(i).substring(nameStart, nameEnd).trim(), new ArrayList<>()));
+        }
+
+        String[] cmd_part = {"Powershell", "Get-Partition | ft -AutoSize DiskPath, DriveLetter"};
+        Process proc_part = rt.exec(cmd_part);
+
+        stdInput = new BufferedReader(new InputStreamReader(proc_part.getInputStream()));
+        output = new ArrayList<>();
+        while((line = stdInput.readLine()) != "" && line != null) {
+            output.add(line);
+            //System.out.println(line);
+        }
+        nameStart = output.get(1).indexOf("DriveLetter");
+
+        String prevDiskPath = null;
+        int diskIndex = -1;
+        for (int i = 3; i <output.size(); i++){
+            line = output.get(i);
+            if(line.indexOf(' ') == -1)
+                continue;
+            String diskPath = line.substring(0, line.indexOf(' '));
+            if(!diskPath.equals(prevDiskPath)){
+                diskIndex++;
+                prevDiskPath = diskPath;
+            }
+
+            String letter = line.substring(nameStart).trim();
+            if(!letter.equals("")){
+                disks.get(diskIndex).getValue().add(letter.charAt(0));
+            }
+        }
+
+        for(int i = 0 ; i< disks.size(); i++){
+            System.out.print(disks.get(i).getKey() + ": ");
+            for(Character letter: disks.get(i).getValue())
+                System.out.print(letter + " ");
+            System.out.println();
+        }
+    }
+
+    private void getHDDModel(){
+        hddModel = "unknown";
+        Character partition = drivePath.getAbsolutePath().charAt(0);
+        for(int i = 0 ; i< disks.size(); i++){
+            for(Character letter: disks.get(i).getValue()){
+                if(letter.equals(partition)){
+                    hddModel = disks.get(i).getKey();
+                }
+            }
+        }
     }
 
     public ObservableList<String> getAvailableDisks() throws IOException {
