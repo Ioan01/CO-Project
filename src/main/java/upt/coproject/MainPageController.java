@@ -95,7 +95,7 @@ public class MainPageController extends Controller implements Initializable {
     @FXML
     public void goToResultsPage(ActionEvent event)
     {
-        changePage("result.fxml");
+        changePage("leaderboard.fxml");
     }
     @FXML
     public void exitApp(ActionEvent event)

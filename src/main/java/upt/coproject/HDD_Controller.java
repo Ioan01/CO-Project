@@ -356,6 +356,8 @@ public class HDD_Controller extends Controller implements Initializable {
         Map<String, Object> sendToResultPage = new HashMap<>();
         sendToResultPage.put("results", testBench.getResults());
         sendToResultPage.put("partialResults", testBench.getPartialResults());
+        sendToResultPage.put("model", hddModel);
+        sendToResultPage.put("fileSize", fileSize);
         getWindow().setUserData(sendToResultPage);
         changePage("result.fxml", 1300 ,800);
     }
