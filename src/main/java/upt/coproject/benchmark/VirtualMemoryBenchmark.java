@@ -19,38 +19,38 @@ import upt.coproject.timing.Timer;
  */
 public class VirtualMemoryBenchmark extends Benchmark {
 
+	private String folderName = "tempRAM";
+	private String drive;
+	private int bufferSize;
+	private long fileSize;
 
-	public VirtualMemoryBenchmark()
-	{
+	public VirtualMemoryBenchmark() {
 		super("VirtualMemoryBenchmark");
 	}
 
 	private String result = "";
 	MemoryMapper core = null;
 
-	//@Override
-	public void initialize(Object... params) {
-	}
+	public void initialize(String drive, int bufferSize, long fileSize) {
+		File folder = new File(drive + folderName);
+		if (!folder.exists()) {
+			folder.mkdir();
+		}
+		folder.deleteOnExit();
 
+		this.drive = drive + folderName + "/";
+		this.bufferSize = bufferSize; // legacy
+		this.fileSize = fileSize;
+	}
 	@Override
 	public void warmup() {
 	}
 
 	@Override
 	public void run() {
-		throw new UnsupportedOperationException("Use run(Object[]) instead");
-	}
-
-	//@Override
-	public void run(Object... options) {
-		// expected example: {fileSize, bufferSize}
-		Object[] params = (Object[]) options;
-		long fileSize = Long.parseLong(params[0].toString()); // e.g. 2-16GB
-		int bufferSize = Integer.parseInt(params[1].toString()); // e.g. 4+KB
-
 
 		try {
-			core = new MemoryMapper("C:\\_core", fileSize);
+			core = new MemoryMapper(drive, fileSize);
 			byte[] buffer = new byte[bufferSize];
 			Random rand = new Random();
 
@@ -59,77 +59,56 @@ public class VirtualMemoryBenchmark extends Benchmark {
 			// write to VM
 			timer.start();
 			for (long i = 0; i < fileSize; i += bufferSize) {
-				// generate random content (see assignments 9,11)
+				rand.nextBytes(buffer);
+				core.put(i, buffer);    // write to memory mapper
 
-				Random rng = new Random();
-
-				double totalWritten = 0;
-
-				byte[] bytes = new byte[(int) bufferSize[bufferSize.length-1]];
-				rng.nextBytes(bytes);
-				for (int bS:bufferSize) {
-
-
-
-
-
-					//rng.nextBytes(bytes);
-					long writtenBytes = 0;
-					while (writtenBytes < fileSize && !getCancelled().get())
-					{
-						outputStream.write(bytes,0,bufferSize);
-						writtenBytes+=bytes.length;
-					}
-
-
-
-					outputStream.close();
-					totalWritten+=file1.length();
-					file1.deleteOnExit();
-
-					if (getCancelled().get())
-						return 0;
+				if (getCancelled().get()) {
+					timer.stop();
+					clean();
 				}
-
-
-				long elapsed = timer.stop();
-
-				return (totalWritten / 1024 / 1024) / (elapsed / Math.pow(10,9));
-				// write to memory mapper
 			}
-			double speed = 0.0; /* fileSize/time MB/s */
+
+			double timeInSeconds = timer.stop() / 1000000000.0;
+			double speed = (double) (fileSize / 1024 / 1024L) / timeInSeconds;	//	MB/s
 
 			result = "\nWrote " + (fileSize / 1024 / 1024L)
-					+ " MB to virtual memory at " + /*speed, with exactly 2 decimals*/ +" MB/s";
+					+ " MB to virtual memory at " + speed + " MB/s";
 
 			// read from VM
 			timer.start();
 			for (long i = 0; i < fileSize; i += bufferSize) {
-				// get from memory mapper
+				buffer = core.get(i, bufferSize);
+
+				if (getCancelled().get()) {
+					timer.stop();
+					clean();
+				}
 			}
-			speed = 0.0; /* MB/s */
+			timeInSeconds = timer.stop() / 1000000000.0;
+			speed = (double) (fileSize 	/ 1024 / 1024L) / timeInSeconds; /* fileSize/time MB/s */
 
 			// append to previous 'result' string
 			result += "\nRead " + (fileSize / 1024 / 1024L)
-					+ " MB from virtual memory at " + /*speed, with exactly 2 decimals*/ +" MB/s";
+					+ " MB from virtual memory at " + speed + " MB/s";
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if (core != null)
-				core.purge();
+			clean();
 		}
+
+		clean();
 	}
 
 	@Override
 	public void clean() {
 		if (core != null)
 			core.purge();
+
 	}
 
-	//@Override
 	public String getResult() {
-		return (1 == 1) ? "result" : result;
+		return result;
 	}
 
 }

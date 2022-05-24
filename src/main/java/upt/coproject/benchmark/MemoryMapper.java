@@ -134,6 +134,7 @@ public class MemoryMapper {
 				coreFile.delete();
 			}
 		}
+		coreFile.delete();
 	}
 
 	public long getSize() {
