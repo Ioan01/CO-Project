@@ -258,7 +258,7 @@ public class HDD_Controller extends Controller implements Initializable {
                 prevDiskPath = diskPath;
             }
 
-            String letter = line.substring(nameStart).trim();
+            String letter = line.substring(line.indexOf(' ')).trim();
             if(!letter.equals("")){
                 disks.get(diskIndex).getValue().add(letter.charAt(0));
             }
