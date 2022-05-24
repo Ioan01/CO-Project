@@ -11,6 +11,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,13 +30,23 @@ public class MainPageController extends Controller implements Initializable {
     @FXML
     private ImageView exit;
     @FXML
-    private JFXButton jfxButtonHDD;
+    private JFXButton jfxButtonInfo;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         exit.setOnMouseClicked(event -> {
             System.exit(0);
+        });
+
+        jfxButtonInfo.setOnMouseClicked(event -> {
+            try {
+                Desktop.getDesktop().browse(new URI("https://github.com/Ioan01/CO-Project"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         });
 
         opacityPane.setVisible(false);

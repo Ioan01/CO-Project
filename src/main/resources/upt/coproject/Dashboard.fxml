@@ -103,7 +103,7 @@
                         <Font size="16.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton alignment="BASELINE_LEFT" buttonType="RAISED" layoutX="10.0" layoutY="106.0" prefHeight="38.0" prefWidth="179.0" style="-fx-cursor: hand;" text="Info">
+                  <JFXButton fx:id="jfxButtonInfo" alignment="BASELINE_LEFT" buttonType="RAISED" layoutX="10.0" layoutY="106.0" prefHeight="38.0" prefWidth="179.0" style="-fx-cursor: hand;" text="Info">
                      <font>
                         <Font size="16.0" />
                      </font>
