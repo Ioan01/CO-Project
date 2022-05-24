@@ -43,10 +43,8 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private Button buttonStart, buttonCancel;
     @FXML
-    private ComboBox<String> comboBoxIOSizeStart, comboBoxIOSizeEnd, comboBoxFileSize;
+    private ComboBox<String> comboBoxFileSize;
 
-    private ObservableList<String> ioList = FXCollections.observableArrayList("512 B", "1 KB", "2 KB", "4 KB", "8 KB",
-            "16 KB", "32 KB", "64 KB", "128 KB", "256 KB", "512 KB", "1 MB", "2 MB", "4 MB", "8 MB", "16 MB", "32 MB", "64 MB");
     private  ObservableList<String> fsList = FXCollections.observableArrayList("64 KB", "128 KB", "256 KB", "512 KB",
             "1 MB", "2 MB","4 MB", "8 MB", "16 MB", "32 MB", "64 MB", "128 MB", "256 MB", "512 MB", "1 GB", "2 GB", "4 GB",
             "8 GB", "16 GB", "32 GB");
@@ -88,26 +86,11 @@ public class HDD_Controller extends Controller implements Initializable {
         seriesRandomWrite.setName("Random write");
         seriesRandomRead = new XYChart.Series();
         seriesRandomRead.setName("Random read");
-        //(123, 456, 678, 891, "4 KB");
 
-        /*series1.getData().add(new XYChart.Data(123.2, "16 KB"));
-        series1.getData().add(new XYChart.Data(199.12, "1 MB"));
-        series1.getData().add(new XYChart.Data(250.93, "4 MB"));
-        series1.getData().add(new XYChart.Data(369.5, "1 GB"));*/
-
-
-
-
-        /*series2.getData().add(new XYChart.Data(143.9, "16 KB"));
-        series2.getData().add(new XYChart.Data(210.1, "1 MB"));
-        series2.getData().add(new XYChart.Data(289.77, "4 MB"));
-        series2.getData().add(new XYChart.Data(402.5, "1 GB"));*/
-
+        getAvailableDisks();
         getHDDModel();
         comboBoxPath.setItems(getAvailableDisks());
         textHDDModel.setText("");
-        comboBoxIOSizeStart.setItems(ioList);
-        comboBoxIOSizeEnd.setItems(ioList);
         comboBoxFileSize.setItems(fsList);
 
         comboBoxPath.getEditor().textProperty().addListener(new ChangeListener<String>() {
@@ -140,14 +123,6 @@ public class HDD_Controller extends Controller implements Initializable {
         if(drivePath == null || !drivePath.exists())
         {
             displayError("Invalid path!");
-        }
-        else if(ioStart == 0 || ioEnd == 0)
-        {
-            displayError("Select start and end size!");
-        }
-        else if(ioStart > ioEnd)
-        {
-            displayError("Starting size must be smaller!");
         }
         else if(fileSize == 0)
         {
@@ -191,18 +166,6 @@ public class HDD_Controller extends Controller implements Initializable {
         testBench.cancel();
         buttonCancel.setVisible(false);
         buttonStart.setVisible(true);
-    }
-    public void ioStartSizeSelected(ActionEvent event)
-    {
-        String size = comboBoxIOSizeStart.getValue();
-        ioStart = convertToBytes(size);
-        System.out.println("IO start size selected: "+ioStart+" bytes");
-    }
-    public void ioEndSizeSelected(ActionEvent event)
-    {
-        String size = comboBoxIOSizeEnd.getValue();
-        ioEnd = convertToBytes(size);
-        System.out.println("IO end size selected: "+ioEnd+" bytes");
     }
 
     public void fileSizeSelected(ActionEvent event)
