@@ -2,6 +2,7 @@ package upt.coproject;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class App extends Application
 {
@@ -12,6 +13,7 @@ public class App extends Application
         Controller.setWindow(primaryStage);
         primaryStage.setTitle("Gândăceii Pofticioși™");
         primaryStage.setResizable(false);
+        //primaryStage.initStyle(StageStyle.UNDECORATED);
         Controller.changePage("Dashboard.fxml");
 
     }
