@@ -10,9 +10,9 @@
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#goToMainPage" text="Run another benchmark" />
-            <Button mnemonicParsing="false" onAction="#saveToDatabase" text="Save result to database" />
             <Button mnemonicParsing="false" onAction="#goToPrevPage" text="Go to previous page" />
+            <Button mnemonicParsing="false" onAction="#goToMainPage" text="Go to main page" />
+            <Button mnemonicParsing="false" onAction="#saveToDatabase" text="Save result to database" />
          </children>
       </HBox>
    </bottom>

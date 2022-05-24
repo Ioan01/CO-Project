@@ -1,6 +1,8 @@
 package upt.coproject.benchmark;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,11 +28,12 @@ public abstract class Benchmark {
      */
     protected Map<String,Object> results = new HashMap<>();
 
+    @Getter
+    private BooleanProperty cancelled = new SimpleBooleanProperty();
+
     public Benchmark(String name) {
-        runningThread = new Thread(this::run);
     }
 
-    private final Thread runningThread;
 
     @Getter @Setter
     public DoubleProperty runningProgress = new SimpleDoubleProperty(0);
@@ -48,16 +51,16 @@ public abstract class Benchmark {
 
     public void start()
     {
-        runningThread.start();
+        run();
     }
 
     public void cancel()
     {
-        runningThread.interrupt();
+
+
     }
 
     public void join() throws InterruptedException
     {
-        runningThread.join();
     }
 }

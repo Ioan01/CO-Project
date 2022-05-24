@@ -1,11 +1,11 @@
 package upt.coproject.testbench;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import lombok.Getter;
 import lombok.Setter;
+import upt.coproject.PartialResult;
 import upt.coproject.benchmark.Benchmark;
 
 import java.util.*;
@@ -13,21 +13,19 @@ import java.util.*;
 public abstract class TestBench
 {
     private Thread runningThread;
-
     protected Queue<Benchmark> benchmarks = new LinkedList<>();
-
     protected int initialBenchmarkCount;
-
     /**
      * This dictionary contains the result dictionary for all benchmarks in the test bench
      * To access the results from one benchmark, use the name key
      */
     @Getter
-    protected Map<String, Map<String,Object>> results = new HashMap<>();
-
-    private boolean running = true;
-
-
+    protected Map<String, Object> results = new HashMap<>();
+    @Getter
+    protected Map<String, List<PartialResult>> partialResults = new HashMap<>();
+    private BooleanProperty cancelled = new SimpleBooleanProperty(false);
+    @Getter
+    protected BooleanProperty finished = new SimpleBooleanProperty(false);
 
     @Getter
     @Setter
@@ -36,6 +34,7 @@ public abstract class TestBench
     @Getter @Setter
     protected DoubleProperty initializingProgress = new SimpleDoubleProperty(0);
 
+
     protected TestBench(Object... params)
     {
         runningThread = new Thread(()->run(params));
@@ -43,30 +42,30 @@ public abstract class TestBench
 
     protected void trackRunningProgress()
     {
-        for (Benchmark benchmark:benchmarks) {
-            benchmark.runningProgress.addListener(new ChangeListener<Number>() {
+        for (Benchmark benchmark:benchmarks)
+        {
+            benchmark.runningProgress.addListener(new ChangeListener<Number>()
+            {
                 @Override
-                public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1)
+                {
                     double delta = t1.doubleValue() - number.doubleValue();
 
                     runningProgress.setValue(runningProgress.get() + delta / initialBenchmarkCount);
 
                 }
             });
+
+            benchmark.getCancelled().bind(cancelled);
         }
     }
 
-    public abstract void clean();
-
-
-
     public void run(Object ... params)
     {
+        // temporary list
+
         Benchmark benchmark = null;
-
         results.clear();
-
-
         initialBenchmarkCount = benchmarks.size();
 
         for (Benchmark benchmark1: benchmarks)
@@ -74,35 +73,28 @@ public abstract class TestBench
             benchmark1.warmup();
         }
 
-
-        try
+        while (!cancelled.get() && !benchmarks.isEmpty() && !Thread.interrupted())
         {
-            while (running && !benchmarks.isEmpty())
-            {
-                benchmark = benchmarks.poll();
+            benchmark = benchmarks.poll();
+            benchmark.start();
 
-                benchmark.start();
+            results.putAll(benchmark.getResults());
 
-                benchmark.join();
-
-                results.put(benchmark.getName(),benchmark.getResults());
-            }
-            clean();
+            System.out.println(results.get("SEQ_WRITE"));
         }
-        catch (InterruptedException e)
-        {
-            benchmark.cancel();
-        }
-
+        finished.setValue(true);
     }
 
     public void start(Object... params)
     {
+        cancelled.setValue(false);
+        finished.setValue(false);
+        if (runningThread.isAlive())
+            return;
+
         runningProgress.setValue(0);
 
-
-
-
+        boolean flag = false;
         try
         {
             runningThread.start();
@@ -110,17 +102,18 @@ public abstract class TestBench
         catch (IllegalThreadStateException e)
         {
             runningThread = new Thread(()->run(params));
-            runningThread.start();
+            flag = true;
         }
 
+        if (flag)
+            runningThread.start();
     }
 
     public void cancel()
     {
-        running = false;
-        runningThread.interrupt();
+        cancelled.setValue(true);
+        runningProgress.setValue(0);
+
+
     }
-
-
-
 }
