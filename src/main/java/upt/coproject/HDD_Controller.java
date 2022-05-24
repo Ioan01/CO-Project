@@ -217,14 +217,30 @@ public class HDD_Controller extends Controller implements Initializable {
         nameStart = output.get(1).indexOf("Friendly Name");
         nameEnd = output.get(1).indexOf("Serial Number");
 
-        for (int i = 3; i <output.size(); i++){
+        boolean start = false;
+
+        for (int i = 0; i <output.size(); i++){
+           line = output.get(i);
+            System.out.println(line);
+            if (!start && line.length() > 0 && line.substring(0, 1).equals("-")){
+                start = true;
+                continue;
+            }
+            if(!start)
+                continue;
             //System.out.println("XXXX" + output.get(i));
+            if (!start && line.length() > 0 && line.substring(0, 1).equals("-")){
+                start = true;
+                continue;
+            }
+            if(!start)
+                continue;
             if(nameEnd > output.get(i).length())
                 continue;
             disks.add(new Pair<>(output.get(i).substring(nameStart, nameEnd).trim(), new ArrayList<>()));
         }
 
-        String[] cmd_part = {"Powershell", "Get-Partition | ft -AutoSize DiskPath, DriveLetter"};
+        String[] cmd_part = {"Powershell", "Get-Partition | ft DiskPath, DriveLetter"};
         Process proc_part = rt.exec(cmd_part);
 
         stdInput = new BufferedReader(new InputStreamReader(proc_part.getInputStream()));
@@ -237,17 +253,27 @@ public class HDD_Controller extends Controller implements Initializable {
 
         String prevDiskPath = null;
         int diskIndex = -1;
-        for (int i = 3; i <output.size(); i++){
+
+        start = false;
+
+        for (int i = 0; i <output.size(); i++){
             line = output.get(i);
-            if(line.indexOf(' ') == -1)
+            System.out.println(line);
+            if (!start && line.length() > 0 && line.substring(0, 1).equals("-")){
+                start = true;
                 continue;
-            String diskPath = line.substring(0, line.indexOf(' '));
+            }
+            if(!start)
+                continue;
+            if(line.indexOf(' ') == -1 || line.indexOf("prod") == -1)
+                continue;
+            String diskPath = line.substring(line.indexOf("prod"), line.indexOf(' '));
             if(!diskPath.equals(prevDiskPath)){
                 diskIndex++;
                 prevDiskPath = diskPath;
             }
 
-            String letter = line.substring(nameStart).trim();
+            String letter = line.substring(line.indexOf(' ')).trim();
             if(!letter.equals("")){
                 disks.get(diskIndex).getValue().add(letter.charAt(0));
             }
