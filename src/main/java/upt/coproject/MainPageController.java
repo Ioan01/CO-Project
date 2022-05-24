@@ -138,12 +138,12 @@ public class MainPageController extends Controller implements Initializable {
     @FXML
     public void goToRAMPage(ActionEvent event){
         //getWindow().setUserData("3000");
-        changePage("scene_ram.fxml");
+        changePage("scene_ram.fxml", 1300, 800);
     }
     @FXML
     public void goToResultsPage(ActionEvent event)
     {
-        changePage("result.fxml", 1300, 800);
+        changePage("leaderboard.fxml", 1300, 800);
     }
     @FXML
     public void exitApp(ActionEvent event)
