@@ -13,7 +13,7 @@ import java.util.Random;
 public class SequentialWriteDriveBenchmark extends Benchmark
 {
     private String drive;
-    private final int[] bufferSizes = {4*1024,64*1024,256*1024};
+    private final int[] bufferSizes = {64*1024,256*1024,1024*1024};
 
     private long fileSize;
 
@@ -46,7 +46,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 
         Timer timer = new Timer();
 
-        double totalWritten = 0;
+        long totalWritten = 0;
 
 
 
@@ -57,10 +57,13 @@ public class SequentialWriteDriveBenchmark extends Benchmark
             rng.nextBytes(bytes);
 
 
-            File file1 = new File(drive + tempFileLocation +'/' + file);
+            File file1 = new File(drive + tempFileLocation +'/' + bufferSize + file);
 
-            if (file1.exists())
+
+
+            if (!file1.exists())
                 file1.createNewFile();
+            else file1.delete();
 
             BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file1.getAbsolutePath()),bufferSize);
 
@@ -86,7 +89,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 
         long elapsed = timer.stop();
 
-        return (totalWritten / 1024 / 1024) / (elapsed / Math.pow(10,9));
+        return (totalWritten / 1024.0 / 1024) / (elapsed / Math.pow(10,9));
     }
 
     @Override
