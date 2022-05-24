@@ -166,9 +166,9 @@ public class HDD_Controller extends Controller implements Initializable {
                         buttonCancel.setVisible(false);
 
                         setSpeed((Double) testBench.getResults().get("SEQ_WRITE"), textSeqWriteSpeed);
-                        setSpeed(69420, textSeqReadSpeed);
-                        setSpeed(123.456, textRandomWriteSpeed);
-                        setSpeed(654.321, textRandomReadSpeed);
+                        setSpeed(694, textSeqReadSpeed);
+                        setSpeed((Double) testBench.getResults().get("RND_WRITE"), textRandomWriteSpeed);
+                        setSpeed(65.321, textRandomReadSpeed);
 
                         Platform.runLater(() -> {
                             updateBarChart((Double.valueOf(textSeqWriteSpeed.textProperty().getValue())), (Double.valueOf(textSeqReadSpeed.textProperty().getValue())), (Double.valueOf(textRandomWriteSpeed.textProperty().getValue())), (Double.valueOf(textRandomReadSpeed.textProperty().getValue())), "4 KB");

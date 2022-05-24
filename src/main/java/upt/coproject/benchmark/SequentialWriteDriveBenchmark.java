@@ -17,6 +17,12 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 
     private long fileSize;
 
+    private static int runIterations = 5;
+    private static int maxRunIterations = 20;
+    private static int warmupIterations = 20;
+    private static int maxWarmupIterations = 80;
+    private static double idealFileSize = 512.0 * 1024*1024;
+
 
 
     public SequentialWriteDriveBenchmark()
@@ -27,14 +33,12 @@ public class SequentialWriteDriveBenchmark extends Benchmark
     public void initialize(String drive,long fileSize)
     {
         this.drive = drive;
-
-
         this.fileSize = fileSize;
     }
 
     private double write(String file) throws IOException {
         Random rng = new Random();
-        String tempFileLocation = "benchmark/temp" + rng.nextInt();
+        String tempFileLocation = "benchmark/temp/rnd" + rng.nextInt();
         File outputFolder = new File(drive + tempFileLocation);
         if (!outputFolder.isDirectory())
         {
@@ -73,13 +77,13 @@ public class SequentialWriteDriveBenchmark extends Benchmark
             while (writtenBytes < fileSize && !getCancelled().get())
             {
                 outputStream.write(bytes,0,bufferSize);
-                writtenBytes+=bytes.length;
+                writtenBytes+=bufferSize;
             }
 
-
+            totalWritten+=writtenBytes;
 
             outputStream.close();
-            totalWritten+=file1.length();
+
             file1.deleteOnExit();
 
             if (getCancelled().get())
@@ -97,7 +101,13 @@ public class SequentialWriteDriveBenchmark extends Benchmark
     {
 
 
-        int iterations = (int) (((512.0*1024*1024)/fileSize))*5;
+        int iterations = runIterations;
+
+        if (fileSize < idealFileSize)
+            iterations = (int) (((idealFileSize)/fileSize) *runIterations);
+
+        if (iterations > maxRunIterations)
+            iterations = maxRunIterations;
 
         ArrayList<Double> writeSpeeds  = new ArrayList<>();
 
@@ -134,18 +144,28 @@ public class SequentialWriteDriveBenchmark extends Benchmark
     @Override
     public void warmup()
     {
-        int iterations = (int) (((512.0*1024*1024)/fileSize))*20;
+        int iterations = maxWarmupIterations;
+
+        if (fileSize < idealFileSize)
+            iterations = (int) (((idealFileSize)/fileSize) *warmupIterations);
+
+        if (iterations > maxWarmupIterations)
+            iterations = maxWarmupIterations;
+
+
+        int reductionFactor = 8;
+
         try
         {
             runningProgress.setValue(0);
-            fileSize = fileSize/8;
+            fileSize = fileSize/reductionFactor;
             for (int i=0;i<iterations&&!getCancelled().get();i++)
             {
                 write("warmup"+i+".dat");
                 runningProgress.setValue(runningProgress.get() + 0.5/iterations);
             }
 
-            fileSize = fileSize*8;
+            fileSize = fileSize*reductionFactor;
         }
         catch (Exception e)
         {

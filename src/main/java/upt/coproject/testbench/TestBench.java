@@ -77,9 +77,18 @@ public abstract class TestBench
 
             results.putAll(benchmark.getResults());
 
-            System.out.println(results.get("SEQ_WRITE"));
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                break;
+            }
         }
-        finished.setValue(true);
+        System.out.println("SEQ WRITE " + results.get("SEQ_WRITE"));
+        System.out.println("RND WRITE " + results.get("RND_WRITE"));
+
+        if (!cancelled.get())
+            finished.setValue(true);
     }
 
     public void start(Object... params)
