@@ -224,7 +224,7 @@ public class HDD_Controller extends Controller implements Initializable {
             disks.add(new Pair<>(output.get(i).substring(nameStart, nameEnd).trim(), new ArrayList<>()));
         }
 
-        String[] cmd_part = {"Powershell", "Get-Partition | ft -AutoSize DiskPath, DriveLetter"};
+        String[] cmd_part = {"Powershell", "Get-Partition | ft DiskPath, DriveLetter"};
         Process proc_part = rt.exec(cmd_part);
 
         stdInput = new BufferedReader(new InputStreamReader(proc_part.getInputStream()));
@@ -237,8 +237,18 @@ public class HDD_Controller extends Controller implements Initializable {
 
         String prevDiskPath = null;
         int diskIndex = -1;
-        for (int i = 3; i <output.size(); i++){
+
+        boolean start = false;
+
+        for (int i = 0; i <output.size(); i++){
             line = output.get(i);
+            System.out.println(line);
+            if (!start && line.length() > 0 && line.substring(0, 1).equals("-")){
+                start = true;
+                continue;
+            }
+            if(!start)
+                continue;
             if(line.indexOf(' ') == -1)
                 continue;
             String diskPath = line.substring(0, line.indexOf(' '));
