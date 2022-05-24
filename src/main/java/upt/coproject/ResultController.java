@@ -130,12 +130,12 @@ public class ResultController extends Controller{
     private void setGandacel(int score){
         Map<Pair<Integer, Integer>, Pair<String, String>> tierList = new HashMap<>();
         tierList.put(new Pair<>(0, 80), new Pair<>("D_tier.jpg", "Cărăbuș"));
-        tierList.put(new Pair<>(80, 90), new Pair<>("C_tier.jpg", "Furnicuță"));
-        tierList.put(new Pair<>(90, 100), new Pair<>("B_tier.jpg", "Buburuză"));
-        tierList.put(new Pair<>(100, 10000), new Pair<>("A_tier.jpg", "Albinuță"));
+        tierList.put(new Pair<>(81, 90), new Pair<>("C_tier.jpg", "Furnicuță"));
+        tierList.put(new Pair<>(91, 100), new Pair<>("B_tier.jpg", "Buburuză"));
+        tierList.put(new Pair<>(101, 10000), new Pair<>("A_tier.jpg", "Albinuță"));
 
         for(Pair<Integer, Integer> key : tierList.keySet()){
-            if(score > key.getKey() && score < key.getValue()){
+            if(score >= key.getKey() && score <= key.getValue()){
                 System.out.println(tierList.get(key));
                 Image image = new Image("/" + tierList.get(key).getKey());
                 gandacelImage.setImage(image);
@@ -147,24 +147,25 @@ public class ResultController extends Controller{
     }
 
     private int calculateScore(){
-        final double optimalSpeed = 1500;
-        double sumSpeed = 0;
-        int numberOfResults = 0;
         String[] keys = {"SEQ_READ", "RND_READ", "SEQ_WRITE", "RND_WRITE"};
+        Map<String, Double> optimalSpeed = new HashMap<>();
+        optimalSpeed.put(keys[0], 1500.0);
+        optimalSpeed.put(keys[1], 1500.0);
+        optimalSpeed.put(keys[2], 1500.0);
+        optimalSpeed.put(keys[3], 80.0);
+
+        int numberOfResults = 0;
+        double sumScore = 0;
 
         for(String key: keys){
             if (results.get(key) != null){
-                sumSpeed += (Double) results.get(key);
+                double speed = (Double) results.get(key);
                 numberOfResults++;
+                sumScore += logarithm(100, (speed / optimalSpeed.get(key)) * 100) * 100;
             }
         }
-        double avgSpeed = sumSpeed / numberOfResults;
 
-        double score = 0;
-
-        score = logarithm(100, (avgSpeed / optimalSpeed) * 100) * 100;
-
-        return (int) score;
+        return (int) sumScore / numberOfResults;
     }
 }
 

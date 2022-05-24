@@ -162,7 +162,7 @@ public class HDD_Controller extends Controller implements Initializable {
                         //setSeqWriteSpeed((Double) testBench.getResults().get("SEQ_WRITE"));
                         setSeqReadSpeed((Double) testBench.getResults().get("SEQ_READ"));
                         setRandomWriteSpeed(123.456);
-                        setRandomReadSpeed(654.321);
+                        setRandomReadSpeed((Double) testBench.getResults().get("RND_READ"));
                     }
                 }
             });
