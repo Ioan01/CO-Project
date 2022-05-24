@@ -7,15 +7,23 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+import javax.swing.text.View;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 
@@ -31,9 +39,20 @@ public class MainPageController extends Controller implements Initializable {
     private ImageView exit;
     @FXML
     private JFXButton jfxButtonInfo;
+    @FXML
+    private JFXButton jfxButtonSettings;
+    @FXML
+    private RadioButton radioButtonPlayMusic;
+    @FXML
+    private TitledPane paneSettings;
+    @FXML
+    private AudioClip audioClip = new AudioClip(this.getClass().getResource("cantecel.wav").toString());
+
+    boolean musicPlaying = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //paneSettings.setVisible(false);
 
         exit.setOnMouseClicked(event -> {
             System.exit(0);
@@ -47,6 +66,14 @@ public class MainPageController extends Controller implements Initializable {
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
+        });
+
+        jfxButtonSettings.setOnMouseClicked(event -> {
+            //System.out.println("clicked settings");
+            audioClip = new AudioClip(this.getClass().getResource("cantecel.wav").toString());
+            audioClip.setVolume(0.1);
+            audioClip.setCycleCount(AudioClip.INDEFINITE);
+            audioClip.play();
         });
 
         opacityPane.setVisible(false);
