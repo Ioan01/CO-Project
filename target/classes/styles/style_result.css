@@ -1,6 +1,0 @@
-.root{
-    /* daca vreti sa schimbati imaginea unei scene, schimbati doar url */
-
-    -fx-background-image: url("img/gandacei/ant.jpg");
-    -fx-background-size: cover;
-}

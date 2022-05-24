@@ -22,7 +22,7 @@
    <children>
       <Label layoutX="237.0" layoutY="14.0" text="HDD Benchmark" textFill="#3700ff">
          <font>
-            <Font name="Bodoni MT Condensed Bold" size="28.0" />
+            <Font name="Century Schoolbook Bold" size="28.0" />
          </font>
          <effect>
             <Lighting>
@@ -66,25 +66,13 @@
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font></Button>
-      <Label layoutX="88.0" layoutY="180.0" text="I/O Size:" textFill="WHITE">
+      <Label layoutX="87.0" layoutY="175.0" text="File size:" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboBoxIOSizeStart" layoutX="200.0" layoutY="180.0" onAction="#ioStartSizeSelected" prefHeight="26.0" prefWidth="81.0" visibleRowCount="21" />
-      <ComboBox fx:id="comboBoxIOSizeEnd" layoutX="313.0" layoutY="180.0" onAction="#ioEndSizeSelected" prefHeight="26.0" prefWidth="81.0" />
-      <Label layoutX="289.0" layoutY="180.0" text="to" textFill="WHITE">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="88.0" layoutY="215.0" text="File size:" textFill="WHITE">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="17.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="comboBoxFileSize" layoutX="200.0" layoutY="215.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="89.0" visibleRowCount="21" />
-      <Button fx:id="buttonCancel" layoutX="88.0" layoutY="405.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
+      <ComboBox fx:id="comboBoxFileSize" layoutX="200.0" layoutY="172.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="89.0" visibleRowCount="21" />
+      <Button fx:id="buttonCancel" layoutX="14.0" layoutY="373.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
          <font>
             <Font name="Arial Rounded MT Bold" size="13.0" />
          </font>
@@ -166,13 +154,18 @@
                         <NumberAxis label="Transfer Rate - MB/s" prefWidth="553.0" side="BOTTOM" />
                      </xAxis>
                      <yAxis>
-                        <CategoryAxis label="Units" side="LEFT" />
+                        <CategoryAxis label="File size" side="LEFT" />
                      </yAxis>
                   </BarChart>
                </children>
             </AnchorPane>
         </content>
       </TitledPane>
+      <Text fx:id="textRunnngStatus" fill="WHITE" layoutX="88.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font>
+      </Text>
 
    </children>
 </AnchorPane>
