@@ -71,7 +71,7 @@
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboBoxFileSize" layoutX="200.0" layoutY="172.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="89.0" visibleRowCount="21" />
+      <ComboBox fx:id="comboBoxFileSize" layoutX="200.0" layoutY="172.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="110.0" visibleRowCount="21" />
       <Button fx:id="buttonCancel" layoutX="14.0" layoutY="373.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
          <font>
             <Font name="Arial Rounded MT Bold" size="13.0" />

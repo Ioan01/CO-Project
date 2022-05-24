@@ -84,7 +84,7 @@ public class MainPageController extends Controller implements Initializable {
     @FXML
     public void goToHDDPage(ActionEvent event){
         //getWindow().setUserData("1000");
-        changePage("scene_hdd.fxml", 800, 500);
+        changePage("scene_hdd.fxml", 1300, 800);
     }
 
     @FXML
