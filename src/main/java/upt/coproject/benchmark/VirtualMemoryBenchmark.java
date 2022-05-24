@@ -6,6 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import lombok.Generated;
+import lombok.Getter;
+import lombok.Setter;
+import upt.coproject.RAM_Controller;
 import upt.coproject.benchmark.Benchmark;
 import upt.coproject.timing.Timer;
 
@@ -23,6 +29,10 @@ public class VirtualMemoryBenchmark extends Benchmark {
 	private String drive;
 	private int bufferSize;
 	private long fileSize;
+
+	@Getter
+	@Setter
+	protected DoubleProperty runningProgress = new SimpleDoubleProperty(0);
 
 	public VirtualMemoryBenchmark() {
 		super("VirtualMemoryBenchmark");
@@ -61,12 +71,19 @@ public class VirtualMemoryBenchmark extends Benchmark {
 			for (long i = 0; i < fileSize; i += bufferSize) {
 				rand.nextBytes(buffer);
 				core.put(i, buffer);    // write to memory mapper
-
+				runningProgress.setValue(i/fileSize);
 				if (getCancelled().get()) {
 					timer.stop();
 					clean();
 				}
 			}
+			runningProgress.setValue(1);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			runningProgress.setValue(0);
 
 			double timeInSeconds = timer.stop() / 1000000000.0;
 			double speed = (double) (fileSize / 1024 / 1024L) / timeInSeconds;	//	MB/s
@@ -78,12 +95,14 @@ public class VirtualMemoryBenchmark extends Benchmark {
 			timer.start();
 			for (long i = 0; i < fileSize; i += bufferSize) {
 				buffer = core.get(i, bufferSize);
-
+				runningProgress.setValue((float)i/fileSize);
+				runningProgress.setValue(i/fileSize);
 				if (getCancelled().get()) {
 					timer.stop();
 					clean();
 				}
 			}
+			runningProgress.setValue(1);
 			timeInSeconds = timer.stop() / 1000000000.0;
 			speed = (double) (fileSize 	/ 1024 / 1024L) / timeInSeconds; /* fileSize/time MB/s */
 
@@ -104,7 +123,13 @@ public class VirtualMemoryBenchmark extends Benchmark {
 	public void clean() {
 		if (core != null)
 			core.purge();
+		runningProgress.setValue(1);
 
+	}
+
+	@Override
+	public void cancel(){
+		getCancelled().setValue(true);
 	}
 
 	public String getResult() {

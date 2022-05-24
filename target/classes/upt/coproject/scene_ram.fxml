@@ -25,7 +25,7 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label text="RAM write/read speed...">
+                        <Label fx:id="labelReadWrite" text="RAM read/write speed...">
                            <font>
                               <Font size="14.0" />
                            </font>
