@@ -70,10 +70,17 @@ public class MainPageController extends Controller implements Initializable {
 
         jfxButtonSettings.setOnMouseClicked(event -> {
             //System.out.println("clicked settings");
-            audioClip = new AudioClip(this.getClass().getResource("cantecel.wav").toString());
-            audioClip.setVolume(0.1);
-            audioClip.setCycleCount(AudioClip.INDEFINITE);
-            audioClip.play();
+            if(!musicPlaying) {
+                audioClip.setVolume(0.1);
+                audioClip.setCycleCount(AudioClip.INDEFINITE);
+                audioClip.play();
+                musicPlaying = true;
+            }
+            else if(musicPlaying)
+            {
+                audioClip.stop();
+                musicPlaying = false;
+            }
         });
 
         opacityPane.setVisible(false);
@@ -136,7 +143,7 @@ public class MainPageController extends Controller implements Initializable {
     @FXML
     public void goToResultsPage(ActionEvent event)
     {
-        changePage("result.fxml");
+        changePage("result.fxml", 1300, 800);
     }
     @FXML
     public void exitApp(ActionEvent event)

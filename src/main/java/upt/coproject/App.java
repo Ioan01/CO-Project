@@ -1,8 +1,12 @@
 package upt.coproject;
 
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class App extends Application
 {
@@ -13,6 +17,13 @@ public class App extends Application
         Controller.setWindow(primaryStage);
         primaryStage.setTitle("Gândăceii Pofticioși™");
         primaryStage.setResizable(false);
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream("src/main/java/upt/coproject/Icon.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        primaryStage.getIcons().add(image);
         //primaryStage.initStyle(StageStyle.UNDECORATED);
         Controller.changePage("Dashboard.fxml");
 
