@@ -60,6 +60,7 @@ public class HDD_Controller extends Controller implements Initializable {
     private long fileSize; // bytes
     private String hddModel = "";
     List<Pair<String, List<Character>>> disks = new ArrayList<>(); // model and partitions
+    boolean haveDiskInfo = false;
 
     public HDD_Controller()
     {
@@ -85,7 +86,15 @@ public class HDD_Controller extends Controller implements Initializable {
         textHDDModel.setText("");
         comboBoxFileSize.setItems(fsList);
 
-        buildDiskList();
+        //buildDiskList();
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                buildDiskList();
+            }
+        });
+        t1.start();
 
         comboBoxPath.getEditor().textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -278,6 +287,12 @@ public class HDD_Controller extends Controller implements Initializable {
             }
         }
 
+        haveDiskInfo = true;
+        if(drivePath.getAbsolutePath() != null){
+            getHDDModel();
+            textHDDModel.setText(hddModel);
+        }
+
         for(int i = 0 ; i< disks.size(); i++){
             System.out.print(disks.get(i).getKey() + ": ");
             for(Character letter: disks.get(i).getValue())
@@ -287,15 +302,21 @@ public class HDD_Controller extends Controller implements Initializable {
     }
 
     private void getHDDModel(){
-        hddModel = "unknown";
+        if(!haveDiskInfo){
+            hddModel = "Searching... Please wait";
+            return;
+        }
+
         Character partition = drivePath.getAbsolutePath().charAt(0);
         for(int i = 0 ; i< disks.size(); i++){
             for(Character letter: disks.get(i).getValue()){
                 if(letter.equals(partition)){
                     hddModel = disks.get(i).getKey();
+                    return;
                 }
             }
         }
+        hddModel = "unknown";
     }
 
     public ObservableList<String> getAvailableDisks() throws IOException {
