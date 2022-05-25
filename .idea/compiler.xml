@@ -10,8 +10,8 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
         </processorPath>
-        <module name="CO-Project" />
         <module name="CO-project" />
+        <module name="CO-Project" />
       </profile>
     </annotationProcessing>
   </component>
