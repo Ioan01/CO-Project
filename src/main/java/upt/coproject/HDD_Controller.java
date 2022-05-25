@@ -48,7 +48,7 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private Label labelSeqReadSpeed, labelSeqWriteSpeed, labelRandomReadSpeed, labelRandomWriteSpeed;
     @FXML
-    private Text textHDDModel;
+    private Text textHDDModel, textRunningStatus;
     @FXML
     private ComboBox comboBoxPath;
     @FXML
@@ -117,6 +117,7 @@ public class HDD_Controller extends Controller implements Initializable {
 
     public void startHDD(ActionEvent event)
     {
+        textRunningStatus.textProperty().bind(testBench.getProgressStatus());
         if(drivePath == null || !drivePath.exists())
         {
             displayError("Invalid path!");
@@ -127,7 +128,6 @@ public class HDD_Controller extends Controller implements Initializable {
         }
         else {
             progressBarProgressHDD.progressProperty().bind(testBench.getRunningProgress());
-
 
             testBench.getFinished().addListener(new ChangeListener<Boolean>() {
                 @Override
@@ -141,6 +141,7 @@ public class HDD_Controller extends Controller implements Initializable {
                         setSpeed((Double) testBench.getResults().get("SEQ_READ"), textSeqReadSpeed);
                         setSpeed((Double) testBench.getResults().get("RND_WRITE"), textRandomWriteSpeed);
                         setSpeed((Double) testBench.getResults().get("RND_READ"), textRandomReadSpeed);
+                        textRunningStatus.setVisible(false);
 
                         Platform.runLater(() -> {
                             updateBarChart((Double.valueOf(textSeqWriteSpeed.textProperty().getValue())), (Double.valueOf(textSeqReadSpeed.textProperty().getValue())), (Double.valueOf(textRandomWriteSpeed.textProperty().getValue())), (Double.valueOf(textRandomReadSpeed.textProperty().getValue())));

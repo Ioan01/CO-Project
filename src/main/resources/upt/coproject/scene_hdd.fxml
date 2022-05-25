@@ -82,7 +82,7 @@
             <Font name="Arial Rounded MT Bold" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="textHDDModel" fill="WHITE" layoutX="200.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="text">
+      <Text fx:id="textHDDModel" fill="WHITE" layoutX="200.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
@@ -161,7 +161,7 @@
             </AnchorPane>
         </content>
       </TitledPane>
-      <Text fx:id="textRunnngStatus" fill="WHITE" layoutX="88.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+      <Text fx:id="textRunningStatus" fill="WHITE" layoutX="88.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="14.0" />
          </font>
