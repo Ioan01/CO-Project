@@ -125,6 +125,8 @@ public class HDD_Controller extends Controller implements Initializable {
 
     public void startHDD(ActionEvent event)
     {
+        if(!textRunningStatus.isVisible())
+            textRunningStatus.setVisible(true);
         textRunningStatus.textProperty().bind(testBench.getProgressStatus());
         if(drivePath == null || !drivePath.exists())
         {
@@ -174,6 +176,7 @@ public class HDD_Controller extends Controller implements Initializable {
         testBench.cancel();
         buttonCancel.setVisible(false);
         buttonStart.setVisible(true);
+        textRunningStatus.setVisible(false);
     }
 
     public void fileSizeSelected(ActionEvent event)

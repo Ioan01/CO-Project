@@ -135,6 +135,5 @@ public abstract class TestBench
         cancelled.setValue(true);
         runningProgress.setValue(0);
 
-
     }
 }

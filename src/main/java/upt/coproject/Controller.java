@@ -21,6 +21,7 @@ public abstract class Controller {
             prev = window.getScene();
             Scene scene = new Scene(fxmlLoader.load(), 800, 500);
             window.setScene(scene);
+            window.setResizable(false);
             window.show();
         }
         catch (Exception e){
@@ -35,6 +36,7 @@ public abstract class Controller {
             Scene scene = new Scene(fxmlLoader.load(), length, width);
             window.setScene(scene);
             window.setResizable(true);
+            window.setResizable(false);
             window.show();
         }
         catch (Exception e){
