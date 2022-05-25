@@ -1,9 +1,6 @@
 package upt.coproject.benchmark;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +28,11 @@ public abstract class Benchmark {
     @Getter
     private BooleanProperty cancelled = new SimpleBooleanProperty();
 
+    @Getter
+    private StringProperty progressStatus = new SimpleStringProperty();
+
     public Benchmark(String name) {
+        this.name = name;
     }
 
 

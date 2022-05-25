@@ -57,7 +57,7 @@
          </font>
       </Button>
       <ProgressBar fx:id="progressBarProgressHDD" layoutX="88.0" layoutY="374.0" prefHeight="22.0" prefWidth="179.0" progress="0.0" />
-      <Label fx:id="label_drive" layoutX="88.0" layoutY="90.0" prefHeight="26.0" prefWidth="57.0" text="Drive:" textFill="WHITE">
+      <Label fx:id="label_drive" layoutX="88.0" layoutY="90.0" prefHeight="26.0" prefWidth="57.0" text="Drive:">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
@@ -66,40 +66,28 @@
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font></Button>
-      <Label layoutX="88.0" layoutY="180.0" text="I/O Size:" textFill="WHITE">
+      <Label layoutX="87.0" layoutY="175.0" text="File size:">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboBoxIOSizeStart" layoutX="200.0" layoutY="180.0" onAction="#ioStartSizeSelected" prefHeight="26.0" prefWidth="81.0" visibleRowCount="21" />
-      <ComboBox fx:id="comboBoxIOSizeEnd" layoutX="313.0" layoutY="180.0" onAction="#ioEndSizeSelected" prefHeight="26.0" prefWidth="81.0" />
-      <Label layoutX="289.0" layoutY="180.0" text="to" textFill="WHITE">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="88.0" layoutY="215.0" text="File size:" textFill="WHITE">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="17.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="comboBoxFileSize" layoutX="200.0" layoutY="215.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="89.0" visibleRowCount="21" />
-      <Button fx:id="buttonCancel" layoutX="88.0" layoutY="405.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
+      <ComboBox fx:id="comboBoxFileSize" layoutX="200.0" layoutY="172.0" onAction="#fileSizeSelected" prefHeight="26.0" prefWidth="110.0" visibleRowCount="21" />
+      <Button fx:id="buttonCancel" layoutX="14.0" layoutY="373.0" mnemonicParsing="false" onAction="#stopHDD" text="Cancel">
          <font>
             <Font name="Arial Rounded MT Bold" size="13.0" />
          </font>
       </Button>
-      <Text fx:id="textHDDProgressTracker" layoutX="278.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="42.1905517578125">
+      <Text fx:id="textRunningStatus" layoutX="87.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="42.1905517578125">
          <font>
             <Font name="Arial Rounded MT Bold" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="textHDDModel" fill="WHITE" layoutX="200.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="text">
+      <Text fx:id="textHDDModel" layoutX="200.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Text>
-      <Label fx:id="label_drive1" layoutX="88.0" layoutY="135.0" prefHeight="26.0" prefWidth="57.0" text="Model:" textFill="WHITE">
+      <Label fx:id="label_drive1" layoutX="88.0" layoutY="135.0" prefHeight="26.0" prefWidth="57.0" text="Model:">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
@@ -173,6 +161,11 @@
             </AnchorPane>
         </content>
       </TitledPane>
+      <Text fx:id="textRunningStatus" fill="WHITE" layoutX="88.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font>
+      </Text>
 
    </children>
 </AnchorPane>

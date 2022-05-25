@@ -5,6 +5,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import lombok.Getter;
 import lombok.Setter;
+import upt.coproject.PartialResult;
 import upt.coproject.benchmark.Benchmark;
 
 import java.util.*;
@@ -20,6 +21,8 @@ public abstract class TestBench
      */
     @Getter
     protected Map<String, Object> results = new HashMap<>();
+    @Getter
+    protected Map<String, List<PartialResult>> partialResults = new HashMap<>();
     private BooleanProperty cancelled = new SimpleBooleanProperty(false);
     @Getter
     protected BooleanProperty finished = new SimpleBooleanProperty(false);
@@ -30,6 +33,9 @@ public abstract class TestBench
 
     @Getter @Setter
     protected DoubleProperty initializingProgress = new SimpleDoubleProperty(0);
+
+    @Getter @Setter
+    protected StringProperty progressStatus = new SimpleStringProperty("");
 
 
     protected TestBench(Object... params)
@@ -54,6 +60,15 @@ public abstract class TestBench
             });
 
             benchmark.getCancelled().bind(cancelled);
+
+            benchmark.getProgressStatus().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    getProgressStatus().setValue(benchmark.getName() +" : "+ newValue);
+
+                    System.out.println(getProgressStatus());
+                }
+            });
         }
     }
 
@@ -77,9 +92,18 @@ public abstract class TestBench
 
             results.putAll(benchmark.getResults());
 
-            System.out.println(results.get("SEQ_WRITE"));
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                break;
+            }
         }
-        finished.setValue(true);
+        System.out.println("SEQ WRITE " + results.get("SEQ_WRITE"));
+        System.out.println("RND WRITE " + results.get("RND_WRITE"));
+
+        if (!cancelled.get())
+            finished.setValue(true);
     }
 
     public void start(Object... params)
