@@ -15,7 +15,7 @@ public class App extends Application
     public void start(Stage primaryStage)
     {
         Controller.setWindow(primaryStage);
-        primaryStage.setTitle("Gândăceii Pofticioși™");
+        primaryStage.setTitle("Gândăceii Pofticioși");//linia 13
         primaryStage.setResizable(false);
         Image image = null;
         try {
