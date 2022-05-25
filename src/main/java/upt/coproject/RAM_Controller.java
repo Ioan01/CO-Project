@@ -1,8 +1,6 @@
 package upt.coproject;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,11 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import upt.coproject.benchmark.VirtualMemoryBenchmark;
-import upt.coproject.testbench.TestVirtualMemory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 
 public class RAM_Controller extends Controller implements Initializable {
