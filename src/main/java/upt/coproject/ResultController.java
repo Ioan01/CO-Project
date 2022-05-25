@@ -1,5 +1,6 @@
 package upt.coproject;
 
+import com.google.gson.Gson;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -16,9 +17,12 @@ import javafx.scene.effect.ImageInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Pair;
+import lombok.SneakyThrows;
+import sun.net.www.http.HttpClient;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +44,14 @@ public class ResultController extends Controller{
     private ChoiceBox choiceBox;
     @FXML
     private ImageView gandacelImage;
+    @FXML
+    private Label databaseResponseLabel;
+    private boolean savedToDatabase = false;
 
     private Map<String, Object> results;
     private Map<String, List<PartialResult>> partialResults;
+    private String diskModel;
+    private long fileSize;
 
     StringProperty score;
 
@@ -63,6 +72,41 @@ public class ResultController extends Controller{
         timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
         timeCol.setMinWidth(100);
         table.getColumns().addAll(speedCol, bufferCol, sizeCol, timeCol);
+    }
+
+    @SneakyThrows
+    public void postToDatabase(){
+        if(savedToDatabase){
+            databaseResponseLabel.setText("Result already saved");
+            return;
+        }
+
+        URL url =  new URL("http://164.92.150.184:8080/addResult");
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+        con.setDoInput(true);
+        con.setDoOutput(true);
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Accept", "application/json");
+        con.setRequestMethod("POST");
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(new Result(diskModel, (int)fileSize, calculateScore()));
+        System.out.println(jsonString);
+
+        OutputStream os = con.getOutputStream();
+        os.write(jsonString.getBytes("UTF-8"));
+        os.flush();
+
+        StringBuilder sb = new StringBuilder();
+        int HttpResult = con.getResponseCode();
+        if (HttpResult == HttpURLConnection.HTTP_OK) {
+            databaseResponseLabel.setText("Result saved succesfully!");
+            databaseResponseLabel.setVisible(true);
+            savedToDatabase = true;
+        } else {
+            databaseResponseLabel.setText("Could not save your result");
+            databaseResponseLabel.setVisible(true);
+        }
     }
 
     public void selectTable(Event event){
@@ -97,6 +141,8 @@ public class ResultController extends Controller{
         Map<String, Object> getFromBenchmarkPage = ( Map<String, Object>) getWindow().getUserData();
         results = (Map<String, Object>) getFromBenchmarkPage.get("results");
         partialResults = (Map<String, List<PartialResult>>) getFromBenchmarkPage.get("partialResults");
+        diskModel = (String) getFromBenchmarkPage.get("model");
+        fileSize = (long) getFromBenchmarkPage.get("fileSize");
 
         makeTable(partialResultsTableSeqRead, "SEQ_READ");
         makeTable(partialResultsTableRandomRead, "RND_READ");
@@ -112,6 +158,8 @@ public class ResultController extends Controller{
         this.score = new SimpleStringProperty("" + score);
         scoreLabel.textProperty().bind(this.score);
         setGandacel(score);
+
+        databaseResponseLabel.setVisible(false);
     }
 
     @FXML

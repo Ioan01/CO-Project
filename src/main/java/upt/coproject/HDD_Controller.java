@@ -48,7 +48,7 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private Label labelSeqReadSpeed, labelSeqWriteSpeed, labelRandomReadSpeed, labelRandomWriteSpeed;
     @FXML
-    private Text textHDDModel, textRunningStatus;
+    private Text textHDDModel;
     @FXML
     private ComboBox comboBoxPath;
     @FXML
@@ -117,7 +117,6 @@ public class HDD_Controller extends Controller implements Initializable {
 
     public void startHDD(ActionEvent event)
     {
-        textRunningStatus.textProperty().bind(testBench.getProgressStatus());
         if(drivePath == null || !drivePath.exists())
         {
             displayError("Invalid path!");
@@ -128,6 +127,7 @@ public class HDD_Controller extends Controller implements Initializable {
         }
         else {
             progressBarProgressHDD.progressProperty().bind(testBench.getRunningProgress());
+
 
             testBench.getFinished().addListener(new ChangeListener<Boolean>() {
                 @Override
@@ -141,7 +141,6 @@ public class HDD_Controller extends Controller implements Initializable {
                         setSpeed((Double) testBench.getResults().get("SEQ_READ"), textSeqReadSpeed);
                         setSpeed((Double) testBench.getResults().get("RND_WRITE"), textRandomWriteSpeed);
                         setSpeed((Double) testBench.getResults().get("RND_READ"), textRandomReadSpeed);
-                        textRunningStatus.setVisible(false);
 
                         Platform.runLater(() -> {
                             updateBarChart((Double.valueOf(textSeqWriteSpeed.textProperty().getValue())), (Double.valueOf(textSeqReadSpeed.textProperty().getValue())), (Double.valueOf(textRandomWriteSpeed.textProperty().getValue())), (Double.valueOf(textRandomReadSpeed.textProperty().getValue())));
@@ -218,8 +217,24 @@ public class HDD_Controller extends Controller implements Initializable {
         nameStart = output.get(1).indexOf("Friendly Name");
         nameEnd = output.get(1).indexOf("Serial Number");
 
-        for (int i = 3; i <output.size(); i++){
+        boolean start = false;
+
+        for (int i = 0; i <output.size(); i++){
+            line = output.get(i);
+            System.out.println(line);
+            if (!start && line.length() > 0 && line.substring(0, 1).equals("-")){
+                start = true;
+                continue;
+            }
+            if(!start)
+                continue;
             //System.out.println("XXXX" + output.get(i));
+            if (!start && line.length() > 0 && line.substring(0, 1).equals("-")){
+                start = true;
+                continue;
+            }
+            if(!start)
+                continue;
             if(nameEnd > output.get(i).length())
                 continue;
             disks.add(new Pair<>(output.get(i).substring(nameStart, nameEnd).trim(), new ArrayList<>()));
@@ -239,7 +254,7 @@ public class HDD_Controller extends Controller implements Initializable {
         String prevDiskPath = null;
         int diskIndex = -1;
 
-        boolean start = false;
+        start = false;
 
         for (int i = 0; i <output.size(); i++){
             line = output.get(i);
@@ -250,9 +265,9 @@ public class HDD_Controller extends Controller implements Initializable {
             }
             if(!start)
                 continue;
-            if(line.indexOf(' ') == -1)
+            if(line.indexOf(' ') == -1 || line.indexOf("prod") == -1)
                 continue;
-            String diskPath = line.substring(0, line.indexOf(' '));
+            String diskPath = line.substring(line.indexOf("prod"), line.indexOf(' '));
             if(!diskPath.equals(prevDiskPath)){
                 diskIndex++;
                 prevDiskPath = diskPath;
@@ -341,6 +356,8 @@ public class HDD_Controller extends Controller implements Initializable {
         Map<String, Object> sendToResultPage = new HashMap<>();
         sendToResultPage.put("results", testBench.getResults());
         sendToResultPage.put("partialResults", testBench.getPartialResults());
+        sendToResultPage.put("model", hddModel);
+        sendToResultPage.put("fileSize", fileSize);
         getWindow().setUserData(sendToResultPage);
         changePage("result.fxml", 1300 ,800);
     }
