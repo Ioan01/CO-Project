@@ -9,42 +9,72 @@
 
 <HBox alignment="CENTER_LEFT" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../styles/style_scene_ram.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.RAM_Controller">
    <children>
-      <VBox alignment="CENTER" fillWidth="false" spacing="100.0" style="-fx-background-color: #FFFFFF;">
+      <VBox alignment="CENTER" fillWidth="false" spacing="60.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <Label text="RAM Benchmark" textFill="#ff9500">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <VBox fx:id="vboxProgress" minWidth="200.0" spacing="10.0">
+            <VBox spacing="80.0">
                <children>
-                  <VBox>
+                  <VBox fx:id="vboxProgress" minWidth="200.0" spacing="10.0">
                      <children>
-                        <Label text="Performing benchmark:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="labelReadWrite" text="RAM read/write speed...">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
+                        <VBox>
+                           <children>
+                              <Label text="Performing benchmark:">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelReadWrite" text="RAM read/write speed...">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <ProgressBar fx:id="progressRAM" minHeight="20.0" minWidth="200.0" prefWidth="200.0" progress="0.0" style="-fx-accent: #fcd703;" />
+                        <HBox alignment="BOTTOM_RIGHT" prefHeight="40.0">
+                           <children>
+                              <Button fx:id="buttonCancel" maxWidth="76.0" minWidth="76.0" mnemonicParsing="false" prefWidth="76.0" style="-fx-background-color: #d9d9d9;" text="Cancel">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
-                  <ProgressBar fx:id="progressRAM" minHeight="20.0" minWidth="200.0" prefWidth="200.0" progress="0.0" style="-fx-accent: #fcd703;" />
-                  <HBox alignment="BOTTOM_RIGHT" prefHeight="40.0">
+                  <VBox fx:id="vboxChoice" alignment="BOTTOM_LEFT" spacing="10.0">
                      <children>
-                        <Button fx:id="buttonCancel" mnemonicParsing="false" style="-fx-background-color: #d9d9d9;" text="Cancel">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="76.0" minWidth="76.0" prefWidth="76.0" text="File size">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Pane maxWidth="34.0" minWidth="34.0" prefWidth="34.0" />
+                              <ComboBox fx:id="comboFile" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="76.0" minWidth="76.0" prefWidth="76.0" text="Buffer size">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Pane maxWidth="34.0" minWidth="34.0" prefWidth="34.0" />
+                              <ComboBox fx:id="comboBuffer" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </VBox>
                </children>
             </VBox>
             <HBox fx:id="hboxButtons" alignment="CENTER" minWidth="200.0">

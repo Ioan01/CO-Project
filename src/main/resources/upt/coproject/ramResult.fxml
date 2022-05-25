@@ -1,31 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox alignment="CENTER" fillHeight="false" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../styles/style_scene_ram_result.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.RAM_Result_Controller">
+<VBox alignment="BOTTOM_CENTER" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../styles/style_scene_ram_result.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.RAM_Result_Controller">
    <children>
-      <VBox prefHeight="200.0" prefWidth="50.0" />
-      <VBox alignment="CENTER" fillWidth="false" prefHeight="600.0" prefWidth="161.0">
+      <HBox alignment="CENTER" maxHeight="5.0" minHeight="5.0" prefHeight="5.0" style="-fx-background-color: #555555;" />
+      <HBox alignment="CENTER" prefHeight="150.0" style="-fx-background-color: #FFFFFF;">
          <children>
-            <VBox spacing="50.0">
+            <VBox maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+            <VBox alignment="CENTER" minWidth="300.0" spacing="20.0">
                <children>
-                  <Label text="RAM benchmark results">
+                  <Label text="RAM Benchmark Results" textFill="#ff6637">
                      <font>
-                        <Font size="36.0" />
+                        <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <HBox>
+                  <VBox alignment="CENTER">
                      <children>
-                        <Label text="RAM" />
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Label maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Read speed">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelRead" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="9999.99 MB/s">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Label maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Write speed">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelWrite" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="999.99 MB/s">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
-                  <HBox />
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0">
+               <children>
+                  <Pane maxHeight="65.0" minHeight="65.0" prefHeight="65.0" />
+                  <Button fx:id="buttonBack" mnemonicParsing="false" style="-fx-background-color: #ff6637;" text="Home" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
          </children>
-      </VBox>
-      <VBox prefHeight="200.0" prefWidth="550.0" />
+      </HBox>
    </children>
-</HBox>
+</VBox>

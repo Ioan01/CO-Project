@@ -41,6 +41,8 @@ public class VirtualMemoryBenchmark extends Benchmark {
 	private String result = "";
 	MemoryMapper core = null;
 
+	public static double speedRead = 0, speedWrite = 0;
+
 	public void initialize(String drive, int bufferSize, long fileSize) {
 		File folder = new File(drive + folderName);
 		if (!folder.exists()) {
@@ -71,7 +73,7 @@ public class VirtualMemoryBenchmark extends Benchmark {
 			for (long i = 0; i < fileSize; i += bufferSize) {
 				rand.nextBytes(buffer);
 				core.put(i, buffer);    // write to memory mapper
-				runningProgress.setValue(i/fileSize);
+				runningProgress.setValue((float)i/fileSize);
 				if (getCancelled().get()) {
 					timer.stop();
 					clean();
@@ -86,17 +88,16 @@ public class VirtualMemoryBenchmark extends Benchmark {
 			runningProgress.setValue(0);
 
 			double timeInSeconds = timer.stop() / 1000000000.0;
-			double speed = (double) (fileSize / 1024 / 1024L) / timeInSeconds;	//	MB/s
+			speedWrite = (double) (fileSize / 1024 / 1024L) / timeInSeconds;	//	MB/s
 
 			result = "\nWrote " + (fileSize / 1024 / 1024L)
-					+ " MB to virtual memory at " + speed + " MB/s";
+					+ " MB to virtual memory at " + speedWrite + " MB/s";
 
 			// read from VM
 			timer.start();
 			for (long i = 0; i < fileSize; i += bufferSize) {
 				buffer = core.get(i, bufferSize);
 				runningProgress.setValue((float)i/fileSize);
-				runningProgress.setValue(i/fileSize);
 				if (getCancelled().get()) {
 					timer.stop();
 					clean();
@@ -104,11 +105,11 @@ public class VirtualMemoryBenchmark extends Benchmark {
 			}
 			runningProgress.setValue(1);
 			timeInSeconds = timer.stop() / 1000000000.0;
-			speed = (double) (fileSize 	/ 1024 / 1024L) / timeInSeconds; /* fileSize/time MB/s */
+			speedRead = (double) (fileSize 	/ 1024 / 1024L) / timeInSeconds; /* fileSize/time MB/s */
 
 			// append to previous 'result' string
 			result += "\nRead " + (fileSize / 1024 / 1024L)
-					+ " MB from virtual memory at " + speed + " MB/s";
+					+ " MB from virtual memory at " + speedRead + " MB/s";
 
 		} catch (IOException e) {
 			e.printStackTrace();
