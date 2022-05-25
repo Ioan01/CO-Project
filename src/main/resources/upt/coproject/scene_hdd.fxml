@@ -77,7 +77,7 @@
             <Font name="Arial Rounded MT Bold" size="13.0" />
          </font>
       </Button>
-      <Text fx:id="textHDDProgressTracker" layoutX="278.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="42.1905517578125">
+      <Text fx:id="textRunningStatus" layoutX="87.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="42.1905517578125">
          <font>
             <Font name="Arial Rounded MT Bold" size="15.0" />
          </font>
