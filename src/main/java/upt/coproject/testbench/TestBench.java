@@ -35,7 +35,7 @@ public abstract class TestBench
     protected DoubleProperty initializingProgress = new SimpleDoubleProperty(0);
 
     @Getter @Setter
-    protected StringProperty progressStatus = new SimpleStringProperty();
+    protected StringProperty progressStatus = new SimpleStringProperty("");
 
 
     protected TestBench(Object... params)
