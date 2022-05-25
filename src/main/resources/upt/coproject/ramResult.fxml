@@ -1,55 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.RAM_Controller">
+<HBox alignment="CENTER" fillHeight="false" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../styles/style_scene_ram_result.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upt.coproject.RAM_Result_Controller">
    <children>
-      <TitledPane fx:id="titledPane" animated="false" prefHeight="668.0" prefWidth="750.0" text="Speed comparison">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="630.0" prefWidth="770.0">
+      <VBox prefHeight="200.0" prefWidth="50.0" />
+      <VBox alignment="CENTER" fillWidth="false" prefHeight="600.0" prefWidth="161.0">
+         <children>
+            <VBox spacing="50.0">
                <children>
-                  <Label fx:id="labelReadSpeed" layoutX="192.0" layoutY="467.0" prefWidth="153.6" style="-fx-background-color: #000000;" text="Read Speed" textFill="WHITE">
+                  <Label text="RAM benchmark results">
                      <font>
-                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                        <Font size="36.0" />
                      </font>
-                     <effect>
-                        <Blend />
-                     </effect>
                   </Label>
-                  <Label fx:id="labelWriteSpeed" layoutX="14.0" layoutY="467.0" style="-fx-background-color: #000000;" text="Write Speed" textFill="WHITE">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="15.0" />
-                     </font>
-                     <effect>
-                        <Blend />
-                     </effect>
-                  </Label>
-                  <Text fx:id="textRandomReadSpeed" layoutX="192.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="textRandomWriteSpeed" layoutX="14.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
-                     </font>
-                  </Text>
-                  <BarChart fx:id="barChart" layoutX="-12.0" layoutY="4.0" prefHeight="454.0" prefWidth="750.0" style="-fx-background-color: White;" title="Benchmark Results" AnchorPane.rightAnchor="1.0">
-                     <xAxis>
-                        <NumberAxis label="Transfer Rate - MB/s" prefWidth="553.0" side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <CategoryAxis label="File size" side="LEFT" />
-                     </yAxis>
-                  </BarChart>
+                  <HBox>
+                     <children>
+                        <Label text="RAM" />
+                     </children>
+                  </HBox>
+                  <HBox />
                </children>
-            </AnchorPane>
-         </content>
-      </TitledPane>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="550.0" />
    </children>
-</VBox>
+</HBox>

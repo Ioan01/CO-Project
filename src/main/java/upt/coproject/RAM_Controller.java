@@ -82,7 +82,7 @@ public class RAM_Controller extends Controller implements Initializable {
     }
 
     public void goToResults(ActionEvent event) {
-        changePage("result.fxml");
+        changePage("ramResult.fxml");
     }
 
 
