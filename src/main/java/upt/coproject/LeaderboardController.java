@@ -18,10 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class LeaderboardController extends Controller{
@@ -53,10 +50,21 @@ public class LeaderboardController extends Controller{
         System.out.println(responseContent);
         Gson gson = new Gson();
         results = new ArrayList<>();
+
+
+
         Map<String, Result> entries = gson.fromJson(responseContent.toString(), new TypeToken<Map<String, Result>>(){}.getType());
+
         for (String key:entries.keySet()) {
             results.add(entries.get(key));
         }
+
+        Collections.sort(results, new Comparator<Result>() {
+            @Override
+            public int compare(Result o1, Result o2) {
+                return o2.getScore() - o1.getScore();
+            }
+        });
     }
 
     public void initialize(){

@@ -40,9 +40,8 @@ public class HDD_Controller extends Controller implements Initializable {
     @FXML
     private ComboBox<String> comboBoxFileSize;
 
-    private  ObservableList<String> fsList = FXCollections.observableArrayList("64 KB", "128 KB", "256 KB", "512 KB",
-            "1 MB", "2 MB","4 MB", "8 MB", "16 MB", "32 MB", "64 MB", "128 MB", "256 MB", "512 MB", "1 GB", "2 GB", "4 GB",
-            "8 GB", "16 GB", "32 GB");
+    private  ObservableList<String> fsList = FXCollections.observableArrayList(
+            "512 KB", "1 MB", "2 MB","4 MB", "8 MB", "16 MB", "32 MB", "64 MB", "128 MB", "256 MB", "512 MB", "1 GB");
     @FXML
     private Text textRunningProgress, textRandomWriteSpeed, textRandomReadSpeed, textSeqWriteSpeed, textSeqReadSpeed;
     @FXML

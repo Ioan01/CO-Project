@@ -13,9 +13,9 @@ public class DriveTestBench extends TestBench
     {
         benchmarks.clear();
 
-        SequentialWriteDriveBenchmark writeDriveBenchmark = new SequentialWriteDriveBenchmark();
-        writeDriveBenchmark.initialize(drive,fileSize);
-        benchmarks.add(writeDriveBenchmark);
+        SequentialWriteDriveBenchmark sequentialWriteDriveBenchmark = new SequentialWriteDriveBenchmark();
+        sequentialWriteDriveBenchmark.initialize(drive,fileSize);
+        benchmarks.add(sequentialWriteDriveBenchmark);
 
         SequentialReadDriveBenchmark sequentialReadDriveBenchmark = new SequentialReadDriveBenchmark();
         sequentialReadDriveBenchmark.initialize(drive, fileSize);
@@ -31,6 +31,8 @@ public class DriveTestBench extends TestBench
 
         partialResults.put("SEQ_READ", sequentialReadDriveBenchmark.getPartialResults());
         partialResults.put("RND_READ", randomReadDriveBenchmark.getPartialResults());
+        partialResults.put("SEQ_WRITE", sequentialWriteDriveBenchmark.getPartialResults());
+        partialResults.put("RND_WRITE", randomWriteDriveBenchmark.getPartialResults());
         trackRunningProgress();
     }
 }

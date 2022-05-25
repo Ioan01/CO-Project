@@ -1,5 +1,8 @@
 package upt.coproject.benchmark;
 
+import lombok.Getter;
+import upt.coproject.PartialResult;
+import upt.coproject.timing.TimeUnit;
 import upt.coproject.timing.Timer;
 
 import java.io.*;
@@ -17,11 +20,14 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 
     private long fileSize;
 
-    private static int runIterations = 5;
+    private static int runIterations = 1;
     private static int maxRunIterations = 20;
     private static int warmupIterations = 20;
     private static int maxWarmupIterations = 80;
     private static double idealFileSize = 512.0 * 1024*1024;
+
+    @Getter
+    private List<PartialResult> partialResults = new ArrayList<>();
 
 
 
@@ -58,6 +64,7 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 
         timer.start();
         for (int bufferSize:bufferSizes) {
+            timer.resume();
             rng.nextBytes(bytes);
 
 
@@ -88,6 +95,10 @@ public class SequentialWriteDriveBenchmark extends Benchmark
 
             if (getCancelled().get())
                 return 0;
+
+            timer.pause();
+            if(!file.contains("warmup"))
+                partialResults.add(new PartialResult(bufferSize, writtenBytes, timer.getTime(TimeUnit.MILLI)));
         }
 
 

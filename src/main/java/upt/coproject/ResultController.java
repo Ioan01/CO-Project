@@ -132,7 +132,7 @@ public class ResultController extends Controller{
         }
         else if(selectedItem.equals("Random Write")){
             partialResultsTableRandomWrite.setVisible(true);
-            System.out.println("SEQ_WRITE");
+            System.out.println("RND_WRITE");
         }
     }
 
@@ -146,11 +146,14 @@ public class ResultController extends Controller{
 
         makeTable(partialResultsTableSeqRead, "SEQ_READ");
         makeTable(partialResultsTableRandomRead, "RND_READ");
-        //makeTable(partialResultsTableSeqWrite, "SEQ_WRITE");
-        //makeTable(partialResultsTableRandomWrite, "RND_WRITE");
+        makeTable(partialResultsTableSeqWrite, "SEQ_WRITE");
+        makeTable(partialResultsTableRandomWrite, "RND_WRITE");
 
-        choiceBox.getItems().addAll("Sequential Read", "Random Read", "Sequential Write", "Random Write");
+        ObservableList<String> items= FXCollections.observableArrayList("Sequential Write", "Random Write", "Sequential Read", "Random Read");
         choiceBox.setOnAction(this::selectTable);
+        choiceBox.setItems(items);
+        choiceBox.getSelectionModel().selectFirst();
+
 
         //choiceBox.setValue(choiceBox.getItems().get(0));
 
@@ -199,7 +202,7 @@ public class ResultController extends Controller{
         Map<String, Double> optimalSpeed = new HashMap<>();
         optimalSpeed.put(keys[0], 1500.0);
         optimalSpeed.put(keys[1], 1500.0);
-        optimalSpeed.put(keys[2], 1500.0);
+        optimalSpeed.put(keys[2], 700.0);
         optimalSpeed.put(keys[3], 80.0);
 
         int numberOfResults = 0;

@@ -1,5 +1,8 @@
 package upt.coproject.benchmark;
 
+import lombok.Getter;
+import upt.coproject.PartialResult;
+import upt.coproject.timing.TimeUnit;
 import upt.coproject.timing.Timer;
 
 import java.io.File;
@@ -9,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 public class RandomWriteDriveBenchmark extends Benchmark {
@@ -24,6 +28,9 @@ public class RandomWriteDriveBenchmark extends Benchmark {
     private static int warmupIterations = 10;
     private static int maxWarmupIterations = 40;
     private static double idealFileSize = 512.0 * 1024*1024;
+
+    @Getter
+    private List<PartialResult> partialResults = new ArrayList<>();
 
 
     public RandomWriteDriveBenchmark() {
@@ -76,6 +83,9 @@ public class RandomWriteDriveBenchmark extends Benchmark {
 
         file1.deleteOnExit();
         long elapsed = timer.stop();
+
+        if(!file.contains("warmup"))
+            partialResults.add(new PartialResult(bufferSize, totalWritten, timer.getTime(TimeUnit.MILLI)));
 
         return (totalWritten / 1024.0 / 1024) / (elapsed / Math.pow(10,9));
     }
