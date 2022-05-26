@@ -200,8 +200,8 @@ public class ResultController extends Controller{
     private int calculateScore(){
         String[] keys = {"SEQ_READ", "RND_READ", "SEQ_WRITE", "RND_WRITE"};
         Map<String, Double> optimalSpeed = new HashMap<>();
-        optimalSpeed.put(keys[0], 1500.0);
-        optimalSpeed.put(keys[1], 1500.0);
+        optimalSpeed.put(keys[0], 1000.0);
+        optimalSpeed.put(keys[1], 100.0);
         optimalSpeed.put(keys[2], 700.0);
         optimalSpeed.put(keys[3], 80.0);
 

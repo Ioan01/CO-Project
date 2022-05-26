@@ -13,10 +13,6 @@ public class DriveTestBench extends TestBench
     {
         benchmarks.clear();
 
-        SequentialWriteDriveBenchmark sequentialWriteDriveBenchmark = new SequentialWriteDriveBenchmark();
-        sequentialWriteDriveBenchmark.initialize(drive,fileSize);
-        benchmarks.add(sequentialWriteDriveBenchmark);
-
         SequentialReadDriveBenchmark sequentialReadDriveBenchmark = new SequentialReadDriveBenchmark();
         sequentialReadDriveBenchmark.initialize(drive, fileSize);
         benchmarks.add(sequentialReadDriveBenchmark);
@@ -24,6 +20,10 @@ public class DriveTestBench extends TestBench
         RandomReadDriveBenchmark randomReadDriveBenchmark = new RandomReadDriveBenchmark();
         randomReadDriveBenchmark.initialize(drive, fileSize);
         benchmarks.add(randomReadDriveBenchmark);
+
+        SequentialWriteDriveBenchmark sequentialWriteDriveBenchmark = new SequentialWriteDriveBenchmark();
+        sequentialWriteDriveBenchmark.initialize(drive,fileSize);
+        benchmarks.add(sequentialWriteDriveBenchmark);
 
         RandomWriteDriveBenchmark randomWriteDriveBenchmark = new RandomWriteDriveBenchmark();
         randomWriteDriveBenchmark.initialize(drive, (int) fileSize);

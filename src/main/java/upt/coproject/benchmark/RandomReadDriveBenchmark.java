@@ -20,10 +20,11 @@ public class RandomReadDriveBenchmark extends Benchmark{
     String folderName = "temp_rnd_read";
     String miniFolderNameTemplate = "temp_file_no_";
     String fileNameTemplate = "temp_file_no_";
-    long totalFilesSize = 256 * MB;
+    long totalFilesSize = 128 * MB;
     List<String> filenames;
-    long[] bufferSizes = {16 * KB, 64 * KB, 256 * KB, MB};
+    long[] bufferSizes = {4 * KB};
     long writeBufferSize = MB;
+    int sparsityFactor = 8;
     @Getter
     private List<PartialResult> partialResults = new ArrayList<>();
 
@@ -47,7 +48,7 @@ public class RandomReadDriveBenchmark extends Benchmark{
             this.fileCount = 1;
         }
         else{
-            this.fileCount = this.totalFilesSize / this.fileSize;
+            this.fileCount = this.totalFilesSize / this.fileSize * sparsityFactor;
             System.out.println();
         }
     }
@@ -65,29 +66,36 @@ public class RandomReadDriveBenchmark extends Benchmark{
         double speedTotalRead = 0;
         double speedTotalWrite = 0;
 
-        for (int i = 0; i < fileCount; i++) {
-            double speed = this.write(fileNameTemplate + i);
-            speedTotalWrite += speed;
-            //System.out.println("write speed: " + speed);
 
-            runningProgress.setValue(runningProgress.get() + 0.5 / fileCount);
+        for (int i = 0; i < fileCount; i++) {
+            for(int j = 0; j < bufferSizes.length; j++){
+                double speed = this.write(fileNameTemplate + i + "_" + bufferSizes[j]);
+                speedTotalWrite += speed;
+
+                getProgressStatus().setValue("Prepping " + (i*bufferSizes.length + j) + "/" + fileCount * bufferSizes.length);
+                runningProgress.setValue(runningProgress.get() + 0.5 / (fileCount * bufferSizes.length));
+            }
         }
-        System.out.println("    AVG WRITE SPEED RND: |" + speedTotalWrite / fileCount + "|");
+
+        System.out.println("    AVG WRITE SPEED RND: |" + speedTotalWrite / (fileCount * bufferSizes.length) + "|");
 
         //flush_cache();
 
         ArrayList<Double> readSpeeds  = new ArrayList<>();
 
         for (int i = 0; i < fileCount; i++) {
-            double speed = this.read(fileNameTemplate + i);
-            speedTotalRead += speed;
-            readSpeeds.add(speed);
-            //System.out.println("read speed: " + speed);
+            for(int j = 0; j < bufferSizes.length; j++) {
+                double speed = this.read(fileNameTemplate + i + "_" + bufferSizes[j], bufferSizes[j]);
+                speedTotalRead += speed;
+                readSpeeds.add(speed);
+                //System.out.println("read speed: " + speed);
 
-            runningProgress.setValue(runningProgress.get() + 0.5 / fileCount);
+                getProgressStatus().setValue("Running " + (i*bufferSizes.length + j) + "/" + fileCount * bufferSizes.length);
+                runningProgress.setValue(runningProgress.get() + 0.5 / (fileCount * bufferSizes.length));
+            }
         }
-        System.out.println("    AVG READ SPEED RND: |" + speedTotalRead / fileCount + "|");
-        results.put("RND_READ", speedTotalRead / fileCount);
+        System.out.println("    AVG READ SPEED RND: |" + speedTotalRead / (fileCount * bufferSizes.length) + "|");
+        results.put("RND_READ", speedTotalRead / (fileCount * bufferSizes.length));
     }
 
     public double write(String filename){
@@ -175,40 +183,33 @@ public class RandomReadDriveBenchmark extends Benchmark{
     }
 
 
-    public double read(String filename) {
+    public double read(String filename, long bufferSize) {
         Timer timer = new Timer();
         Random random = new Random(System.nanoTime());
 
         try {
-            timer.start();
-            timer.pause();
-
             long totalReadSize = 0;
 
-            for(long bufferSize: bufferSizes) {
-                RandomAccessFile randomAccessFile = new RandomAccessFile(drive + filename, "r");
-                byte[] buffer = new byte[(int) bufferSize];
-                long iterations = Math.max(this.fileSize / bufferSize, 1);
+            File file = new File(drive + filename);
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+            byte[] buffer = new byte[(int) bufferSize];
+            long iterations = Math.max(this.fileSize / sparsityFactor / bufferSize, 1);
 
-                long readSize = 0;
+            long readSize = 0;
 
-                timer.resume();
-                for(int i = 0; i < iterations; i++){
-                    int position = random.nextInt((int) this.fileSize - 1);
-                    randomAccessFile.seek(position);
-                    readSize += randomAccessFile.read(buffer, 0, (int) bufferSize);
-
-                }
-                timer.pause();
-
-                totalReadSize += readSize;
-
-                partialResults.add(new PartialResult(bufferSize, readSize, timer.getElapsedTime(TimeUnit.MILLI)));
+            timer.start();
+            for(int i = 0; i < iterations; i++){
+                int position = random.nextInt((int) this.fileSize - 1);
+                randomAccessFile.seek(position);
+                readSize += randomAccessFile.read(buffer, 0, (int) bufferSize);
             }
             timer.stop();
 
+            totalReadSize += readSize;
 
-            File file = new File(drive + filename);
+            partialResults.add(new PartialResult(bufferSize, readSize, timer.getElapsedTime(TimeUnit.MILLI)));
+
+            randomAccessFile.close();
             file.delete();
 
             return totalReadSize / MB / timer.getTime(TimeUnit.SEC);

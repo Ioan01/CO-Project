@@ -22,7 +22,7 @@ public class SequentialReadDriveBenchmark extends Benchmark{
     String fileNameTemplate = "temp_file_no_";
     long totalFilesSize = 256 * MB;
     List<String> filenames;
-    long[] bufferSizes = {16 * KB, 64 * KB, 256 * KB, MB};
+    long[] bufferSizes = {16 * KB, MB};
     long writeBufferSize = MB;
     @Getter
     private List<PartialResult> partialResults = new ArrayList<>();
@@ -52,7 +52,6 @@ public class SequentialReadDriveBenchmark extends Benchmark{
         }
     }
 
-    @Override
     public void run() {
         System.out.println("fielSize: " + fileSize / MB);
         System.out.println("fielCount: " + fileCount);
@@ -66,28 +65,32 @@ public class SequentialReadDriveBenchmark extends Benchmark{
         double speedTotalWrite = 0;
 
         for (int i = 0; i < fileCount; i++) {
-            double speed = this.write(fileNameTemplate + i);
-            speedTotalWrite += speed;
-            //System.out.println("write speed: " + speed);
-
-            runningProgress.setValue(runningProgress.get() + 0.5 / fileCount);
+            for(int j = 0; j < bufferSizes.length; j++){
+                double speed = this.write(fileNameTemplate + i + "_" + bufferSizes[j]);
+                speedTotalWrite += speed;
+                //System.out.println("write speed: " + speed);
+                getProgressStatus().setValue("Prepping " + (i*bufferSizes.length + j) + "/" + fileCount * bufferSizes.length);
+                runningProgress.setValue(runningProgress.get() + 0.5 / (fileCount * bufferSizes.length));
+            }
         }
-        System.out.println("    AVG WRITE SPEED: |" + speedTotalWrite / fileCount + "|");
+        System.out.println("    AVG WRITE SPEED SEQ: |" + speedTotalWrite / (fileCount * bufferSizes.length) + "|");
 
         //flush_cache();
 
         ArrayList<Double> readSpeeds  = new ArrayList<>();
 
         for (int i = 0; i < fileCount; i++) {
-            double speed = this.read(fileNameTemplate + i);
-            speedTotalRead += speed;
-            readSpeeds.add(speed);
-            //System.out.println("read speed: " + speed);
-
-            runningProgress.setValue(runningProgress.get() + 0.5 / fileCount);
+            for(int j = 0; j < bufferSizes.length; j++) {
+                double speed = this.read(fileNameTemplate + i + "_" + bufferSizes[j], bufferSizes[j]);
+                speedTotalRead += speed;
+                readSpeeds.add(speed);
+                //System.out.println("read speed: " + speed);
+                getProgressStatus().setValue("Running " + (i*bufferSizes.length + j) + "/" + fileCount * bufferSizes.length);
+                runningProgress.setValue(runningProgress.get() + 0.5 / (fileCount * bufferSizes.length));
+            }
         }
-        System.out.println("    AVG READ SPEED: |" + speedTotalRead / fileCount + "|");
-        results.put("SEQ_READ", speedTotalRead / fileCount);
+        System.out.println("    AVG READ SPEED SEQ: |" + speedTotalRead / (fileCount * bufferSizes.length) + "|");
+        results.put("SEQ_READ", speedTotalRead / (fileCount * bufferSizes.length));
     }
 
     public double write(String filename){
@@ -175,32 +178,26 @@ public class SequentialReadDriveBenchmark extends Benchmark{
     }
 
 
-    public double read(String filename) {
+    public double read(String filename, long bufferSize) {
         Timer timer = new Timer();
 
         try {
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(drive + filename), (int) bufferSize);
+            byte[] buffer = new byte[(int) bufferSize];
+
             timer.start();
-            timer.pause();
-
-            for(long bufferSize: bufferSizes) {
-                BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(drive + filename), (int) bufferSize);
-                byte[] buffer = new byte[(int) bufferSize];
-
-                timer.resume();
-                while (bufferedInputStream.read(buffer) != -1) {
-                    // keep going
-                }
-                timer.pause();
-                partialResults.add(new PartialResult(bufferSize, fileSize, timer.getElapsedTime(TimeUnit.MILLI)));
-
-                bufferedInputStream.close();
+            while (bufferedInputStream.read(buffer) != -1) {
+                // keep going
             }
             timer.stop();
+            partialResults.add(new PartialResult(bufferSize, fileSize, timer.getElapsedTime(TimeUnit.MILLI)));
+
+            bufferedInputStream.close();
 
             File file = new File(drive + filename);
             file.delete();
 
-            return (double) (fileSize * bufferSizes.length) / MB / timer.getTime(TimeUnit.SEC);
+            return (double) fileSize / MB / timer.getTime(TimeUnit.SEC);
         } catch (IOException e) {
             e.printStackTrace();
         }
