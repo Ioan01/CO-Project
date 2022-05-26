@@ -65,6 +65,8 @@ public class LeaderboardController extends Controller{
                 return o2.getScore() - o1.getScore();
             }
         });
+
+        table.setItems(FXCollections.observableList(results));
     }
 
     public void initialize(){

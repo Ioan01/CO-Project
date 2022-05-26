@@ -210,7 +210,7 @@ public class ResultController extends Controller{
 
         for(String key: keys){
             if (results.get(key) != null){
-                double speed = (Double) results.get(key);
+                double speed = Math.max((Double) results.get(key), 1);
                 numberOfResults++;
                 sumScore += logarithm(100, (speed / optimalSpeed.get(key)) * 100) * 100;
             }
